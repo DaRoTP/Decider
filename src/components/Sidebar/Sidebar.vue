@@ -1,17 +1,19 @@
 <template>
   <nav class="sidebar">
     <header class="sidebar__header">
-      <h1>Decider</h1>
+      <router-link :to="{ name: 'Home' }">
+        <h1>Decider</h1>
+      </router-link>
     </header>
     <ul class="sidebar__body">
       <template v-if="isAuth">
         <NavItem :to="{ name: viewNames.DASHBOARD }" label="Dahsboard" />
         <NavItem :to="{ name: viewNames.DASHBOARD }" label="My Polls" />
+        <button @click="logout">Log out</button>
       </template>
       <template v-else>
         <NavItem :to="{ name: viewNames.LOGIN }" label="Login" />
         <NavItem :to="{ name: viewNames.REGISTER }" label="Register" />
-        <NavItem :to="{ name: viewNames.REGISTER }" label="Log out" />
       </template>
     </ul>
   </nav>
@@ -30,12 +32,16 @@ export default defineComponent({
   data() {
     return {
       viewNames,
-      isAuth: false,
     };
   },
   methods: {
     logout(): void {
-      console.log("loggin out");
+      this.$store.dispatch("LOGOUT");
+    },
+  },
+  computed: {
+    isAuth() {
+      return this.$store.state.isAuth;
     },
   },
 });
@@ -44,5 +50,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sidebar {
   background: rgb(60, 60, 201);
+  height: 100%;
 }
 </style>

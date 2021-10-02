@@ -1,8 +1,6 @@
 <template>
-  <div class="App">
-    <sidebard />
-    <router-view />
-  </div>
+  <sidebard />
+  <router-view />
 </template>
 
 <script>
@@ -19,11 +17,31 @@ export default defineComponent({
       isAuth: false,
     };
   },
+  mounted() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const user = {
+        username: "user1",
+      };
+      this.$store.dispatch("LOGIN", user);
+      this.$router.replace({ name: "Dashboard" });
+    } else {
+      this.$store.dispatch("LOGOUT");
+    }
+  },
 });
 </script>
 
 <style lang="scss">
-.App {
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+#app {
+  height: 100%;
   display: flex;
 }
 </style>
