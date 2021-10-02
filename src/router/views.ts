@@ -6,6 +6,7 @@ enum viewNames {
   SETTINGS = "Settings",
   DASHBOARD = "Dashboard",
   CREATE_POLL = "Create Poll",
+  BINARY_POLL = "Binary Poll",
 }
 
 const views = {
@@ -32,6 +33,10 @@ const views = {
   CreatePoll: {
     component: () => import("@/views/CreatePoll.vue"),
     name: viewNames.CREATE_POLL,
+  },
+  BinaryPoll: {
+    component: () => import("@/views/BinaryPoll.vue"),
+    name: viewNames.BINARY_POLL,
   },
 };
 

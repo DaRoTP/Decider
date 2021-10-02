@@ -1,6 +1,8 @@
 <template>
   <sidebard />
-  <router-view />
+  <div class="main-content">
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -43,5 +45,8 @@ body {
 #app {
   height: 100%;
   display: flex;
+}
+.main-content {
+  flex-grow: 1;
 }
 </style>
