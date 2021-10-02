@@ -1,15 +1,17 @@
 <template>
   <nav class="sidebar">
     <header class="sidebar__header">
-      <router-link :to="{ name: 'Home' }">
-        <h1>Decider</h1>
+      <button class="sidebar__menu-btn" @click="minimizeToggle">hide</button>
+      <router-link class="sidebar__title" :to="{ name: 'Home' }">
+        <fa icon="coffee" />
+        <h1>DESIDER</h1>
       </router-link>
     </header>
     <ul class="sidebar__body">
       <template v-if="isAuth">
         <NavItem :to="{ name: viewNames.DASHBOARD }" label="Dahsboard" />
         <NavItem :to="{ name: viewNames.DASHBOARD }" label="My Polls" />
-        <button @click="logout">Log out</button>
+        <NavItem @click="logout" label="Log out" />
       </template>
       <template v-else>
         <NavItem :to="{ name: viewNames.LOGIN }" label="Login" />
@@ -32,11 +34,15 @@ export default defineComponent({
   data() {
     return {
       viewNames,
+      isMinimized: false,
     };
   },
   methods: {
-    logout(): void {
+    logout() {
       this.$store.dispatch("LOGOUT");
+    },
+    minimizeToggle() {
+      this.isMinimized = !this.isMinimized;
     },
   },
   computed: {
@@ -49,7 +55,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .sidebar {
-  background: rgb(60, 60, 201);
+  background: $primary;
   height: 100%;
+  color: white;
 }
 </style>

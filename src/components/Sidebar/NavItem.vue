@@ -1,6 +1,8 @@
 <template>
   <li class="sidebar__navitem">
-    <router-link :to="to">{{ label }}</router-link>
+    <slot name="button">
+      <button @click="clickItem">{{ label }}</button>
+    </slot>
   </li>
 </template>
 
@@ -17,6 +19,14 @@ export default defineComponent({
     },
     to: {
       type: Object as PropType<RouteLocationRaw>,
+    },
+  },
+  methods: {
+    clickItem() {
+      if (this.to) {
+        this.$router.push(this.to);
+      }
+      this.$emit("click");
     },
   },
 });
