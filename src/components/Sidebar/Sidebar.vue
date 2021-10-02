@@ -1,10 +1,9 @@
 <template>
   <nav class="sidebar">
     <header class="sidebar__header">
-      <button class="sidebar__menu-btn" @click="minimizeToggle">hide</button>
+      <fa icon="bars" @click="minimizeToggle" role="button" />
       <router-link class="sidebar__title" :to="{ name: 'Home' }">
-        <fa icon="coffee" />
-        <h1>DESIDER</h1>
+        <h1><fa icon="home" />DESIDER</h1>
       </router-link>
     </header>
     <ul class="sidebar__body">
@@ -54,9 +53,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$sidebar-width: 10rem;
+
 .sidebar {
   background: $primary;
   height: 100%;
   color: white;
+  width: $sidebar-width;
 }
 </style>

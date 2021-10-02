@@ -5,6 +5,8 @@ import store from "./store";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import "@/assets/styles/style.scss";
+import "@/assets/styles/tailwind.css";
 
 library.add(fas);
 

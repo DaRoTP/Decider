@@ -1,8 +1,9 @@
 <template>
   <li class="sidebar__navitem">
-    <slot name="button">
-      <button @click="clickItem">{{ label }}</button>
-    </slot>
+    <button @click="clickItem">
+      <fa :icon="icon" />
+      {{ label }}
+    </button>
   </li>
 </template>
 
@@ -19,6 +20,10 @@ export default defineComponent({
     },
     to: {
       type: Object as PropType<RouteLocationRaw>,
+    },
+    icon: {
+      type: String,
+      default: "list",
     },
   },
   methods: {

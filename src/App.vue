@@ -35,17 +35,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-html,
-body {
-  padding: 0;
-  margin: 0;
-  height: 100%;
-}
-
-#app {
-  height: 100%;
-  display: flex;
-}
 .main-content {
   flex-grow: 1;
 }
