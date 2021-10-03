@@ -1,5 +1,5 @@
 <template>
-  <li class="sidebar__navitem">
+  <li class="">
     <button @click="clickItem">
       <fa :icon="icon" />
       {{ label }}
