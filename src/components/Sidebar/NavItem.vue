@@ -1,12 +1,16 @@
 <template>
-  <li class="">
-    <router-link v-if="to" :to="to" class="py-2 px-4 rounded-xl">
-      <fa :icon="icon" />
-      {{ label }}
+  <li class="nav-item">
+    <router-link v-if="to" :to="to" class="flex flex-nowrap items-center">
+      <fa :icon="icon" class="mr-1" />
+      <span class="sidebar-text flex-nowrap whitespace-nowrap">
+        {{ label }}
+      </span>
     </router-link>
-    <button v-else @click="clickItem">
-      <fa :icon="icon" />
-      {{ label }}
+    <button v-else @click="clickItem" class="flex flex-nowrap items-center">
+      <fa :icon="icon" class="mr-2" />
+      <span class="sidebar-text whitespace-nowrap">
+        {{ label }}
+      </span>
     </button>
   </li>
 </template>
@@ -30,19 +34,20 @@ export default defineComponent({
       default: "list",
     },
   },
-  methods: {
-    clickItem() {
-      if (this.to) {
-        this.$router.push(this.to);
-      }
-      this.$emit("click");
-    },
+  setup(_, { emit }) {
+    const clickItem = () => emit("click");
+
+    return {
+      clickItem,
+    };
   },
 });
 </script>
 
 <style lang="scss">
-.router-link-active {
-  background: darken($primary, 10%);
+.nav-item {
+  & > .router-link-active {
+    text-decoration: underline;
+  }
 }
 </style>
