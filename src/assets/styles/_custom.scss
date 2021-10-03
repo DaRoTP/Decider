@@ -7,3 +7,12 @@
 .bg-primary {
   background-color: $primary;
 }
+
+.btn-primary {
+  background-color: $primary;
+  color: white;
+  transition: all 0.2s;
+  &:hover {
+  background-color: darken($primary, 10%);
+  }
+}

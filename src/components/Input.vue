@@ -1,7 +1,11 @@
 <template>
   <div class="app-input flex flex-col" :class="{ 'in-valid': !error }">
     <slot name="label">
-      <label class="text-primary" :class="[errorTextStyle]">{{ label }}</label>
+      <label
+        class="text-primary text-sm capitalize"
+        :class="[errorTextStyle]"
+        >{{ label }}</label
+      >
     </slot>
     <input
       :type="type"
@@ -11,7 +15,7 @@
       :class="[errorTextStyle]"
       @input="$emit($event.target.value)"
     />
-    <span class="h-3 text-red-700">{{ error }}</span>
+    <span class="h-3 text-sm text-red-700">{{ error }}</span>
   </div>
 </template>
 
@@ -45,7 +49,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const errorTextStyle = props.error ? "text-red-700" : "";
+    const errorTextStyle = computed(() => (props.error ? "text-red-700" : ""));
     return { errorTextStyle };
   },
 });
