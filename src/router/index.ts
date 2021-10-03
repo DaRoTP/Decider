@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { views } from "./views";
-const { Home, Login, Register, Settings, Dashboard, CreatePoll, BinaryPoll } = views;
+const { Home, Login, Register, Settings, Dashboard, CreatePoll, BinaryPoll } =
+  views;
 
 const routes: Array<RouteRecordRaw> = [
   {

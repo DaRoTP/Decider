@@ -25,7 +25,12 @@ export default defineComponent({
   name: "CreatePoll",
   data() {
     return {
-      options: [{ name: "one" }, { name: "two" }, { name: "three" }, { name: "four" }],
+      options: [
+        { name: "one" },
+        { name: "two" },
+        { name: "three" },
+        { name: "four" },
+      ],
       title: "",
       description: "",
     };

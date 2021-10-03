@@ -1,6 +1,17 @@
 <template>
-  <li class="sidebar__navitem">
-    <router-link :to="to">{{ label }}</router-link>
+  <li class="nav-item">
+    <router-link v-if="to" :to="to" class="flex flex-nowrap items-center">
+      <fa :icon="icon" class="mr-1" />
+      <span class="sidebar-text flex-nowrap whitespace-nowrap">
+        {{ label }}
+      </span>
+    </router-link>
+    <button v-else @click="clickItem" class="flex flex-nowrap items-center">
+      <fa :icon="icon" class="mr-2" />
+      <span class="sidebar-text whitespace-nowrap">
+        {{ label }}
+      </span>
+    </button>
   </li>
 </template>
 
@@ -18,8 +29,25 @@ export default defineComponent({
     to: {
       type: Object as PropType<RouteLocationRaw>,
     },
+    icon: {
+      type: String,
+      default: "list",
+    },
+  },
+  setup(_, { emit }) {
+    const clickItem = () => emit("click");
+
+    return {
+      clickItem,
+    };
   },
 });
 </script>
 
-<style></style>
+<style lang="scss">
+.nav-item {
+  & > .router-link-active {
+    text-decoration: underline;
+  }
+}
+</style>
