@@ -1,6 +1,10 @@
 <template>
   <li class="">
-    <button @click="clickItem">
+    <router-link v-if="to" :to="to" class="py-2 px-4 rounded-xl">
+      <fa :icon="icon" />
+      {{ label }}
+    </router-link>
+    <button v-else @click="clickItem">
       <fa :icon="icon" />
       {{ label }}
     </button>
@@ -37,4 +41,8 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="scss">
+.router-link-active {
+  background: darken($primary, 10%);
+}
+</style>
