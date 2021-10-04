@@ -1,31 +1,36 @@
 <template>
-  <div class="app-input flex flex-col" :class="{ 'in-valid': !error }">
-    <slot name="label">
-      <label
-        class="text-primary text-sm capitalize"
+  <InputGroup
+    :label="label"
+    :subText="error"
+    class="input"
+    :class="{ 'in-valid': !error }"
+    :classLabel="errorTextStyle"
+    :classSubText="errorTextStyle"
+  >
+    <template #input>
+      <input
+        :type="type"
+        :required="required"
+        :value="modelValue"
+        class="bg-white shadow-md rounded-sm p-2"
         :class="[errorTextStyle]"
-        >{{ label }}</label
-      >
-    </slot>
-    <input
-      :type="type"
-      :required="required"
-      :value="modelValue"
-      class="bg-white shadow-md rounded-sm p-2 my-1"
-      :class="[errorTextStyle]"
-      @input="$emit($event.target.value)"
-    />
-    <span class="h-3 text-sm text-red-700">{{ error }}</span>
-  </div>
+        @input="$emit('update:modelValue', $event.target.value)"
+      />
+    </template>
+  </InputGroup>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
+import InputGroup from "./InputGroup.vue";
 
 type InputTypes = "text" | "password" | "number";
 
 export default defineComponent({
   name: "Input",
+  components: {
+    InputGroup,
+  },
   props: {
     label: {
       type: String,

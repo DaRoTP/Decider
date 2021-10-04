@@ -31,10 +31,13 @@
         </p>
         <Input v-model="username" label="username" type="text" />
         <Radio
+          label="gender"
           :options="['Male', 'Female', 'Not Specified']"
           name="gender"
           v-model="gender"
+          inline
         />
+        <DatePicker label="Date of Birth" v-model="dateOfBirth" />
         <div class="flex justify-between">
           <button
             class="text-gray-400 underline"
@@ -51,7 +54,7 @@
         </div>
       </form>
       <a class="self-end text-sm text-gray-400 mt-2 underline" href="#"
-        >Already ahve an account? Sign in</a
+        >Already have an account? Sign in</a
       >
     </div>
     <img
@@ -64,14 +67,16 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import Input from "@/components/Input.vue";
-import Radio from "@/components/Radio.vue";
+import Input from "@/components/Inputs/Input.vue";
+import Radio from "@/components/Inputs/Radio.vue";
+import DatePicker from "@/components/Inputs/DatePicker.vue";
 
 export default defineComponent({
   name: "Register",
   components: {
     Input,
     Radio,
+    DatePicker,
   },
   setup() {
     const registrationStep = ref(1);
@@ -79,6 +84,7 @@ export default defineComponent({
     const password = ref("");
     const matchingPassword = ref("");
     const gender = ref("");
+    const dateOfBirth = ref("");
 
     const nextRegistrationStepHandler = () => {
       registrationStep.value += 1;
@@ -98,6 +104,7 @@ export default defineComponent({
       matchingPassword,
       registrationStep,
       gender,
+      dateOfBirth,
       registerHandler,
       nextRegistrationStepHandler,
       previouseRegistrationStepHandler,
