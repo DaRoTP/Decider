@@ -105,12 +105,12 @@ $sidebar-width-minimized: 3rem;
   background: $primary;
   height: 100%;
   color: white;
-  width: $sidebar-width;
-  transition: width 500ms;
+  min-width: $sidebar-width;
+  transition: all 500ms;
   overflow: hidden;
 
   &.minimized {
-    width: $sidebar-width-minimized;
+    min-width: $sidebar-width-minimized;
     .sidebar-text {
       display: none;
     }

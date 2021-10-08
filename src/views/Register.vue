@@ -1,8 +1,8 @@
 <template>
   <h1 class="text-primary font-bold text-xl">Register</h1>
   <hr class="my-4" />
-  <div class="flex">
-    <div class="flex-1">
+  <div class="flex gap-4">
+    <div class="flex-1 flex flex-col">
       <form
         v-if="registrationStep === 1"
         class="register flex flex-col"
@@ -53,7 +53,7 @@
           </button>
         </div>
       </form>
-      <a class="self-end text-sm text-gray-400 mt-2 underline" href="#"
+      <a class="self-end text-sm text-gray-400 mt-3 underline" href="#"
         >Already have an account? Sign in</a
       >
     </div>

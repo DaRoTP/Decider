@@ -1,6 +1,6 @@
 <template>
   <sidebard />
-  <div class="main-content">
+  <div class="main-content p-3">
     <router-view />
   </div>
 </template>
