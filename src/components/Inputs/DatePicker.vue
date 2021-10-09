@@ -19,6 +19,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import InputGroup from "./InputGroup.vue";
+import { ComonInputProps } from "./props";
 
 export default defineComponent({
   name: "DatePicker",
@@ -26,18 +27,7 @@ export default defineComponent({
     InputGroup,
   },
   props: {
-    label: {
-      type: String,
-      default: "",
-    },
-    error: {
-      type: String,
-      default: "",
-    },
-    modelValue: {
-      type: String,
-      default: "",
-    },
+    ...ComonInputProps,
   },
   setup() {
     return {};

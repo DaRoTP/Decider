@@ -24,6 +24,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import InputGroup from "./InputGroup.vue";
+import { ComonInputProps } from "./props";
 
 export default defineComponent({
   name: "Radio",
@@ -31,6 +32,7 @@ export default defineComponent({
     InputGroup,
   },
   props: {
+    ...ComonInputProps,
     options: {
       type: Array,
       required: true,
@@ -39,21 +41,9 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    modelValue: {
-      type: String,
-      default: null,
-    },
     inline: {
       type: Boolean,
       default: false,
-    },
-    label: {
-      type: String,
-      default: "",
-    },
-    error: {
-      type: String,
-      defualt: "",
     },
   },
   setup() {
