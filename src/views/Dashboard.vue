@@ -47,20 +47,21 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import PollCard from "@/components/PollCard.vue";
+import { IPoll } from "@/types";
 
 export default defineComponent({
   components: {
     PollCard,
   },
   setup() {
-    const recentPolls = ref([
+    const recentPolls = ref<IPoll[]>([
       { id: "1", title: "one", isLive: false },
       { id: "2", title: "two", isLive: false },
       { id: "3", title: "three", isLive: true },
       { id: "4", title: "four", isLive: false },
     ]);
 
-    const myPolls = ref([
+    const myPolls = ref<IPoll[]>([
       { id: "5", title: "five", isLive: true },
       { id: "6", title: "six", isLive: false },
       { id: "7", title: "seven", isLive: true },
