@@ -1,27 +1,38 @@
 <template>
-  <form class="login" @submit.prevent="login">
-    <h1 class="text-primary font-bold text-xl">Login</h1>
+  <form class="login flex flex-col mx-auto mt-6" @submit.prevent="login">
+    <h1 class="text-primary font-bold text-2xl">Login</h1>
     <hr class="my-4" />
     <Input v-model="username" label="username" />
     <Input v-model="password" label="password" type="password" />
     <div class="flex justify-between gap-2">
       <router-link
-        :to="{ name: 'Register' }"
+        :to="{ name: viewNames.REGISTER }"
         class="self-end text-sm text-gray-400 mt-3 underline"
         >Forgot password
       </router-link>
       <CheckBox v-model="rememberMe" label="Remember me" />
     </div>
-    <button type="submit" class="btn-primary p-2 rounded-full self-center px-6">
+    <button
+      type="submit"
+      class="btn-primary p-2 rounded-full self-center px-6 my-4"
+    >
       Login
     </button>
+    <router-link
+      class="self-center text-sm text-gray-400 mt-3 underline"
+      :to="{ name: viewNames.HOME }"
+    >
+      Already have an account? Sign in
+    </router-link>
   </form>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
-import { Input, CheckBox } from "@/components/Inputs";
+import Input from "@/components/Inputs/Input.vue";
+import CheckBox from "@/components/Inputs/CheckBox.vue";
+import { viewNames } from "@/router/views";
 
 export default defineComponent({
   name: "Login",
@@ -29,30 +40,33 @@ export default defineComponent({
     Input,
     CheckBox,
   },
-  data() {
-    return {
-      username: "",
-      password: "",
-      rememberMe: false,
-    };
-  },
-  methods: {
-    login() {
+  setup() {
+    const username = ref("");
+    const password = ref("");
+    const rememberMe = ref(false);
+
+    const login = () => {
       const store = useStore();
 
       store.dispatch("LOGIN", {
         username: this.username,
         password: this.password,
       });
-    },
+    };
+
+    return {
+      viewNames,
+      username,
+      password,
+      rememberMe,
+      login,
+    };
   },
 });
 </script>
 
-<style lang="scss">
+<style>
 .login {
-  display: flex;
-  flex-direction: column;
-  margin: 1rem auto;
+  max-width: 25rem;
 }
 </style>
