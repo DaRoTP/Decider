@@ -27,7 +27,7 @@
   </form>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 import Input from "@/components/Inputs/Input.vue";
@@ -44,13 +44,12 @@ export default defineComponent({
     const username = ref("");
     const password = ref("");
     const rememberMe = ref(false);
+    const store = useStore();
 
     const login = () => {
-      const store = useStore();
-
       store.dispatch("LOGIN", {
-        username: this.username,
-        password: this.password,
+        username,
+        password,
       });
     };
 
