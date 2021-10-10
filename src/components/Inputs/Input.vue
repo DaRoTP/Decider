@@ -23,6 +23,7 @@
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
 import InputGroup from "./InputGroup.vue";
+import { ComonInputProps } from "./props";
 
 type InputTypes = "text" | "password" | "number";
 
@@ -32,25 +33,10 @@ export default defineComponent({
     InputGroup,
   },
   props: {
-    label: {
-      type: String,
-    },
-    placeholder: {
-      type: String,
-    },
+    ...ComonInputProps,
     type: {
       type: String as PropType<InputTypes>,
       default: "text",
-    },
-    error: {
-      type: String,
-    },
-    modelValue: {
-      type: String,
-    },
-    required: {
-      type: Boolean,
-      default: false,
     },
   },
   setup(props) {
