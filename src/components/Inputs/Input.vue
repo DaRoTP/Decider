@@ -2,7 +2,7 @@
   <InputGroup
     :label="label"
     :subText="error"
-    class="input"
+    class="app-input"
     :class="{ 'in-valid': !error }"
     :classLabel="errorTextStyle"
     :classSubText="errorTextStyle"
@@ -12,6 +12,7 @@
         :type="type"
         :required="required"
         :value="modelValue"
+        :placeholder="placeholder"
         class="bg-white shadow-md rounded-sm p-2"
         :class="[errorTextStyle]"
         @input="$emit('update:modelValue', $event.target.value)"
@@ -48,9 +49,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .app-input {
-  input:focus {
-    outline-color: $primary;
-    outline-offset: 2px;
+  input {
+    &:focus {
+      outline-color: $primary;
+      outline-offset: 2px;
+    }
+    &::placeholder {
+      font-style: italic;
+    }
   }
 }
 </style>
