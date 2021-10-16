@@ -31,7 +31,7 @@ const views = {
     name: viewNames.DASHBOARD,
   },
   CreatePoll: {
-    component: () => import("@/views/CreatePoll.vue"),
+    component: () => import("@/views/CreatePoll/CreatePoll.vue"),
     name: viewNames.CREATE_POLL,
   },
   BinaryPoll: {
