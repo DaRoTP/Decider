@@ -11,6 +11,9 @@ const ComonInputProps = {
   modelValue: {
     type: String,
   },
+  disabled: {
+    type: Boolean,
+  },
   required: {
     type: Boolean,
     default: false,

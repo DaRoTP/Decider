@@ -2,16 +2,13 @@
   <InputGroup
     :label="label"
     :subText="error"
-    class="date-picker"
+    class="input"
     :class="{ 'in-valid': !error }"
   >
     <template #input>
-      <input
-        type="date"
-        :value="modelValue"
-        :disabled="disabled"
-        class="bg-white shadow-md rounded-sm p-2"
+      <textarea
         @input="$emit('update:modelValue', $event.target.value)"
+        class="bg-white shadow-md rounded-sm p-2 resize-none"
       />
     </template>
   </InputGroup>
@@ -23,7 +20,7 @@ import InputGroup from "./InputGroup.vue";
 import { ComonInputProps } from "./props";
 
 export default defineComponent({
-  name: "DatePicker",
+  name: "TextArea",
   components: {
     InputGroup,
   },
@@ -35,5 +32,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped></style>
