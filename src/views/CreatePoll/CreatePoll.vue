@@ -2,21 +2,43 @@
   <div>
     <h1 class="text-primary font-bold text-xl">Create Poll</h1>
     <hr class="my-2" />
-    <CreateMeterPoll />
+    <component :is="createPollComponent" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import CreateMeterPoll from "@/views/CreatePoll/CreateMeterPoll.vue";
+import { defineComponent, computed } from "vue";
+import CreateMeterPoll from "./CreateMeterPoll.vue";
+import CreateBinaryPoll from "./CreateBinaryPoll.vue";
+import { PollType } from "@/types";
 
 export default defineComponent({
   name: "Create Poll",
   components: {
     CreateMeterPoll,
+    CreateBinaryPoll,
   },
-  setup() {
-    return {};
+  props: {
+    type: {
+      type: String,
+    },
+  },
+  setup(props) {
+    const createPollComponent = computed(() => {
+      switch (props.type) {
+        case PollType.BINARY:
+          return "CreateBinaryPoll";
+        case PollType.METER:
+          return "CreateMeterPoll";
+        case PollType.CHOICE:
+          return "CreateMeterPoll";
+        default:
+          return "CreateBinaryPoll";
+      }
+    });
+    return {
+      createPollComponent,
+    };
   },
 });
 </script>
