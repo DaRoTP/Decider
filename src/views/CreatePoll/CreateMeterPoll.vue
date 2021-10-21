@@ -25,7 +25,7 @@
       </span>
     </div>
     <div class="grid grid-cols-2 gap-4">
-      <OptionList
+      <PollOptionList
         :options="pollOptions"
         :selectedOption="currentOption.name"
         @option-click="selectOption"
@@ -85,7 +85,7 @@ import CheckBox from "@/components/Inputs/CheckBox.vue";
 import Select from "@/components/Inputs/Select.vue";
 import Input from "@/components/Inputs/Input.vue";
 import TextArea from "@/components/Inputs/TextArea.vue";
-import OptionList from "@/components/PollOptions/PollOptionList.vue";
+import PollOptionList from "@/components/PollOptions/PollOptionList.vue";
 import { IOption, MeterPollTypes } from "@/types";
 
 export default defineComponent({
@@ -96,7 +96,7 @@ export default defineComponent({
     DatePicker,
     CheckBox,
     Select,
-    OptionList,
+    PollOptionList,
   },
   setup() {
     const meterPollTypeOptions = [
