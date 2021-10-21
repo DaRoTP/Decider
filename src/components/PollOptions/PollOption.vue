@@ -10,7 +10,7 @@
     <img
       v-if="isExapned"
       class="poll-option-image object-cover rounded-sm"
-      src="../assets/images/broken-image.svg"
+      src="../../assets/images/broken-image.svg"
     />
     <div class="flex-1">
       <div

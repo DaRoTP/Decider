@@ -9,6 +9,7 @@
       <input
         type="date"
         :value="modelValue"
+        :disabled="disabled"
         class="bg-white shadow-md rounded-sm p-2"
         @input="$emit('update:modelValue', $event.target.value)"
       />
