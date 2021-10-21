@@ -7,6 +7,7 @@
   >
     <template #input>
       <textarea
+        :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         class="bg-white shadow-md rounded-sm p-2 resize-none"
       />
