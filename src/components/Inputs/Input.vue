@@ -7,6 +7,9 @@
     :classLabel="errorTextStyle"
     :classSubText="errorTextStyle"
   >
+    <template #label>
+      <slot name="label" />
+    </template>
     <template #input>
       <input
         :type="type"
@@ -35,6 +38,9 @@ export default defineComponent({
   },
   props: {
     ...ComonInputProps,
+    modelValue: {
+      type: [String, Number],
+    },
     type: {
       type: String as PropType<InputTypes>,
       default: "text",

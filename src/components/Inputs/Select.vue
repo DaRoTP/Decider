@@ -1,5 +1,8 @@
 <template>
   <InputGroup :label="label">
+    <template #label>
+      <slot name="label" />
+    </template>
     <template #input>
       <select class="shadow-md rounded-sm p-2">
         <option v-for="option in options" :key="option" :value="option">

@@ -12,14 +12,15 @@
         :options="['Percentage', 'Integer', 'Decimal']"
         class="flex-grow justify-end"
       />
-      <div class="flex flex-col flex-grow justify-end">
-        <CheckBox
-          v-model="isLimitedByTime"
-          class="self-start"
-          label="Limited time"
-        />
-        <DatePicker :disabled="!isLimitedByTime" />
-      </div>
+      <DatePicker :disabled="!isLimitedByTime">
+        <template #label>
+          <CheckBox
+            v-model="isLimitedByTime"
+            class="self-start"
+            label="Limited time"
+          />
+        </template>
+      </DatePicker>
       <span :style="{ maxWidth: '15rem' }" class="self-end mb-4">
         Once you click create you will not be able to edit this poll
       </span>
@@ -30,39 +31,24 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import DatePicker from "@/components/Inputs/DatePicker.vue";
-import CheckBox from "@/components/Inputs/CheckBox.vue";
-import Select from "@/components/Inputs/Select.vue";
-import Input from "@/components/Inputs/Input.vue";
-import { IOption, MeterPollTypes } from "@/types";
+import { MeterPollTypes } from "@/types";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
+import { useCreatePoll } from "@/composables";
 
 export default defineComponent({
   name: "CreateMeterPoll",
   components: {
-    Input,
-    DatePicker,
-    CheckBox,
-    Select,
     PollOptionManager,
   },
   setup() {
-    const title = ref<string>("");
-    const description = ref<string>("");
-    const isLimitedByTime = ref<boolean>(false);
+    const { title, description, isLimitedByTime, pollOptions } =
+      useCreatePoll();
     const meterPollTypeOptions = [
       { label: "Percentage", value: "PERCENTAGE" },
       { label: "Integer", value: "INTEGER" },
       { label: "Decimal", value: "DECIMAL" },
     ];
     const meterPollType = ref<MeterPollTypes>("PERCENTAGE");
-
-    const pollOptions = ref<IOption[]>([
-      { name: "option 1", description: "option one descrition", imageSrc: "" },
-      { name: "option 2", description: "option two descrition", imageSrc: "" },
-      { name: "option 3", description: "option thre descrition", imageSrc: "" },
-      { name: "option 4", description: "option four descrition", imageSrc: "" },
-    ]);
 
     const submitForm = () => {
       const data = {

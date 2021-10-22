@@ -54,16 +54,12 @@
 
 <script lang="ts">
 import { defineComponent, ref, toRef, PropType, computed } from "vue";
-import Input from "@/components/Inputs/Input.vue";
-import TextArea from "@/components/Inputs/TextArea.vue";
 import PollOptionList from "@/components/PollOptions/PollOptionList.vue";
 import { IOption } from "@/types";
 
 export default defineComponent({
   name: "PollOptionManager",
   components: {
-    Input,
-    TextArea,
     PollOptionList,
   },
   props: {

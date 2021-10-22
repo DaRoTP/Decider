@@ -30,16 +30,10 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
-import Input from "@/components/Inputs/Input.vue";
-import CheckBox from "@/components/Inputs/CheckBox.vue";
 import { viewNames } from "@/router/views";
 
 export default defineComponent({
   name: "Login",
-  components: {
-    Input,
-    CheckBox,
-  },
   setup() {
     const username = ref("");
     const password = ref("");

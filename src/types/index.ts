@@ -2,6 +2,6 @@ export * from "./Poll";
 
 export enum PollType {
   METER = "METER",
-  CHOICE = "CHOICE",
+  SELECT = "SELECT",
   BINARY = "BINARY",
 }
