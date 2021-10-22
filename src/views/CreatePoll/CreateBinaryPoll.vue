@@ -19,9 +19,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { IOption } from "@/types";
+import { defineComponent } from "vue";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
+import { useCreatePoll } from "@/composables";
 
 export default defineComponent({
   name: "CreateBinaryPoll",
@@ -29,15 +29,8 @@ export default defineComponent({
     PollOptionManager,
   },
   setup() {
-    const title = ref<string>("");
-    const description = ref<string>("");
-    const isLimitedByTime = ref<boolean>(false);
-    const pollOptions = ref<IOption[]>([
-      { name: "option 1", description: "option one descrition", imageSrc: "" },
-      { name: "option 2", description: "option two descrition", imageSrc: "" },
-      { name: "option 3", description: "option thre descrition", imageSrc: "" },
-      { name: "option 4", description: "option four descrition", imageSrc: "" },
-    ]);
+    const { title, description, isLimitedByTime, pollOptions } =
+      useCreatePoll();
 
     const createBinaryPollHandler = async () => {
       const data = {

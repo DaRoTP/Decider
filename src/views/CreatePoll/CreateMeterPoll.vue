@@ -31,8 +31,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { IOption, MeterPollTypes } from "@/types";
+import { MeterPollTypes } from "@/types";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
+import { useCreatePoll } from "@/composables";
 
 export default defineComponent({
   name: "CreateMeterPoll",
@@ -40,22 +41,14 @@ export default defineComponent({
     PollOptionManager,
   },
   setup() {
-    const title = ref<string>("");
-    const description = ref<string>("");
-    const isLimitedByTime = ref<boolean>(false);
+    const { title, description, isLimitedByTime, pollOptions } =
+      useCreatePoll();
     const meterPollTypeOptions = [
       { label: "Percentage", value: "PERCENTAGE" },
       { label: "Integer", value: "INTEGER" },
       { label: "Decimal", value: "DECIMAL" },
     ];
     const meterPollType = ref<MeterPollTypes>("PERCENTAGE");
-
-    const pollOptions = ref<IOption[]>([
-      { name: "option 1", description: "option one descrition", imageSrc: "" },
-      { name: "option 2", description: "option two descrition", imageSrc: "" },
-      { name: "option 3", description: "option thre descrition", imageSrc: "" },
-      { name: "option 4", description: "option four descrition", imageSrc: "" },
-    ]);
 
     const submitForm = () => {
       const data = {
