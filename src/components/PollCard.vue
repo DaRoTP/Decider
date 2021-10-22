@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: viewNames.BINARY_POLL, params: { pollId: id } }"
+    :to="{ name: viewNames.POLL_VOTING, params: { pollId: id } }"
     class="
       bg-white
       text-gray-500
