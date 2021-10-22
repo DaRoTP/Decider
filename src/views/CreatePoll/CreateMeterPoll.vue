@@ -38,7 +38,7 @@ import { IOption, MeterPollTypes } from "@/types";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
 
 export default defineComponent({
-  name: "Create Meter Poll",
+  name: "CreateMeterPoll",
   components: {
     Input,
     DatePicker,

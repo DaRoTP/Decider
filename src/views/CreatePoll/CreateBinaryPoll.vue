@@ -26,7 +26,7 @@ import { IOption } from "@/types";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
 
 export default defineComponent({
-  name: "Create Binary Poll",
+  name: "CreateBinaryPoll",
   components: {
     Input,
     CheckBox,
