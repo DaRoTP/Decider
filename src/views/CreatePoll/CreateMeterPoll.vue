@@ -31,20 +31,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import DatePicker from "@/components/Inputs/DatePicker.vue";
-import CheckBox from "@/components/Inputs/CheckBox.vue";
-import Select from "@/components/Inputs/Select.vue";
-import Input from "@/components/Inputs/Input.vue";
 import { IOption, MeterPollTypes } from "@/types";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
 
 export default defineComponent({
   name: "CreateMeterPoll",
   components: {
-    Input,
-    DatePicker,
-    CheckBox,
-    Select,
     PollOptionManager,
   },
   setup() {

@@ -72,18 +72,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import DatePicker from "@/components/Inputs/DatePicker.vue";
-import Radio from "@/components/Inputs/Radio.vue";
-import Input from "@/components/Inputs/Input.vue";
 import { viewNames } from "@/router/views";
 
 export default defineComponent({
   name: "Register",
-  components: {
-    Input,
-    Radio,
-    DatePicker,
-  },
   setup() {
     const registrationStep = ref(1);
     const username = ref("");

@@ -43,20 +43,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import Input from "@/components/Inputs/Input.vue";
-import Slider from "@/components/Inputs/Slider.vue";
-import CheckBox from "@/components/Inputs/CheckBox.vue";
-import DatePicker from "@/components/Inputs/DatePicker.vue";
 import { IOption } from "@/types";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
 
 export default defineComponent({
   name: "CreateSelectPoll",
   components: {
-    Input,
-    Slider,
-    CheckBox,
-    DatePicker,
     PollOptionManager,
   },
   setup() {
