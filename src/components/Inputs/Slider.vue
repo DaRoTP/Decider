@@ -13,7 +13,7 @@
         :placeholder="placeholder"
         :disbaled="disabled"
         class="bg-white shadow-md rounded-sm p-2"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="$emit('update:modelValue', parseInt($event.target.value))"
       />
     </template>
   </InputGroup>
@@ -31,6 +31,9 @@ export default defineComponent({
   },
   props: {
     ...ComonInputProps,
+    modelValue: {
+      type: Number,
+    },
     min: {
       type: Number,
       required: true,

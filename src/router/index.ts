@@ -2,45 +2,63 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { views } from "./views";
 import { PollType } from "@/types";
 
-const { Home, Login, Register, Settings, Dashboard, CreatePoll, BinaryPoll } = views;
+const {
+  Home,
+  Login,
+  Register,
+  Settings,
+  Dashboard,
+  CreatePoll,
+  CreateBinaryPoll,
+  CreateMeterPoll,
+  CreateSelectPoll,
+  BinaryPoll,
+} = views;
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
     ...Home,
-  },
-  {
     path: "/",
+  },
+  {
     ...Dashboard,
+    path: "/",
   },
   {
-    path: "/login",
     ...Login,
+    path: "/login",
   },
   {
-    path: "/register",
     ...Register,
+    path: "/register",
   },
   {
-    path: "/settings",
     ...Settings,
+    path: "/settings",
   },
   {
+    ...CreatePoll,
     path: "/create-poll",
     props: true,
-    beforeEnter: (to, _, next) => {
-      const { type } = to.params;
-      if ((type as string) in PollType) {
-        return next();
-      }
-      next("/dashboard");
-    },
-    ...CreatePoll,
+    children: [
+      {
+        ...CreateBinaryPoll,
+        path: "/create-poll/binary",
+      },
+      {
+        ...CreateMeterPoll,
+        path: "/create-poll/meter",
+      },
+      {
+        ...CreateSelectPoll,
+        path: "/create-poll/select",
+      },
+    ],
   },
   {
+    ...BinaryPoll,
     path: "/poll/:pollId",
     props: true,
-    ...BinaryPoll,
   },
 ];
 

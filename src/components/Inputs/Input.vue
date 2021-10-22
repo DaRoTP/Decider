@@ -38,6 +38,9 @@ export default defineComponent({
   },
   props: {
     ...ComonInputProps,
+    modelValue: {
+      type: [String, Number],
+    },
     type: {
       type: String as PropType<InputTypes>,
       default: "text",
