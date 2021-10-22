@@ -7,6 +7,9 @@
     :classLabel="errorTextStyle"
     :classSubText="errorTextStyle"
   >
+    <template #label>
+      <slot name="label" />
+    </template>
     <template #input>
       <input
         :type="type"

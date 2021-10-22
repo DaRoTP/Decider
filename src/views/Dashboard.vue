@@ -14,7 +14,7 @@
         <img src="../assets/images/meter.svg" alt="create meter poll" />
       </router-link>
       <router-link
-        :to="{ name: 'Create Poll', params: { type: PollType.CHOICE } }"
+        :to="{ name: 'Create Poll', params: { type: PollType.SELECT } }"
       >
         <img src="../assets/images/select.svg" alt="cretae select poll" />
       </router-link>

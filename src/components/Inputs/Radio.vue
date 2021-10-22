@@ -1,5 +1,8 @@
 <template>
   <InputGroup :label="label" :subText="error" class="radio-group">
+    <template #label>
+      <slot name="label" />
+    </template>
     <template #input>
       <div class="flex gap-2" :class="{ 'flex-row': inline }">
         <div

@@ -5,6 +5,9 @@
     class="input"
     :class="{ 'in-valid': !error }"
   >
+    <template #label>
+      <slot name="label" />
+    </template>
     <template #input>
       <textarea
         :value="modelValue"

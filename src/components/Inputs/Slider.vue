@@ -1,18 +1,17 @@
 <template>
-  <InputGroup
-    :label="label"
-    :subText="error"
-    class="date-picker"
-    :class="{ 'in-valid': !error }"
-  >
+  <InputGroup :label="label" :subText="error" class="radio-group">
     <template #label>
       <slot name="label" />
     </template>
     <template #input>
       <input
-        type="date"
+        type="range"
+        :required="required"
+        :min="min"
+        :max="max"
         :value="modelValue"
-        :disabled="disabled"
+        :placeholder="placeholder"
+        :disbaled="disabled"
         class="bg-white shadow-md rounded-sm p-2"
         @input="$emit('update:modelValue', $event.target.value)"
       />
@@ -26,12 +25,20 @@ import InputGroup from "./InputGroup.vue";
 import { ComonInputProps } from "./props";
 
 export default defineComponent({
-  name: "DatePicker",
+  name: "Slider",
   components: {
     InputGroup,
   },
   props: {
     ...ComonInputProps,
+    min: {
+      type: Number,
+      required: true,
+    },
+    max: {
+      type: Number,
+      required: true,
+    },
   },
   setup() {
     return {};

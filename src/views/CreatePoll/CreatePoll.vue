@@ -10,6 +10,7 @@
 import { defineComponent, computed } from "vue";
 import CreateMeterPoll from "./CreateMeterPoll.vue";
 import CreateBinaryPoll from "./CreateBinaryPoll.vue";
+import CreateSelectPoll from "./CreateSelectPoll.vue";
 import { PollType } from "@/types";
 
 export default defineComponent({
@@ -17,6 +18,7 @@ export default defineComponent({
   components: {
     CreateMeterPoll,
     CreateBinaryPoll,
+    CreateSelectPoll,
   },
   props: {
     type: {
@@ -30,10 +32,10 @@ export default defineComponent({
           return "CreateBinaryPoll";
         case PollType.METER:
           return "CreateMeterPoll";
-        case PollType.CHOICE:
-          return "CreateMeterPoll";
+        case PollType.SELECT:
+          return "CreateSelectPoll";
         default:
-          return "CreateBinaryPoll";
+          return "CreateSelectPoll";
       }
     });
     return {

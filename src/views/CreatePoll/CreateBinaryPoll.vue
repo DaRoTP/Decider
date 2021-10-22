@@ -1,18 +1,19 @@
 <template>
-  <form @submit.prevent="createBinaryPollHandler">
+  <form @submit.prevent="createBinaryPollHandler" class="flex flex-col">
     <div class="flex gap-2">
       <Input label="Poll title" v-model="title" />
       <Input label="Poll description" v-model="description" class="flex-1" />
       <button class="btn-primary p-2 rounded-full px-6 my-4">Create</button>
     </div>
-    <div class="flex flex-col items-start">
-      <CheckBox
-        v-model="isLimitedByTime"
-        class="self-start"
-        label="Limited time"
-      />
-      <DatePicker :disabled="!isLimitedByTime" />
-    </div>
+    <DatePicker :disabled="!isLimitedByTime" class="self-start">
+      <template #label>
+        <CheckBox
+          v-model="isLimitedByTime"
+          class="self-start"
+          label="Limited time"
+        />
+      </template>
+    </DatePicker>
     <PollOptionManager v-model:options="pollOptions" />
   </form>
 </template>
