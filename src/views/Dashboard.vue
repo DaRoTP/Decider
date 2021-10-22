@@ -3,13 +3,19 @@
     <h1 class="text-primary font-bold text-xl">Dashboard</h1>
     <hr class="my-4" />
     <div class="flex gap-2 self-center">
-      <router-link :to="{ name: 'Create Poll' }">
+      <router-link
+        :to="{ name: 'Create Poll', params: { type: PollType.BINARY } }"
+      >
         <img src="../assets/images/binary.svg" alt="create binary poll" />
       </router-link>
-      <router-link :to="{ name: 'Create Poll' }">
+      <router-link
+        :to="{ name: 'Create Poll', params: { type: PollType.METER } }"
+      >
         <img src="../assets/images/meter.svg" alt="create meter poll" />
       </router-link>
-      <router-link :to="{ name: 'Create Poll' }">
+      <router-link
+        :to="{ name: 'Create Poll', params: { type: PollType.CHOICE } }"
+      >
         <img src="../assets/images/select.svg" alt="cretae select poll" />
       </router-link>
     </div>
@@ -48,6 +54,7 @@
 import { defineComponent, ref } from "vue";
 import PollCard from "@/components/PollCard.vue";
 import { IPoll } from "@/types";
+import { PollType } from "@/types";
 
 export default defineComponent({
   components: {
@@ -71,6 +78,7 @@ export default defineComponent({
     return {
       recentPolls,
       myPolls,
+      PollType,
     };
   },
 });
