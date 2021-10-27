@@ -2,8 +2,8 @@
   <div class="grid grid-cols-2 gap-4">
     <PollOptionList
       :options="options"
-      :selectedOption="currentOption.name"
-      @option-click="selectOption"
+      :selectedOptions="selectedOption"
+      @option-click="toggleSelectOption"
     />
     <div class="flex flex-col gap-2">
       <Input label="Option Title" v-model="currentOption.name" />
@@ -83,6 +83,12 @@ export default defineComponent({
       );
     });
 
+    const selectedOption = computed(() => {
+      if (currentOption.value.name) {
+        return [currentOption.value.name];
+      } else return [];
+    });
+
     const addOptionToList = () => {
       options.value.push(currentOption.value);
       emit("update:options", options.value);
@@ -97,7 +103,7 @@ export default defineComponent({
       currentOption.value = { name: "", description: "", imageSrc: "" };
     };
 
-    const selectOption = (data: IOption) => {
+    const toggleSelectOption = (data: IOption) => {
       const { name, description, imageSrc } = data;
 
       if (name === currentOption.value.name)
@@ -114,7 +120,8 @@ export default defineComponent({
       isNewOption,
       addOptionToList,
       removeOptionFromList,
-      selectOption,
+      toggleSelectOption,
+      selectedOption,
     };
   },
 });

@@ -13,7 +13,7 @@
     <ul class="flex flex-col gap-2">
       <PollOption
         v-for="(option, index) in options"
-        :selected="selectedOption === option.name"
+        :selected="isOptionSelected(option.name)"
         :key="option.name"
         :index="index + 1"
         :name="option.name"
@@ -40,14 +40,20 @@ export default defineComponent({
       type: Array as PropType<IOption[]>,
       default: () => [],
     },
-    selectedOption: {
-      type: String,
+    selectedOptions: {
+      type: Array as PropType<string[]>,
+      default: () => [],
     },
   },
-  setup() {
+  setup(props) {
     const isOptionsListMinimized = ref<boolean>(true);
+    const isOptionSelected = (optionName: string) => {
+      return !!props.selectedOptions.find((name) => name === optionName);
+    };
+
     return {
       isOptionsListMinimized,
+      isOptionSelected,
     };
   },
 });
