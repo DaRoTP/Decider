@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { views } from "./views";
-import { PollType } from "@/types";
 
 const {
   Home,
@@ -12,7 +11,8 @@ const {
   CreateBinaryPoll,
   CreateMeterPoll,
   CreateSelectPoll,
-  BinaryPoll,
+  PollVoting,
+  PollVotingSelect,
 } = views;
 
 const routes: Array<RouteRecordRaw> = [
@@ -56,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    ...BinaryPoll,
+    ...PollVoting,
     path: "/poll/:pollId",
     props: true,
   },

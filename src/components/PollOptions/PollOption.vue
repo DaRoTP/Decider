@@ -2,7 +2,6 @@
   <li
     class="poll-option flex bg-white p-2 rounded-sm shadow-md gap-2 relative"
     :class="{ selected: isSelected }"
-    @click="isSelected = !isSelected"
   >
     <span class="bg-primary text-white px-2 shadow-md rounded-md absolute">
       {{ `${index}.` }}
