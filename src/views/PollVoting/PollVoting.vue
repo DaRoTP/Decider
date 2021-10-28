@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col">
-    <h1 class="text-primary font-bold text-xl">{{ title }}</h1>
+    <div class="flex justify-between">
+      <h1 class="text-primary font-bold text-xl">{{ title }}</h1>
+      <Timer :endDate="endDate" />
+    </div>
     <hr class="my-2" />
     <component :is="PollVotingComponent" />
   </div>
@@ -11,11 +14,13 @@ import { defineComponent, ref, computed } from "vue";
 import { viewNames } from "@/router/views";
 import { PollType } from "@/types";
 import PollVotingSelect from "./PollVotingSelect.vue";
+import Timer from "@/components/Timer.vue";
 
 export default defineComponent({
   name: viewNames.POLL_VOTING,
   components: {
     PollVotingSelect,
+    Timer,
   },
   props: {
     pollId: {
@@ -25,6 +30,7 @@ export default defineComponent({
   setup() {
     const title = ref<string>("Test title");
     const type = ref<PollType>(PollType.SELECT);
+    const endDate = ref<Date>(new Date("2021-10-28T20:18"));
 
     const PollVotingComponent = computed(() => {
       switch (type.value) {
@@ -37,6 +43,7 @@ export default defineComponent({
     return {
       title,
       PollVotingComponent,
+      endDate,
     };
   },
 });

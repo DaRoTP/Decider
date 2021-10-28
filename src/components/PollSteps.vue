@@ -65,7 +65,6 @@ export default defineComponent({
     };
 
     const stepClickHandler = (step: number) => {
-      console.log(props.stepNavType);
       if (props.stepNavType === "NONE") return;
       if (props.stepNavType === "BACK" && step >= props.currentStep) return;
       emit("update:currentStep", step);

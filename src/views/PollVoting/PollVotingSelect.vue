@@ -1,12 +1,18 @@
 <template>
-  <div>
+  <div class="flex flex-col items-center">
     <PollSteps
+      class="my-4"
       :numberOfSteps="5"
       v-model:currentStep="currentStep"
       :checkedSteps="checkedSteps"
       stepNavType="BACK"
     />
-    <button @click="nextStepHandler">next</button>
+    <button
+      class="btn-primary p-2 rounded-full px-6 my-4"
+      @click="nextStepHandler"
+    >
+      next
+    </button>
     <div class="flex flex-col items-center">
       <PollOptionList
         :options="options"
