@@ -31,15 +31,17 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const timeDiff = ref<ITime>({});
     const timeout = ref<number | null>(null);
 
     const differenceTime = () => {
       const dateDiff = props.endDate.valueOf() - new Date().valueOf();
       timeDiff.value = secondsToDhms(dateDiff / 1000);
-      if (timeDiff.value.seconds === undefined && timeout.value !== null)
+      if (timeDiff.value.seconds === undefined && timeout.value !== null) {
+        emit("end-timer", true);
         clearInterval(timeout.value);
+      }
     };
 
     onMounted(() => {

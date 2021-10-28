@@ -61,7 +61,10 @@ export default defineComponent({
     };
 
     const stepClasses = (step: number) => {
-      return isStepChecked(step) ? "bg-primary" : "bg-blue-300";
+      const checkedClasses = isStepChecked(step) ? "bg-primary" : "bg-blue-300";
+      const currentStepClass =
+        props.currentStep === step ? "outline-black" : "";
+      return `${checkedClasses} ${currentStepClass}`;
     };
 
     const stepClickHandler = (step: number) => {
