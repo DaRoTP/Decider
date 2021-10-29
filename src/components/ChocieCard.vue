@@ -13,6 +13,7 @@
       "
     >
       <img :src="imageSrc" class="h-full object-cover" />
+      <div class="gradient-change"></div>
       <h1 class="text-white font-bold absolute bottom-1 w-full text-center">
         {{ title }}
       </h1>
@@ -33,10 +34,6 @@ export default defineComponent({
     imageSrc: {
       type: String,
     },
-    isActive: {
-      type: Boolean,
-      default: false,
-    },
   },
   setup() {
     return {};
@@ -50,8 +47,21 @@ export default defineComponent({
   width: 20rem;
   padding: 1rem;
   transition: all 0.2s ease-in-out;
+
+  .gradient-change {
+    width: 100%;
+    height: 50%;
+    background: $primary;
+    background: linear-gradient(0deg, $primary 0%, rgba(0, 212, 255, 0) 100%);
+    position: absolute;
+    bottom: 0;
+    transition: all 0.2s ease-in-out;
+  }
   &:hover {
     padding: 0;
+    .gradient-change {
+      height: 25%;
+    }
   }
 }
 </style>
