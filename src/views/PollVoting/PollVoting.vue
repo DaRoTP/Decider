@@ -13,13 +13,15 @@
 import { defineComponent, ref, computed } from "vue";
 import { viewNames } from "@/router/views";
 import { PollType } from "@/types";
-import PollVotingSelect from "./PollVotingSelect.vue";
 import Timer from "@/components/Timer.vue";
+import PollVotingSelect from "./PollVotingSelect.vue";
+import PollVotingMeter from "./PollVotingMeter.vue";
 
 export default defineComponent({
   name: viewNames.POLL_VOTING,
   components: {
     PollVotingSelect,
+    PollVotingMeter,
     Timer,
   },
   props: {
@@ -29,13 +31,15 @@ export default defineComponent({
   },
   setup() {
     const title = ref<string>("Test title");
-    const type = ref<PollType>(PollType.SELECT);
-    const endDate = ref<Date>(new Date("2021-10-28T20:18"));
+    const type = ref<PollType>(PollType.METER);
+    const endDate = ref<Date>(new Date("2021-10-29T20:18"));
 
     const PollVotingComponent = computed(() => {
       switch (type.value) {
         case PollType.SELECT:
           return "PollVotingSelect";
+        case PollType.METER:
+          return "PollVotingMeter";
         default:
           return "PollVotingSelect";
       }
