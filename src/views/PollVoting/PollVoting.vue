@@ -5,6 +5,7 @@
       <Timer :endDate="endDate" />
     </div>
     <hr class="my-2" />
+    <PollStart />
     <component :is="PollVotingComponent" />
   </div>
 </template>
@@ -17,6 +18,7 @@ import Timer from "@/components/Timer.vue";
 import PollVotingSelect from "./PollVotingSelect.vue";
 import PollVotingMeter from "./PollVotingMeter.vue";
 import PollVotingBinary from "./PollVotingBinary.vue";
+import PollStart from "./PollStart.vue";
 
 export default defineComponent({
   name: viewNames.POLL_VOTING,
@@ -24,6 +26,7 @@ export default defineComponent({
     PollVotingSelect,
     PollVotingMeter,
     PollVotingBinary,
+    PollStart,
     Timer,
   },
   props: {
