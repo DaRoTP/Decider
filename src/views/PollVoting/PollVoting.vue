@@ -16,12 +16,14 @@ import { PollType } from "@/types";
 import Timer from "@/components/Timer.vue";
 import PollVotingSelect from "./PollVotingSelect.vue";
 import PollVotingMeter from "./PollVotingMeter.vue";
+import PollVotingBinary from "./PollVotingBinary.vue";
 
 export default defineComponent({
   name: viewNames.POLL_VOTING,
   components: {
     PollVotingSelect,
     PollVotingMeter,
+    PollVotingBinary,
     Timer,
   },
   props: {
@@ -31,7 +33,7 @@ export default defineComponent({
   },
   setup() {
     const title = ref<string>("Test title");
-    const type = ref<PollType>(PollType.METER);
+    const type = ref<PollType>(PollType.BINARY);
     const endDate = ref<Date>(new Date("2021-10-29T20:18"));
 
     const PollVotingComponent = computed(() => {
@@ -40,6 +42,8 @@ export default defineComponent({
           return viewNames.POLL_VOTING_SELECT;
         case PollType.METER:
           return viewNames.POLL_VOTING_METER;
+        case PollType.BINARY:
+          return viewNames.POLL_VOTING_BINARY;
         default:
           return viewNames.POLL_VOTING_SELECT;
       }

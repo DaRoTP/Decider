@@ -10,9 +10,9 @@ enum viewNames {
   CREATE_SELECT_POLL = "Create Select Poll",
   CREATE_METER_POLL = "Create Meter Poll",
   POLL_VOTING = "Poll Voting",
-  POLL_VOTING_SELECT = "Poll Voting Select",
-  POLL_VOTING_METER = "Poll Voting Meter",
-  POLL_VOTING_BINARY = "Poll Voting Binary",
+  POLL_VOTING_SELECT = "PollVotingSelect",
+  POLL_VOTING_METER = "PollVotingMeter",
+  POLL_VOTING_BINARY = "PollVotingBinary",
 }
 
 const views = {
