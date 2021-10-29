@@ -12,7 +12,6 @@ const {
   CreateMeterPoll,
   CreateSelectPoll,
   PollVoting,
-  PollVotingSelect,
 } = views;
 
 const routes: Array<RouteRecordRaw> = [

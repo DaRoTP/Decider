@@ -46,9 +46,10 @@
 import { defineComponent, ref, onMounted } from "vue";
 import PollSteps from "@/components/PollSteps.vue";
 import { IOption } from "@/types";
+import { viewNames } from "@/router/views";
 
 export default defineComponent({
-  name: "PollVotingMeter",
+  name: viewNames.POLL_VOTING_METER,
   components: {
     PollSteps,
   },
