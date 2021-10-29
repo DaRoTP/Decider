@@ -11,6 +11,8 @@ enum viewNames {
   CREATE_METER_POLL = "Create Meter Poll",
   POLL_VOTING = "Poll Voting",
   POLL_VOTING_SELECT = "Poll Voting Select",
+  POLL_VOTING_METER = "Poll Voting Meter",
+  POLL_VOTING_BINARY = "Poll Voting Binary",
 }
 
 const views = {
@@ -53,10 +55,6 @@ const views = {
   PollVoting: {
     component: () => import("@/views/PollVoting/PollVoting.vue"),
     name: viewNames.POLL_VOTING,
-  },
-  PollVotingSelect: {
-    component: () => import("@/views/PollVoting/PollVotingSelect.vue"),
-    name: viewNames.POLL_VOTING_SELECT,
   },
 };
 

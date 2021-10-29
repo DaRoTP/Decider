@@ -37,11 +37,11 @@ export default defineComponent({
     const PollVotingComponent = computed(() => {
       switch (type.value) {
         case PollType.SELECT:
-          return "PollVotingSelect";
+          return viewNames.POLL_VOTING_SELECT;
         case PollType.METER:
-          return "PollVotingMeter";
+          return viewNames.POLL_VOTING_METER;
         default:
-          return "PollVotingSelect";
+          return viewNames.POLL_VOTING_SELECT;
       }
     });
     return {

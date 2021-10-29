@@ -38,9 +38,10 @@ import { defineComponent, ref, computed, onMounted } from "vue";
 import PollSteps from "@/components/PollSteps.vue";
 import PollOptionList from "@/components/PollOptions/PollOptionList.vue";
 import { IOption } from "@/types";
+import { viewNames } from "@/router/views";
 
 export default defineComponent({
-  name: "PollVotingSelect",
+  name: viewNames.POLL_VOTING_SELECT,
   components: {
     PollSteps,
     PollOptionList,
@@ -81,9 +82,9 @@ export default defineComponent({
     });
 
     const toggleSelectOption = (option: IOption) => {
-      const optionIndex = selectedOptions.value[currentStep.value - 1].findIndex(
-        (name) => name === option.name
-      );
+      const optionIndex = selectedOptions.value[
+        currentStep.value - 1
+      ].findIndex((name) => name === option.name);
       if (optionIndex > -1) {
         return selectedOptions.value.splice(optionIndex, 1);
       }
