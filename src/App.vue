@@ -1,6 +1,6 @@
 <template>
   <sidebard />
-  <div class="main-content p-3">
+  <div class="main-content flex flex-col p-3">
     <router-view />
   </div>
 </template>

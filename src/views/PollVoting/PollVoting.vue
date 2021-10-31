@@ -1,16 +1,22 @@
 <template>
-  <div class="flex flex-col">
-    <div class="flex justify-between">
+  <GridSpinner v-if="isLoading" class="self-center" />
+  <section v-else class="flex flex-col">
+    <header class="flex justify-between">
       <h1 class="text-primary font-bold text-xl">{{ title }}</h1>
-      <Timer v-if="!isLoading" :endDate="endDate" />
-    </div>
-    <hr class="my-2" />
-    <GridSpinner v-if="isLoading" />
-    <template v-else>
-      <PollStart />
-      <component :is="PollVotingComponent" />
+      <Timer v-if="endDate" :endDate="endDate" />
+      <hr class="my-2" />
+    </header>
+    <template>
+      <PollStart
+        v-if="participationStatus === 'INACTIVE'"
+        @activate-poll="activatePollHandler"
+      />
+      <component
+        v-else-if="participationStatus === 'ACTIVE'"
+        :is="PollVotingComponent"
+      />
     </template>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -23,6 +29,9 @@ import PollVotingMeter from "./PollVotingMeter.vue";
 import PollVotingBinary from "./PollVotingBinary.vue";
 import PollStart from "./PollStart.vue";
 import GridSpinner from "@/components/Spinners/GridSpinner.vue";
+import { getPolls } from "@/service/poll";
+
+type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
 export default defineComponent({
   name: viewNames.POLL_VOTING,
@@ -50,17 +59,22 @@ export default defineComponent({
       type: PollType.BINARY,
     };
 
+    const optionData = [];
+
     const title = ref<string>("");
     const type = ref<PollType>();
     const endDate = ref<Date>();
 
-    const isLoading = ref<boolean>(true);
+    const participationStatus = ref<PollParticipationType>("INACTIVE");
 
-    onMounted(() => {
+    const { isLoading, call } = getPolls();
+
+    onMounted(async () => {
+      const res = await call();
+      console.log("RES ", res);
       title.value = data.title;
       type.value = data.type;
       endDate.value = new Date(data.endDate);
-      isLoading.value = false;
     });
 
     const PollVotingComponent = computed(() => {
@@ -75,11 +89,18 @@ export default defineComponent({
           return viewNames.POLL_VOTING_SELECT;
       }
     });
+
+    const activatePollHandler = () => {
+      participationStatus.value = "ACTIVE";
+    };
+
     return {
       title,
       PollVotingComponent,
       endDate,
       isLoading,
+      participationStatus,
+      activatePollHandler,
     };
   },
 });

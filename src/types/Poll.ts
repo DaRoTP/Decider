@@ -11,3 +11,5 @@ export interface IOption {
 }
 
 export type MeterPollTypes = "INTEGER" | "DECIMAL" | "PERCENTAGE";
+
+export type PollTypes = "BINARY" | "METER" | "SELECT";
