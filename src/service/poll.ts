@@ -8,7 +8,7 @@ interface IuseAPICallNotParams<T> extends IuseAPICall<T> {
   call: () => Promise<T>;
 }
 
-export const getPolls = (): IuseAPICallNotParams<IOptionsReturn> => {
+export const getPollService = (): IuseAPICallNotParams<IOptionsReturn> => {
   const { isLoading, call: apiCall } = useAPICall<IOptionsReturn>({
     method: "GET",
     url: "http:getPolls",

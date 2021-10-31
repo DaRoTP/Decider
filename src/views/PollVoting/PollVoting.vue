@@ -4,32 +4,30 @@
     <header class="flex justify-between">
       <h1 class="text-primary font-bold text-xl">{{ title }}</h1>
       <Timer v-if="endDate" :endDate="endDate" />
-      <hr class="my-2" />
     </header>
-    <template>
-      <PollStart
-        v-if="participationStatus === 'INACTIVE'"
-        @activate-poll="activatePollHandler"
-      />
-      <component
-        v-else-if="participationStatus === 'ACTIVE'"
-        :is="PollVotingComponent"
-      />
-    </template>
+    <hr class="my-2" />
+    <PollStart
+      v-if="participationStatus === 'INACTIVE'"
+      @activate-poll="activatePollHandler"
+    />
+    <component
+      v-else-if="participationStatus === 'ACTIVE'"
+      :is="PollVotingComponent"
+    />
   </section>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from "vue";
 import { viewNames } from "@/router/views";
-import { PollType } from "@/types";
+import { PollTypes } from "@/types";
 import Timer from "@/components/Timer.vue";
 import PollVotingSelect from "./PollVotingSelect.vue";
 import PollVotingMeter from "./PollVotingMeter.vue";
 import PollVotingBinary from "./PollVotingBinary.vue";
 import PollStart from "./PollStart.vue";
 import GridSpinner from "@/components/Spinners/GridSpinner.vue";
-import { getPolls } from "@/service/poll";
+import { getPollService } from "@/service/poll";
 
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
@@ -49,41 +47,31 @@ export default defineComponent({
     },
   },
   setup() {
-    const data = {
-      title: "Some poll that I don't care about",
-      descirpion:
-        "this is some randome lorem ipsum that I also don't really care about ok thats it about this description or about this poll",
-      endDate: "2021-10-29T20:18",
-      resultPreview: true,
-      userVoted: false,
-      type: PollType.BINARY,
-    };
-
     const optionData = [];
 
     const title = ref<string>("");
-    const type = ref<PollType>();
+    const type = ref<PollTypes>();
     const endDate = ref<Date>();
 
     const participationStatus = ref<PollParticipationType>("INACTIVE");
 
-    const { isLoading, call } = getPolls();
+    const { isLoading, call } = getPollService();
 
     onMounted(async () => {
       const res = await call();
       console.log("RES ", res);
-      title.value = data.title;
-      type.value = data.type;
-      endDate.value = new Date(data.endDate);
+      title.value = res.title;
+      type.value = res.type;
+      if (res.endDate) endDate.value = new Date(res.endDate);
     });
 
     const PollVotingComponent = computed(() => {
       switch (type.value) {
-        case PollType.SELECT:
+        case "SELECT":
           return viewNames.POLL_VOTING_SELECT;
-        case PollType.METER:
+        case "METER":
           return viewNames.POLL_VOTING_METER;
-        case PollType.BINARY:
+        case "BINARY":
           return viewNames.POLL_VOTING_BINARY;
         default:
           return viewNames.POLL_VOTING_SELECT;

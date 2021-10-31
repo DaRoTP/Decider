@@ -1,5 +1,6 @@
 import { Method } from "axios";
 import { Ref } from "vue";
+import { PollTypes } from "./Poll";
 
 export interface ICall {
   method?: Method;
@@ -19,5 +20,5 @@ export interface IOptionsReturn {
   endDate?: string;
   resultPreview: boolean;
   userVoted: boolean;
-  type: string;
+  type: PollTypes;
 }
