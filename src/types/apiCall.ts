@@ -1,6 +1,5 @@
 import { Method } from "axios";
 import { Ref } from "vue";
-import { PollTypes } from "./Poll";
 
 export interface ICall {
   method?: Method;
@@ -9,16 +8,14 @@ export interface ICall {
 
 export type callType<R, B = void> = (data: R, body?: B) => Promise<R>;
 
+export type callTypeNoParams<R> = () => Promise<R>;
+
 export interface IuseAPICall<R, B = void> {
   isLoading: Ref<boolean>;
   call: callType<R, B>;
 }
 
-export interface IOptionsReturn {
-  title: string;
-  descirpion?: string;
-  endDate?: string;
-  resultPreview: boolean;
-  userVoted: boolean;
-  type: PollTypes;
+export interface IuseAPICallNoParams<R> {
+  isLoading: Ref<boolean>;
+  call: callTypeNoParams<R>;
 }

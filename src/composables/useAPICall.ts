@@ -16,7 +16,7 @@ export default function useAPICall<R, B = void>({
       setTimeout(() => {
         resolve(data);
         isLoading.value = false;
-      }, 2000);
+      }, 1000);
     });
   };
 

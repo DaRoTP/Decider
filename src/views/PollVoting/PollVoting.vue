@@ -10,24 +10,39 @@
       v-if="participationStatus === 'INACTIVE'"
       @activate-poll="activatePollHandler"
     />
-    <component
-      v-else-if="participationStatus === 'ACTIVE'"
-      :is="PollVotingComponent"
-    />
+    <template v-else-if="participationStatus === 'ACTIVE'">
+      <PollSteps
+        class="my-4 self-center"
+        :numberOfSteps="options.length"
+        v-model:currentStep="currentStep"
+        :checkedSteps="checkedSteps"
+        stepNavType="BACK"
+      />
+      <component
+        :is="PollVotingComponent"
+        :currentStep="currentStep"
+        :options="options"
+        @change:step="(step) => (currentStep = step)"
+        @change:checkedStepList="(list) => (checkedSteps = list)"
+      />
+    </template>
   </section>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from "vue";
+import { PollTypes, IOption } from "@/types";
 import { viewNames } from "@/router/views";
-import { PollTypes } from "@/types";
+import { getPollByIdService, getPollOptionsByIdService } from "@/service/poll";
+
 import Timer from "@/components/Timer.vue";
+import GridSpinner from "@/components/Spinners/GridSpinner.vue";
+import PollSteps from "@/components/PollSteps.vue";
+
 import PollVotingSelect from "./PollVotingSelect.vue";
 import PollVotingMeter from "./PollVotingMeter.vue";
 import PollVotingBinary from "./PollVotingBinary.vue";
 import PollStart from "./PollStart.vue";
-import GridSpinner from "@/components/Spinners/GridSpinner.vue";
-import { getPollService } from "@/service/poll";
 
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
@@ -38,44 +53,48 @@ export default defineComponent({
     PollVotingMeter,
     PollVotingBinary,
     PollStart,
+    PollSteps,
     Timer,
     GridSpinner,
   },
   props: {
     pollId: {
       type: String,
+      required: true,
     },
   },
-  setup() {
-    const optionData = [];
-
+  setup(props) {
     const title = ref<string>("");
     const type = ref<PollTypes>();
     const endDate = ref<Date>();
 
+    const currentStep = ref<number>(1);
+    const checkedSteps = ref<number[]>([]);
+
+    const options = ref<IOption[][]>([[]]);
+
     const participationStatus = ref<PollParticipationType>("INACTIVE");
 
-    const { isLoading, call } = getPollService();
+    const { call } = getPollByIdService(props.pollId);
+    const { isLoading, call: callGetOptions } = getPollOptionsByIdService(
+      props.pollId
+    );
 
     onMounted(async () => {
       const res = await call();
-      console.log("RES ", res);
       title.value = res.title;
       type.value = res.type;
       if (res.endDate) endDate.value = new Date(res.endDate);
+
+      const resOptions = await callGetOptions();
+      options.value = resOptions;
     });
 
     const PollVotingComponent = computed(() => {
-      switch (type.value) {
-        case "SELECT":
-          return viewNames.POLL_VOTING_SELECT;
-        case "METER":
-          return viewNames.POLL_VOTING_METER;
-        case "BINARY":
-          return viewNames.POLL_VOTING_BINARY;
-        default:
-          return viewNames.POLL_VOTING_SELECT;
-      }
+      if (type.value === "SELECT") return viewNames.POLL_VOTING_SELECT;
+      if (type.value === "METER") return viewNames.POLL_VOTING_METER;
+      if (type.value === "BINARY") return viewNames.POLL_VOTING_BINARY;
+      return null;
     });
 
     const activatePollHandler = () => {
@@ -87,6 +106,9 @@ export default defineComponent({
       PollVotingComponent,
       endDate,
       isLoading,
+      options,
+      currentStep,
+      checkedSteps,
       participationStatus,
       activatePollHandler,
     };

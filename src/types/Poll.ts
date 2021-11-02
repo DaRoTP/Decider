@@ -13,3 +13,12 @@ export interface IOption {
 export type MeterPollTypes = "INTEGER" | "DECIMAL" | "PERCENTAGE";
 
 export type PollTypes = "BINARY" | "METER" | "SELECT";
+
+export interface IOptionsReturn {
+  title: string;
+  descirpion?: string;
+  endDate?: string;
+  resultPreview: boolean;
+  userVoted: boolean;
+  type: PollTypes;
+}

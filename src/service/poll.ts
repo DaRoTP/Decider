@@ -1,18 +1,30 @@
 import useAPICall from "@/composables/useAPICall";
-import { binaryPollWithTimeLimit } from "@/data/index";
-import { IOptionsReturn, IuseAPICall } from "@/types/apiCall";
-import { Ref } from "vue";
+import {
+  binaryPollWithTimeLimit,
+  binaryPollOptions,
+  meterPollOptions,
+  selectPollOptions,
+} from "@/data/index";
+import { IOptionsReturn, IuseAPICallNoParams, IOption } from "@/types";
 
-interface IuseAPICallNotParams<T> extends IuseAPICall<T> {
-  isLoading: Ref<boolean>;
-  call: () => Promise<T>;
-}
-
-export const getPollService = (): IuseAPICallNotParams<IOptionsReturn> => {
+export const getPollByIdService = (
+  pollId: string
+): IuseAPICallNoParams<IOptionsReturn> => {
   const { isLoading, call: apiCall } = useAPICall<IOptionsReturn>({
     method: "GET",
-    url: "http:getPolls",
+    url: `/poll/${pollId}`,
   });
   const call = () => apiCall(binaryPollWithTimeLimit);
+  return { isLoading, call };
+};
+
+export const getPollOptionsByIdService = (
+  pollId: string
+): IuseAPICallNoParams<IOption[][]> => {
+  const { isLoading, call: apiCall } = useAPICall<IOption[][]>({
+    method: "GET",
+    url: `/poll/${pollId}/options`,
+  });
+  const call = () => apiCall(binaryPollOptions);
   return { isLoading, call };
 };
