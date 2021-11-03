@@ -45,7 +45,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
 import { PollTypes, IOption } from "@/types";
 import { viewNames } from "@/router/views";
 import { getPollByIdService, getPollOptionsByIdService } from "@/service/poll";
@@ -88,11 +87,9 @@ export default defineComponent({
     const currentStep = ref<number>(1);
     const checkedSteps = ref<number[]>([]);
 
-    const options = ref<IOption[][]>([[]]);
+    const options = ref<IOption[][] | IOption[]>([]);
 
     const participationStatus = ref<PollParticipationType>("INACTIVE");
-
-    const router = useRouter();
 
     const { call } = getPollByIdService(props.pollId);
     const { isLoading, call: callGetOptions } = getPollOptionsByIdService(
@@ -123,10 +120,6 @@ export default defineComponent({
     const onSubmitHandler = (data: any) => {
       console.log("SUBMITTING DATA => ", data);
       participationStatus.value = "ENDED";
-      router.push({
-        name: viewNames.POLL_RESULTS,
-        params: { pollId: props.pollId },
-      });
     };
 
     return {
