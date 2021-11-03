@@ -30,31 +30,31 @@ const binaryPollOptions: IOption[][] = [
     {
       name: "dwa",
       description: "dwa description",
-      imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+      imageSrc: "https://blog.imgur.com/wp-content/uploads/2016/06/PqVjUFZ.jpg",
     },
   ],
   [
     {
       name: "trzy",
       description: "dwa description",
-      imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+      imageSrc: "https://i.imgur.com/X8vQxhF.jpg",
     },
     {
       name: "cztery",
       description: "dwa description",
-      imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+      imageSrc: "https://pbs.twimg.com/media/FDH-MlPVkAcPEZx.jpg",
     },
   ],
   [
     {
       name: "piec",
       description: "dwa description",
-      imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+      imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
     },
     {
       name: "szesc",
       description: "dwa description",
-      imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+      imageSrc: "https://thumbs.dreamstime.com/z/macro-image-imgur-com-homepage-loaded-screen-web-browser-imgur-com-web-site-selective-focus-180826286.jpg",
     },
   ],
 ];

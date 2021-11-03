@@ -1,14 +1,16 @@
 <template>
-  <div v-if="!areAllStepsCompleted" class="flex gap-2 justify-center">
+  <div v-if="currentStep <= options.length" class="flex gap-2 justify-center">
     <ChoiceCard
-      :title="options[currentStep - 1][0]?.name"
-      :imageSrc="options[currentStep - 1][0]?.imageSrc"
+      :title="leftOption.name"
+      :imageSrc="leftOption.imageSrc"
+      :selected="selectedOptions[currentStep - 1] === leftOption.name"
       @click="clickOptionHandler(options[currentStep - 1][0]?.name)"
     />
     <ChoiceCard
-      :title="options[currentStep - 1][1]?.name"
-      :imageSrc="options[currentStep - 1][1]?.imageSrc"
-      @click="clickOptionHandler(options[currentStep - 1][1]?.name)"
+      :title="rightOption.name"
+      :imageSrc="rightOption.imageSrc"
+      :selected="selectedOptions[currentStep - 1] === rightOption.name"
+      @click="clickOptionHandler(rightOption.name)"
     />
   </div>
   <div v-else class="flex flex-col items-center">
@@ -60,36 +62,35 @@ export default defineComponent({
 
     selectedOptions.value = props.options.map(() => "");
 
-    const areAllStepsCompleted = computed(
-      () => "" !== selectedOptions.value.find((item) => item === "")
-    );
+    const leftOption = computed(() => props.options[props.currentStep - 1][0]);
+    const rightOption = computed(() => props.options[props.currentStep - 1][1]);
 
     const submitHandler = () => {
+      emit("submit", selectedOptions.value);
       console.log("SUBMITTING");
-      console.log(selectedOptions.value);
     };
 
     const clickOptionHandler = (optionName: string) => {
+      if (selectedOptions.value[props.currentStep - 1] !== optionName) {
+        emit("change:step", props.currentStep + 1);
+      }
+
       selectedOptions.value[props.currentStep - 1] =
-        selectedOptions.value[props.currentStep - 1] !== optionName
-          ? optionName
-          : "";
+        selectedOptions.value[props.currentStep - 1] === optionName
+          ? ""
+          : optionName;
 
       const completeStepsIndexes: number[] = selectedOptions.value
         .filter((option) => option !== "")
         .map((_, indx) => indx + 1);
-
-      if (props.currentStep === props.options.length)
-        return emit("change:checkedStepList", completeStepsIndexes);
-
-      emit("change:step", props.currentStep + 1);
       emit("change:checkedStepList", completeStepsIndexes);
     };
 
     return {
       checkedSteps,
       selectedOptions,
-      areAllStepsCompleted,
+      leftOption,
+      rightOption,
       clickOptionHandler,
       submitHandler,
     };

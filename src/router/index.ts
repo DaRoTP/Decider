@@ -12,6 +12,7 @@ const {
   CreateMeterPoll,
   CreateSelectPoll,
   PollVoting,
+  PollResults,
 } = views;
 
 const routes: Array<RouteRecordRaw> = [
@@ -57,6 +58,11 @@ const routes: Array<RouteRecordRaw> = [
   {
     ...PollVoting,
     path: "/poll/:pollId",
+    props: true,
+  },
+  {
+    ...PollResults,
+    path: "/poll/:pollId/results",
     props: true,
   },
 ];

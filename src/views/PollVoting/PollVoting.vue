@@ -10,20 +10,34 @@
       v-if="participationStatus === 'INACTIVE'"
       @activate-poll="activatePollHandler"
     />
+    <PollEnd v-else-if="participationStatus === 'ENDED'" />
     <template v-else-if="participationStatus === 'ACTIVE'">
-      <PollSteps
-        class="my-4 self-center"
-        :numberOfSteps="options.length"
-        v-model:currentStep="currentStep"
-        :checkedSteps="checkedSteps"
-        stepNavType="BACK"
-      />
+      <div class="flex flex-col my-4">
+        <PollSteps
+          class="self-center"
+          :numberOfSteps="options.length"
+          v-model:currentStep="currentStep"
+          :checkedSteps="checkedSteps"
+          stepNavType="BACK"
+        />
+        <button
+          v-if="
+            checkedSteps.length === options.length &&
+            currentStep <= options.length
+          "
+          class="btn-primary p-2 rounded-full px-6 my-4 self-end"
+          @click="currentStep = options.length + 1"
+        >
+          back to summary
+        </button>
+      </div>
       <component
         :is="PollVotingComponent"
         :currentStep="currentStep"
         :options="options"
         @change:step="(step) => (currentStep = step)"
         @change:checkedStepList="(list) => (checkedSteps = list)"
+        @submit="onSubmitHandler"
       />
     </template>
   </section>
@@ -31,6 +45,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { PollTypes, IOption } from "@/types";
 import { viewNames } from "@/router/views";
 import { getPollByIdService, getPollOptionsByIdService } from "@/service/poll";
@@ -43,6 +58,7 @@ import PollVotingSelect from "./PollVotingSelect.vue";
 import PollVotingMeter from "./PollVotingMeter.vue";
 import PollVotingBinary from "./PollVotingBinary.vue";
 import PollStart from "./PollStart.vue";
+import PollEnd from "./PollEnd.vue";
 
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
@@ -53,6 +69,7 @@ export default defineComponent({
     PollVotingMeter,
     PollVotingBinary,
     PollStart,
+    PollEnd,
     PollSteps,
     Timer,
     GridSpinner,
@@ -74,6 +91,8 @@ export default defineComponent({
     const options = ref<IOption[][]>([[]]);
 
     const participationStatus = ref<PollParticipationType>("INACTIVE");
+
+    const router = useRouter();
 
     const { call } = getPollByIdService(props.pollId);
     const { isLoading, call: callGetOptions } = getPollOptionsByIdService(
@@ -101,6 +120,15 @@ export default defineComponent({
       participationStatus.value = "ACTIVE";
     };
 
+    const onSubmitHandler = (data: any) => {
+      console.log("SUBMITTING DATA => ", data);
+      participationStatus.value = "ENDED";
+      router.push({
+        name: viewNames.POLL_RESULTS,
+        params: { pollId: props.pollId },
+      });
+    };
+
     return {
       title,
       PollVotingComponent,
@@ -110,6 +138,7 @@ export default defineComponent({
       currentStep,
       checkedSteps,
       participationStatus,
+      onSubmitHandler,
       activatePollHandler,
     };
   },

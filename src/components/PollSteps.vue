@@ -21,7 +21,7 @@
       >
         <fa v-if="isStepChecked(step)" icon="check" />
       </li>
-      <strong>{{ `${currentStep}/${pollStepsList.length}` }}</strong>
+      <strong>{{ `${checkedSteps.length}/${pollStepsList.length}` }}</strong>
     </ul>
   </nav>
 </template>
@@ -69,9 +69,12 @@ export default defineComponent({
 
     const stepClickHandler = (step: number) => {
       if (props.stepNavType === "NONE") return;
-      if (props.stepNavType === "BACK" && step >= props.currentStep) return;
+      if (
+        props.stepNavType === "BACK" &&
+        !props.checkedSteps.find((item) => item === step)
+      )
+        return;
       emit("update:currentStep", step);
-      console.log("clicked => ", step);
     };
 
     return {

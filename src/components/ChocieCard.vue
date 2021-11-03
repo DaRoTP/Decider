@@ -11,6 +11,7 @@
         h-full
         w-full
       "
+      :class="{ 'outline-black': selected }"
     >
       <img :src="imageSrc" class="h-full object-cover" />
       <div class="gradient-change"></div>
@@ -30,6 +31,10 @@ export default defineComponent({
     title: {
       type: String,
       required: true,
+    },
+    selected: {
+      type: Boolean,
+      default: false,
     },
     imageSrc: {
       type: String,
