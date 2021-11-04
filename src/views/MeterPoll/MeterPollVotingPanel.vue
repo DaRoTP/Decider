@@ -28,10 +28,10 @@
 <script lang="ts">
 import { defineComponent, toRef, PropType } from "vue";
 import { IOption } from "@/types";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
-  name: viewNames.POLL_VOTING_METER,
+  name: Views.VOTING_PANNEL.METER,
   props: {
     options: {
       type: Array as PropType<IOption[]>,

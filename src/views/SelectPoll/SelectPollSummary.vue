@@ -1,26 +1,14 @@
 <template>
-  <div class="flex flex-col items-center">
-    <div
-      v-for="(step, indx) in options"
-      :key="`${step[0].name}-${step[1].name}`"
-      class="flex gap-2"
-    >
-      <span
-        v-for="option in step"
-        :key="option.name"
-        :class="{ 'font-bold': selectedOptions[indx] === option.name }"
-        >{{ option.name }}</span
-      >
-    </div>
-  </div>
+  <div>Here is Asumary for this thing</div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { IOption } from "@/types";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
-  name: "BinarySummary",
+  name: Views.POLL_SUMMARY.SELECT,
   props: {
     options: {
       type: Array as PropType<IOption[][]>,

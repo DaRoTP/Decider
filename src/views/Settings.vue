@@ -3,8 +3,10 @@
 </template>
 
 <script>
+import { Views } from "@/router/viewNames";
+
 export default {
-  name: "User",
+  name: Views.MAIN.SETTINGS,
 };
 </script>
 

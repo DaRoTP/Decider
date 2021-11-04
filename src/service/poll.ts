@@ -16,7 +16,7 @@ export const getPollByIdService = (
     method: "GET",
     url: `/poll/${pollId}`,
   });
-  const call = () => apiCall(selectPollWithTimeLimit);
+  const call = () => apiCall(meterPollWithTimeLimit);
   return { isLoading, call };
 };
 
@@ -27,6 +27,6 @@ export const getPollOptionsByIdService = (
     method: "GET",
     url: `/poll/${pollId}/options`,
   });
-  const call = () => apiCall(selectPollOptions);
+  const call = () => apiCall(meterPollOptions);
   return { isLoading, call };
 };

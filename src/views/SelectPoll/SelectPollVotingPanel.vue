@@ -22,10 +22,10 @@
 import { defineComponent, toRef, PropType } from "vue";
 import PollOptionList from "@/components/PollOptions/PollOptionList.vue";
 import { IOption } from "@/types";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
-  name: viewNames.POLL_VOTING_SELECT,
+  name: Views.VOTING_PANNEL.SELECT,
   components: {
     PollOptionList,
   },

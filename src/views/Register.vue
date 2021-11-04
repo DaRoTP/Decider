@@ -56,7 +56,7 @@
         </form>
         <router-link
           class="self-end text-sm text-gray-400 mt-3 underline"
-          :to="{ name: viewNames.HOME }"
+          :to="{ name: Views.MAIN.HOME }"
         >
           Already have an account? Sign in
         </router-link>
@@ -72,7 +72,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
   name: "Register",
@@ -103,7 +103,7 @@ export default defineComponent({
       registrationStep,
       gender,
       dateOfBirth,
-      viewNames,
+      Views,
       registerHandler,
       nextRegistrationStepHandler,
       previouseRegistrationStepHandler,

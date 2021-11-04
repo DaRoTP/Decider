@@ -6,7 +6,7 @@
     <Input v-model="password" label="password" type="password" />
     <div class="flex justify-between gap-2">
       <router-link
-        :to="{ name: viewNames.REGISTER }"
+        :to="{ name: Views.MAIN.REGISTER }"
         class="self-end text-sm text-gray-400 mt-3 underline"
         >Forgot password
       </router-link>
@@ -20,7 +20,7 @@
     </button>
     <router-link
       class="self-center text-sm text-gray-400 mt-3 underline"
-      :to="{ name: viewNames.HOME }"
+      :to="{ name: Views.MAIN.HOME }"
     >
       Already have an account? Sign in
     </router-link>
@@ -30,7 +30,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
   name: "Login",
@@ -48,7 +48,7 @@ export default defineComponent({
     };
 
     return {
-      viewNames,
+      Views,
       username,
       password,
       rememberMe,

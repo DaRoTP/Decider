@@ -20,11 +20,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { Views } from "@/router/viewNames";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
 import { useCreatePoll } from "@/composables";
 
 export default defineComponent({
-  name: "CreateBinaryPoll",
+  name: Views.CREATE_POLL.BINARY,
   components: {
     PollOptionManager,
   },

@@ -1,16 +1,22 @@
 <template>
-  <div>Here is Asumary for this thing</div>
+  <div>
+    <p v-for="(option, index) in options" :key="option.name">
+      <span>{{ option.name }}: </span>
+      <strong>{{ selectedOptions[index] }}</strong>
+    </p>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { IOption } from "@/types";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
-  name: "SelectSummary",
+  name: Views.POLL_SUMMARY.METER,
   props: {
     options: {
-      type: Array as PropType<IOption[][]>,
+      type: Array as PropType<IOption[]>,
       required: true,
     },
     selectedOptions: {
@@ -23,5 +29,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped></style>

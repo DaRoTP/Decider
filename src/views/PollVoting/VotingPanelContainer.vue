@@ -6,11 +6,11 @@
       <Timer v-if="endDate" :endDate="endDate" />
     </header>
     <hr class="my-2" />
-    <PollStart
+    <PollIntroduction
       v-if="participationStatus === 'INACTIVE'"
       @activate-poll="activatePollHandler"
     />
-    <PollEnd v-else-if="participationStatus === 'ENDED'" />
+    <PollConclusion v-else-if="participationStatus === 'ENDED'" />
     <template v-else-if="participationStatus === 'ACTIVE'">
       <div class="flex flex-col my-4">
         <PollSteps
@@ -59,37 +59,37 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from "vue";
 import { PollTypes, IOption } from "@/types";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 import { getPollByIdService, getPollOptionsByIdService } from "@/service/poll";
 
 import Timer from "@/components/Timer.vue";
 import GridSpinner from "@/components/Spinners/GridSpinner.vue";
 import PollSteps from "@/components/PollSteps.vue";
 
-import PollVotingSelect from "../SelectPoll/PollVotingSelect.vue";
-import PollVotingMeter from "../MeterPoll/PollVotingMeter.vue";
-import PollVotingBinary from "../BinaryPoll/PollVotingBinary.vue";
+import SelectPollVotingPanel from "../SelectPoll/SelectPollVotingPanel.vue";
+import MeterPollVotingPanel from "../MeterPoll/MeterPollVotingPanel.vue";
+import BinaryPollVotingPanel from "../BinaryPoll/BinaryPollVotingPanel.vue";
 
-import PollStart from "./PollStart.vue";
-import PollEnd from "./PollEnd.vue";
+import PollIntroduction from "./PollIntroduction.vue";
+import PollConclusion from "./PollConclusion.vue";
 
-import BinarySummary from "../BinaryPoll/BinarySummary.vue";
-import MeterSummary from "../MeterPoll/MeterSummary.vue";
-import SelectSummary from "../SelectPoll/SelectSummary.vue";
+import BinaryPollSummary from "../BinaryPoll/BinaryPollSummary.vue";
+import MeterPollSummary from "../MeterPoll/MeterPollSummary.vue";
+import SelectPollSummary from "../SelectPoll/SelectPollSummary.vue";
 
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
 export default defineComponent({
-  name: viewNames.POLL_VOTING,
+  name: Views.VOTING_PANNEL.CONTAINER,
   components: {
-    PollVotingSelect,
-    PollVotingMeter,
-    PollVotingBinary,
-    BinarySummary,
-    MeterSummary,
-    SelectSummary,
-    PollStart,
-    PollEnd,
+    SelectPollVotingPanel,
+    MeterPollVotingPanel,
+    BinaryPollVotingPanel,
+    BinaryPollSummary,
+    MeterPollSummary,
+    SelectPollSummary,
+    PollIntroduction,
+    PollConclusion,
     PollSteps,
     Timer,
     GridSpinner,
@@ -130,28 +130,30 @@ export default defineComponent({
     });
 
     const PollVotingComponent = computed(() => {
-      if (type.value === "SELECT") return viewNames.POLL_VOTING_SELECT;
-      if (type.value === "METER") return viewNames.POLL_VOTING_METER;
-      if (type.value === "BINARY") return viewNames.POLL_VOTING_BINARY;
+      if (type.value === "SELECT") return Views.VOTING_PANNEL.SELECT;
+      if (type.value === "METER") return Views.VOTING_PANNEL.METER;
+      if (type.value === "BINARY") return Views.VOTING_PANNEL.BINARY;
       return null;
     });
 
     const PollSummaryComponent = computed(() => {
-      if (type.value === "SELECT") return "SelectSummary";
-      if (type.value === "METER") return "MeterSummary";
-      if (type.value === "BINARY") return "BinarySummary";
+      if (type.value === "SELECT") return Views.POLL_SUMMARY.SELECT;
+      if (type.value === "METER") return Views.POLL_SUMMARY.METER;
+      if (type.value === "BINARY") return Views.POLL_SUMMARY.BINARY;
       return null;
     });
 
     const checkedStepsHandler = () => {
+      console.log(submittingData.value);
       if (type.value === "BINARY") {
         return (submittingData.value as string[])
           .filter((option) => option !== "")
           .map((_, indx) => indx + 1);
       }
       if (type.value === "METER") {
-        const checkStepList: number[] = new Array(currentStep.value);
-        for (let i = 0; i < currentStep.value; ++i) checkStepList[i] = i + 1;
+        const checkStepList: number[] = new Array(currentStep.value - 1);
+        for (let i = 0; i < currentStep.value - 1; ++i)
+          checkStepList[i] = i + 1;
         return checkStepList;
       }
       if (type.value === "SELECT") {

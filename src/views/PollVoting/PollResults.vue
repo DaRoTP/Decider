@@ -1,16 +1,20 @@
 <template>
   <div>
-    <h1 class="text-primary font-bold text-xl">Create Poll</h1>
-    <hr class="my-2" />
-    <router-view />
+    <h1 class="text-lg font-bold text-primary">Poll Results</h1>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
-  name: "Create Poll",
+  name: Views.VOTING_PANNEL.RESULTS,
+  props: {
+    pollId: {
+      type: String,
+    },
+  },
   setup() {
     return {};
   },

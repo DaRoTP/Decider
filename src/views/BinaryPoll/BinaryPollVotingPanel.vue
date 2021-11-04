@@ -17,12 +17,12 @@
 
 <script lang="ts">
 import { defineComponent, ref, toRef, PropType, computed } from "vue";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 import ChoiceCard from "@/components/ChocieCard.vue";
 import { IOption } from "@/types";
 
 export default defineComponent({
-  name: viewNames.POLL_VOTING_BINARY,
+  name: Views.VOTING_PANNEL.BINARY,
   components: {
     ChoiceCard,
   },
@@ -53,16 +53,14 @@ export default defineComponent({
     const rightOption = computed(() => props.options[props.currentStep - 1][1]);
 
     const clickOptionHandler = (optionName: string) => {
-      if (selectedOptions.value[props.currentStep - 1] !== optionName) {
+      if (selectedOptions.value[props.currentStep - 1] === optionName) {
+        selectedOptions.value[props.currentStep - 1] = "";
+        emit("update:submittingData", selectedOptions.value);
+      } else {
+        selectedOptions.value[props.currentStep - 1] = optionName;
+        emit("update:submittingData", selectedOptions.value);
         emit("change:step", props.currentStep + 1);
       }
-
-      selectedOptions.value[props.currentStep - 1] =
-        selectedOptions.value[props.currentStep - 1] === optionName
-          ? ""
-          : optionName;
-
-      emit("update:submittingData", selectedOptions.value);
     };
 
     return {

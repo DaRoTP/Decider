@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { views } from "./views";
+import views from "./views";
 
 const {
   Home,
@@ -7,11 +7,11 @@ const {
   Register,
   Settings,
   Dashboard,
-  CreatePoll,
-  CreateBinaryPoll,
-  CreateMeterPoll,
-  CreateSelectPoll,
-  PollVoting,
+  CreatePollContainer,
+  BinaryCreatePoll,
+  MeterCreatePoll,
+  SelectCreatePoll,
+  VotingPanelContainer,
   PollResults,
 } = views;
 
@@ -37,26 +37,26 @@ const routes: Array<RouteRecordRaw> = [
     path: "/settings",
   },
   {
-    ...CreatePoll,
+    ...CreatePollContainer,
     path: "/create-poll",
     props: true,
     children: [
       {
-        ...CreateBinaryPoll,
+        ...BinaryCreatePoll,
         path: "/create-poll/binary",
       },
       {
-        ...CreateMeterPoll,
+        ...MeterCreatePoll,
         path: "/create-poll/meter",
       },
       {
-        ...CreateSelectPoll,
+        ...SelectCreatePoll,
         path: "/create-poll/select",
       },
     ],
   },
   {
-    ...PollVoting,
+    ...VotingPanelContainer,
     path: "/poll/:pollId",
     props: true,
   },
