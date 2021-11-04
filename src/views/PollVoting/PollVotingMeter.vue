@@ -55,10 +55,6 @@ export default defineComponent({
 
     const nextStepHandler = () => {
       emit("change:step", props.currentStep + 1);
-
-      const checkStepList: number[] = new Array(props.currentStep);
-      for (let i = 0; i < props.currentStep; ++i) checkStepList[i] = i + 1;
-      emit("change:checkedStepList", checkStepList);
       emit("update:submittingData", meterValue.value);
     };
 

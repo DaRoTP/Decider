@@ -62,10 +62,6 @@ export default defineComponent({
           ? ""
           : optionName;
 
-      const completeStepsIndexes: number[] = selectedOptions.value
-        .filter((option) => option !== "")
-        .map((_, indx) => indx + 1);
-      emit("change:checkedStepList", completeStepsIndexes);
       emit("update:submittingData", selectedOptions.value);
     };
 

@@ -37,8 +37,7 @@
         :currentStep="currentStep"
         :options="options"
         v-model:submittingData="submittingData"
-        @change:step="(step) => (currentStep = step)"
-        @change:checkedStepList="(list) => (checkedSteps = list)"
+        @change:step="stepChangeHandler"
       />
       <template v-else>
         <button
@@ -144,6 +143,30 @@ export default defineComponent({
       return null;
     });
 
+    const checkedStepsHandler = () => {
+      if (type.value === "BINARY") {
+        return (submittingData.value as string[])
+          .filter((option) => option !== "")
+          .map((_, indx) => indx + 1);
+      }
+      if (type.value === "METER") {
+        const checkStepList: number[] = new Array(currentStep.value);
+        for (let i = 0; i < currentStep.value; ++i) checkStepList[i] = i + 1;
+        return checkStepList;
+      }
+      if (type.value === "SELECT") {
+        return (submittingData.value as string[][])
+          .map((selected, index) => (selected.length !== 0 ? index + 1 : -1))
+          .filter((item) => item > -1);
+      }
+      return [];
+    };
+
+    const stepChangeHandler = (step: number) => {
+      currentStep.value = step;
+      checkedSteps.value = checkedStepsHandler();
+    };
+
     const activatePollHandler = () => {
       participationStatus.value = "ACTIVE";
     };
@@ -166,6 +189,7 @@ export default defineComponent({
       submittingData,
       onSubmitHandler,
       activatePollHandler,
+      stepChangeHandler,
     };
   },
 });

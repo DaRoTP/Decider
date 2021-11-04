@@ -66,10 +66,6 @@ export default defineComponent({
 
     const nextStepHandler = () => {
       emit("change:step", props.currentStep + 1);
-      const checkedStepsList = selectedOptions.value
-        .map((selected, index) => (selected.length !== 0 ? index + 1 : -1))
-        .filter((item) => item > -1);
-      emit("change:checkedStepList", checkedStepsList);
     };
 
     return {
