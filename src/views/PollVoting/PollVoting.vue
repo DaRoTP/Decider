@@ -70,11 +70,13 @@ import PollSteps from "@/components/PollSteps.vue";
 import PollVotingSelect from "./PollVotingSelect.vue";
 import PollVotingMeter from "./PollVotingMeter.vue";
 import PollVotingBinary from "./PollVotingBinary.vue";
+
 import PollStart from "./PollStart.vue";
 import PollEnd from "./PollEnd.vue";
 
 import BinarySummary from "./BinarySummary.vue";
 import MeterSummary from "./MeterSummary.vue";
+import SelectSummary from "./SelectSummary.vue";
 
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
@@ -86,6 +88,7 @@ export default defineComponent({
     PollVotingBinary,
     BinarySummary,
     MeterSummary,
+    SelectSummary,
     PollStart,
     PollEnd,
     PollSteps,
@@ -135,7 +138,7 @@ export default defineComponent({
     });
 
     const PollSummaryComponent = computed(() => {
-      if (type.value === "SELECT") return "BinarySummary";
+      if (type.value === "SELECT") return "SelectSummary";
       if (type.value === "METER") return "MeterSummary";
       if (type.value === "BINARY") return "BinarySummary";
       return null;
