@@ -66,16 +66,16 @@ import Timer from "@/components/Timer.vue";
 import GridSpinner from "@/components/Spinners/GridSpinner.vue";
 import PollSteps from "@/components/PollSteps.vue";
 
-import PollVotingSelect from "./PollVotingSelect.vue";
-import PollVotingMeter from "./PollVotingMeter.vue";
-import PollVotingBinary from "./PollVotingBinary.vue";
+import PollVotingSelect from "../SelectPoll/PollVotingSelect.vue";
+import PollVotingMeter from "../MeterPoll/PollVotingMeter.vue";
+import PollVotingBinary from "../BinaryPoll/PollVotingBinary.vue";
 
 import PollStart from "./PollStart.vue";
 import PollEnd from "./PollEnd.vue";
 
-import BinarySummary from "./BinarySummary.vue";
-import MeterSummary from "./MeterSummary.vue";
-import SelectSummary from "./SelectSummary.vue";
+import BinarySummary from "../BinaryPoll/BinarySummary.vue";
+import MeterSummary from "../MeterPoll/MeterSummary.vue";
+import SelectSummary from "../SelectPoll/SelectSummary.vue";
 
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 

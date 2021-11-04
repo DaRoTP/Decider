@@ -38,19 +38,19 @@ const views = {
     name: viewNames.DASHBOARD,
   },
   CreatePoll: {
-    component: () => import("@/views/CreatePoll/CreatePoll.vue"),
+    component: () => import("@/views/CreatePoll.vue"),
     name: viewNames.CREATE_POLL,
   },
   CreateMeterPoll: {
-    component: () => import("@/views/CreatePoll/CreateMeterPoll.vue"),
+    component: () => import("@/views/MeterPoll/CreateMeterPoll.vue"),
     name: viewNames.CREATE_METER_POLL,
   },
   CreateSelectPoll: {
-    component: () => import("@/views/CreatePoll/CreateSelectPoll.vue"),
+    component: () => import("@/views/SelectPoll/CreateSelectPoll.vue"),
     name: viewNames.CREATE_SELECT_POLL,
   },
   CreateBinaryPoll: {
-    component: () => import("@/views/CreatePoll/CreateBinaryPoll.vue"),
+    component: () => import("@/views/BinaryPoll/CreateBinaryPoll.vue"),
     name: viewNames.CREATE_BINARY_POLL,
   },
   PollVoting: {
