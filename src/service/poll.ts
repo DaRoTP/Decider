@@ -16,17 +16,17 @@ export const getPollByIdService = (
     method: "GET",
     url: `/poll/${pollId}`,
   });
-  const call = () => apiCall(binaryPollWithTimeLimit);
+  const call = () => apiCall(meterPollWithTimeLimit);
   return { isLoading, call };
 };
 
 export const getPollOptionsByIdService = (
   pollId: string
-): IuseAPICallNoParams<IOption[][]> => {
-  const { isLoading, call: apiCall } = useAPICall<IOption[][]>({
+): IuseAPICallNoParams<IOption[] | IOption[][]> => {
+  const { isLoading, call: apiCall } = useAPICall<IOption[] | IOption[][]>({
     method: "GET",
     url: `/poll/${pollId}/options`,
   });
-  const call = () => apiCall(binaryPollOptions);
+  const call = () => apiCall(meterPollOptions);
   return { isLoading, call };
 };
