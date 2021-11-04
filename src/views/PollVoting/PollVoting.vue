@@ -32,13 +32,27 @@
         </button>
       </div>
       <component
+        v-if="currentStep <= options.length"
         :is="PollVotingComponent"
         :currentStep="currentStep"
         :options="options"
+        v-model:submittingData="submittingData"
         @change:step="(step) => (currentStep = step)"
         @change:checkedStepList="(list) => (checkedSteps = list)"
-        @submit="onSubmitHandler"
       />
+      <template v-else>
+        <button
+          @click="onSubmitHandler"
+          class="btn-primary p-2 rounded-full px-6 my-4"
+        >
+          submit
+        </button>
+        <component
+          :is="PollSummaryComponent"
+          :options="options"
+          :selectedOptions="submittingData"
+        />
+      </template>
     </template>
   </section>
 </template>
@@ -59,6 +73,8 @@ import PollVotingBinary from "./PollVotingBinary.vue";
 import PollStart from "./PollStart.vue";
 import PollEnd from "./PollEnd.vue";
 
+import BinarySummary from "./BinarySummary.vue";
+
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
 export default defineComponent({
@@ -67,6 +83,7 @@ export default defineComponent({
     PollVotingSelect,
     PollVotingMeter,
     PollVotingBinary,
+    BinarySummary,
     PollStart,
     PollEnd,
     PollSteps,
@@ -91,6 +108,8 @@ export default defineComponent({
 
     const participationStatus = ref<PollParticipationType>("INACTIVE");
 
+    const submittingData = ref<string[] | number[] | string[][]>([]);
+
     const { call } = getPollByIdService(props.pollId);
     const { isLoading, call: callGetOptions } = getPollOptionsByIdService(
       props.pollId
@@ -113,29 +132,36 @@ export default defineComponent({
       return null;
     });
 
+    const PollSummaryComponent = computed(() => {
+      if (type.value === "SELECT") return "BinarySummary";
+      if (type.value === "METER") return "BinarySummary";
+      if (type.value === "BINARY") return "BinarySummary";
+      return null;
+    });
+
     const activatePollHandler = () => {
       participationStatus.value = "ACTIVE";
     };
 
-    const onSubmitHandler = (data: any) => {
-      console.log("SUBMITTING DATA => ", data);
+    const onSubmitHandler = () => {
+      console.log("SUBMITTING DATA => ", submittingData.value);
       participationStatus.value = "ENDED";
     };
 
     return {
       title,
       PollVotingComponent,
+      PollSummaryComponent,
       endDate,
       isLoading,
       options,
       currentStep,
       checkedSteps,
       participationStatus,
+      submittingData,
       onSubmitHandler,
       activatePollHandler,
     };
   },
 });
 </script>
-
-<style scoped></style>
