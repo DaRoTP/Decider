@@ -40,8 +40,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import { Views } from "@/router/viewNames";
-import { LoginService } from "@/service";
 import InlineLoader from "@/components/Spinners/InlineLoader.vue";
 
 export default defineComponent({
@@ -54,13 +54,19 @@ export default defineComponent({
       username: "",
       password: "",
     });
+    const isLoading = ref<boolean>(false);
     const rememberMe = ref(false);
     const store = useStore();
-    const { isLoading, call } = LoginService();
+    const router = useRouter();
 
     const login = async () => {
-      const res = await call(user.value);
-      store.dispatch("LOGIN", { username: res.username });
+      isLoading.value = true;
+      const res = await store.dispatch("LOGIN", {
+        username: user.value.username,
+        password: user.value.password,
+      });
+      isLoading.value = false;
+      router.replace({ name: Views.MAIN.DASHBOARD });
     };
 
     return {

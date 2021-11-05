@@ -24,14 +24,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     ...Dashboard,
     path: "/dashboard",
+    meta: { auth: true },
   },
   {
     ...Login,
     path: "/login",
+    meta: { auth: false },
   },
   {
     ...Register,
     path: "/register",
+    meta: { auth: false },
   },
   {
     ...Settings,
@@ -41,6 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     ...CreatePollContainer,
     path: "/create-poll",
     props: true,
+    meta: { auth: true },
     children: [
       {
         ...BinaryCreatePoll,
@@ -60,17 +64,26 @@ const routes: Array<RouteRecordRaw> = [
     ...VotingPanelContainer,
     path: "/poll/:pollId",
     props: true,
+    meta: { auth: true },
   },
   {
     ...PollResults,
     path: "/poll/:pollId/results",
     props: true,
+    meta: { auth: false },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to, _, next) => {
+  if (to.meta.auth && !store.state.isAuth) {
+    return next("/login");
+  }
+  next();
 });
 
 export default router;
