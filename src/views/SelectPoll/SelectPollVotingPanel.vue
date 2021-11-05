@@ -1,9 +1,9 @@
 <template>
-  <div v-if="currentStep <= options.length" class="flex flex-col items-center">
+  <div class="flex flex-col items-center">
     <button
       class="btn-primary p-2 rounded-full px-6 my-4"
       @click="nextStepHandler"
-      :disabled="selectedOptions[currentStep - 1].length === 0"
+      :disabled="selectedOptions[currentStep - 1]?.length === 0"
     >
       next
     </button>
@@ -16,24 +16,16 @@
       />
     </div>
   </div>
-  <div v-else>
-    <button
-      class="btn-primary p-2 rounded-full px-6 my-4"
-      @click="submitSelectedOptions"
-    >
-      Submit
-    </button>
-  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from "vue";
+import { defineComponent, toRef, PropType } from "vue";
 import PollOptionList from "@/components/PollOptions/PollOptionList.vue";
 import { IOption } from "@/types";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
-  name: viewNames.POLL_VOTING_SELECT,
+  name: Views.VOTING_PANNEL.SELECT,
   components: {
     PollOptionList,
   },
@@ -42,15 +34,21 @@ export default defineComponent({
       type: Array as PropType<IOption[]>,
       required: true,
     },
+    submittingData: {
+      type: Array as PropType<string[][]>,
+      required: true,
+    },
     currentStep: {
       type: Number,
       default: 1,
     },
   },
   setup(props, { emit }) {
-    const selectedOptions = ref<string[][]>([[]]);
-
-    selectedOptions.value = props.options.map(() => []);
+    const selectedOptions = toRef(props, "submittingData");
+    emit(
+      "update:submittingData",
+      props.options.map(() => [])
+    );
 
     const toggleSelectOption = (option: IOption) => {
       const optionIndex = selectedOptions.value[
@@ -63,26 +61,17 @@ export default defineComponent({
         );
       }
       selectedOptions.value[props.currentStep - 1].push(option.name);
+      emit("update:submittingData", selectedOptions.value);
     };
 
     const nextStepHandler = () => {
       emit("change:step", props.currentStep + 1);
-      const checkedStepsList = selectedOptions.value
-        .map((selected, index) => (selected.length !== 0 ? index + 1 : -1))
-        .filter((item) => item > -1);
-      emit("change:checkedStepList", checkedStepsList);
-    };
-
-    const submitSelectedOptions = () => {
-      console.log("SUBMITED");
-      emit("submit", selectedOptions.value);
     };
 
     return {
       selectedOptions,
       nextStepHandler,
       toggleSelectOption,
-      submitSelectedOptions,
     };
   },
 });

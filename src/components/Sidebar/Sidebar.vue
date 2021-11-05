@@ -6,7 +6,7 @@
     <fa icon="bars" class="self-end" @click="minimizeToggle" role="button" />
     <header class="flex flex-col my-4">
       <router-link
-        :to="{ name: isAuth ? viewNames.DASHBOARD : viewNames.HOME }"
+        :to="{ name: isAuth ? Views.MAIN.DASHBOARD : Views.MAIN.HOME }"
       >
         <h1 class="font-bold flex justify-center items-center">
           <fa icon="chart-pie" class="mr-1" />
@@ -17,12 +17,12 @@
     <ul class="flex flex-col gap-4 mt-3 flex-grow p-1">
       <template v-if="isAuth">
         <NavItem
-          :to="{ name: viewNames.DASHBOARD }"
+          :to="{ name: Views.MAIN.DASHBOARD }"
           icon="home"
           label="Dahsboard"
         />
         <NavItem
-          :to="{ name: viewNames.DASHBOARD }"
+          :to="{ name: Views.MAIN.DASHBOARD }"
           icon="poll"
           label="My Polls"
         />
@@ -36,12 +36,12 @@
       </template>
       <template v-else>
         <NavItem
-          :to="{ name: viewNames.LOGIN }"
+          :to="{ name: Views.MAIN.LOGIN }"
           icon="sign-in-alt"
           label="Login"
         />
         <NavItem
-          :to="{ name: viewNames.REGISTER }"
+          :to="{ name: Views.MAIN.REGISTER }"
           icon="edit"
           label="Register"
         />
@@ -70,7 +70,7 @@
 <script lang="ts">
 import { ref, computed, defineComponent } from "vue";
 import { useStore } from "vuex";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 import NavItem from "./NavItem.vue";
 
 export default defineComponent({
@@ -92,7 +92,7 @@ export default defineComponent({
 
     const isAuth = computed(() => store.state.isAuth);
 
-    return { viewNames, isMinimized, isAuth, logout, minimizeToggle };
+    return { Views, isMinimized, isAuth, logout, minimizeToggle };
   },
 });
 </script>

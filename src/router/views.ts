@@ -1,66 +1,61 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-enum viewNames {
-  HOME = "Home",
-  LOGIN = "Login",
-  REGISTER = "Register",
-  SETTINGS = "Settings",
-  DASHBOARD = "Dashboard",
-  CREATE_POLL = "Create Poll",
-  CREATE_BINARY_POLL = "Create Binary Poll",
-  CREATE_SELECT_POLL = "Create Select Poll",
-  CREATE_METER_POLL = "Create Meter Poll",
-  POLL_VOTING = "Poll Voting",
-  POLL_VOTING_SELECT = "PollVotingSelect",
-  POLL_VOTING_METER = "PollVotingMeter",
-  POLL_VOTING_BINARY = "PollVotingBinary",
-  POLL_RESULTS = "Results",
-}
+import { Views } from "./viewNames";
 
-const views = {
+const MainViews = {
   Home: {
     component: () => import("@/views/Home.vue"),
-    name: viewNames.HOME,
+    name: Views.MAIN.HOME,
   },
   Login: {
     component: () => import("@/views/Login.vue"),
-    name: viewNames.LOGIN,
+    name: Views.MAIN.LOGIN,
   },
   Register: {
     component: () => import("@/views/Register.vue"),
-    name: viewNames.REGISTER,
+    name: Views.MAIN.REGISTER,
   },
   Settings: {
     component: () => import("@/views/Settings.vue"),
-    name: viewNames.SETTINGS,
+    name: Views.MAIN.SETTINGS,
   },
   Dashboard: {
     component: () => import("@/views/Dashboard.vue"),
-    name: viewNames.DASHBOARD,
-  },
-  CreatePoll: {
-    component: () => import("@/views/CreatePoll/CreatePoll.vue"),
-    name: viewNames.CREATE_POLL,
-  },
-  CreateMeterPoll: {
-    component: () => import("@/views/CreatePoll/CreateMeterPoll.vue"),
-    name: viewNames.CREATE_METER_POLL,
-  },
-  CreateSelectPoll: {
-    component: () => import("@/views/CreatePoll/CreateSelectPoll.vue"),
-    name: viewNames.CREATE_SELECT_POLL,
-  },
-  CreateBinaryPoll: {
-    component: () => import("@/views/CreatePoll/CreateBinaryPoll.vue"),
-    name: viewNames.CREATE_BINARY_POLL,
-  },
-  PollVoting: {
-    component: () => import("@/views/PollVoting/PollVoting.vue"),
-    name: viewNames.POLL_VOTING,
-  },
-  PollResults: {
-    component: () => import("@/views/PollVoting/Results.vue"),
-    name: viewNames.POLL_RESULTS,
+    name: Views.MAIN.DASHBOARD,
   },
 };
 
-export { views, viewNames };
+const CreatePollViews = {
+  CreatePollContainer: {
+    component: () => import("@/views/CreatePollContainer.vue"),
+    name: Views.CREATE_POLL.CONTAINER,
+  },
+  MeterCreatePoll: {
+    component: () => import("@/views/MeterPoll/MeterPollCreate.vue"),
+    name: Views.CREATE_POLL.METER,
+  },
+  SelectCreatePoll: {
+    component: () => import("@/views/SelectPoll/SelectPollCreate.vue"),
+    name: Views.CREATE_POLL.SELECT,
+  },
+  BinaryCreatePoll: {
+    component: () => import("@/views/BinaryPoll/BinaryPollCreate.vue"),
+    name: Views.CREATE_POLL.BINARY,
+  },
+};
+
+const VotingPanelViews = {
+  VotingPanelContainer: {
+    component: () => import("@/views/PollVoting/VotingPanelContainer.vue"),
+    name: Views.VOTING_PANNEL.CONTAINER,
+  },
+  PollResults: {
+    component: () => import("@/views/PollVoting/PollResults.vue"),
+    name: Views.VOTING_PANNEL.RESULTS,
+  },
+};
+
+export default {
+  ...MainViews,
+  ...CreatePollViews,
+  ...VotingPanelViews,
+};

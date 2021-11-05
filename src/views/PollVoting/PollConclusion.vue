@@ -4,7 +4,7 @@
       Thanks for participating in the poll
     </h1>
     <router-link
-      :to="{ name: viewNames.POLL_RESULTS, params: { pollId } }"
+      :to="{ name: Views.VOTING_PANNEL.RESULTS, params: { pollId } }"
       class="btn-primary p-2 rounded-full px-6 my-4 self-center"
     >
       See results
@@ -14,16 +14,16 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { viewNames } from "@/router/views";
+import { Views } from "@/router/viewNames";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
-  name: "EndView",
+  name: Views.VOTING_PANNEL.CONCLUSION,
   setup() {
     const route = useRoute();
     const { pollId } = route.params;
     return {
-      viewNames,
+      Views,
       pollId,
     };
   },

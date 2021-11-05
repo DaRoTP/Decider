@@ -12,13 +12,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { Views } from "@/router/viewNames";
 
 export default defineComponent({
-  name: "PollVotingStart",
+  name: Views.VOTING_PANNEL.INTRODUCTION,
   setup() {
     return {};
   },
 });
 </script>
-
-<style scoped></style>
