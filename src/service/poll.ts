@@ -1,4 +1,5 @@
 import useAPICall from "@/composables/useAPICall";
+import { IOptionsReturn, IuseAPICallNoParams, IOption } from "@/types";
 import {
   binaryPollWithTimeLimit,
   selectPollWithTimeLimit,
@@ -7,7 +8,6 @@ import {
   meterPollOptions,
   selectPollOptions,
 } from "@/data/index";
-import { IOptionsReturn, IuseAPICallNoParams, IOption } from "@/types";
 
 export const getPollByIdService = (
   pollId: string

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import views from "./views";
+import store from "@/store";
 
 const {
   Home,
@@ -22,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     ...Dashboard,
-    path: "/",
+    path: "/dashboard",
   },
   {
     ...Login,

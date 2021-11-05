@@ -77,6 +77,17 @@ import BinaryPollSummary from "../BinaryPoll/BinaryPollSummary.vue";
 import MeterPollSummary from "../MeterPoll/MeterPollSummary.vue";
 import SelectPollSummary from "../SelectPoll/SelectPollSummary.vue";
 
+// const SelectPollVotingPanel = () => import("../SelectPoll/SelectPollVotingPanel.vue");
+// const MeterPollVotingPanel = () => import("../SelectPoll/MeterPollVotingPanel.vue");
+// const BinaryPollVotingPanel = () => import("../SelectPoll/BinaryPollVotingPanel.vue");
+
+// const PollIntroduction = () => import("./PollIntroduction.vue");
+// const PollConclusion = () => import("./PollConclusion.vue");
+
+// const BinaryPollSummary = () => import("../BinaryPoll/BinaryPollSummary.vue");
+// const MeterPollSummary = () => import("../BinaryPoll/MeterPollSummary.vue");
+// const SelectPollSummary = () => import("../BinaryPoll/SelectPollSummary.vue");
+
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
 export default defineComponent({

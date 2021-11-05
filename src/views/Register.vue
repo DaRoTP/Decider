@@ -23,7 +23,7 @@
             Next
           </button>
         </form>
-        <form v-if="registrationStep === 2">
+        <form v-if="registrationStep === 2" @submit.prevent="registerHandler">
           <p class="text-gray-500 mb-4">
             The below information is going to be used to generate statistics for
             polls that you have participated in. Before each poll you will be
@@ -47,10 +47,19 @@
               Back
             </button>
             <button
-              class="btn-primary p-2 rounded-full self-end px-6"
+              class="
+                btn-primary
+                p-2
+                rounded-full
+                self-end
+                px-6
+                flex
+                items-center
+              "
               type="submit"
             >
               Register
+              <InlineLoader v-if="isLoading" />
             </button>
           </div>
         </form>
@@ -72,10 +81,16 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 import { Views } from "@/router/viewNames";
+import { RegisterService } from "@/service";
+import InlineLoader from "@/components/Spinners/InlineLoader.vue";
 
 export default defineComponent({
   name: "Register",
+  components: {
+    InlineLoader,
+  },
   setup() {
     const registrationStep = ref(1);
     const username = ref("");
@@ -83,6 +98,10 @@ export default defineComponent({
     const matchingPassword = ref("");
     const gender = ref("");
     const dateOfBirth = ref("");
+
+    const router = useRouter();
+
+    const { isLoading, call } = RegisterService();
 
     const nextRegistrationStepHandler = () => {
       registrationStep.value += 1;
@@ -92,8 +111,13 @@ export default defineComponent({
       registrationStep.value -= 1;
     };
 
-    const registerHandler = () => {
-      console.log("register ...", username, password);
+    const registerHandler = async () => {
+      const res = await call({
+        username: username.value,
+        password: password.value,
+        matchingPassword: matchingPassword.value,
+      });
+      router.replace({ name: Views.MAIN.LOGIN });
     };
 
     return {
@@ -104,6 +128,8 @@ export default defineComponent({
       gender,
       dateOfBirth,
       Views,
+      isLoading,
+      call,
       registerHandler,
       nextRegistrationStepHandler,
       previouseRegistrationStepHandler,

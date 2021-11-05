@@ -108,6 +108,27 @@ const selectPollOptions: IOption[][] = [
   ],
 ];
 
+const userReturn = {
+  username: "someUSer1",
+};
+
+const userRegisterReturn = {
+  message: "user registered succesffully",
+};
+
+const isAuthenticatedReturnTrue = {
+  message: "user is Authenticated",
+  user: {
+    username: "user1",
+  },
+  isAuthenticated: true,
+};
+
+const isAuthenticatedReturnFalse = {
+  message: "user is UnAuthorized",
+  isAuthenticated: false,
+};
+
 export {
   binaryPollWithTimeLimit,
   selectPollWithTimeLimit,
@@ -115,4 +136,8 @@ export {
   binaryPollOptions,
   meterPollOptions,
   selectPollOptions,
+  userReturn,
+  userRegisterReturn,
+  isAuthenticatedReturnTrue,
+  isAuthenticatedReturnFalse,
 };
