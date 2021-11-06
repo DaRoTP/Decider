@@ -73,17 +73,17 @@ const meterPollOptions: IOption[] = [
   {
     name: "one some title",
     description: "description for this thing",
-    imageSrc: "dwdwd",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
   },
   {
     name: "two pther title",
     description: "description for dwdwd lorem4g",
-    imageSrc: "dwdwd",
+    imageSrc: "https://blog.imgur.com/wp-content/uploads/2016/06/PqVjUFZ.jpg",
   },
   {
     name: "three my ttilte jes",
     description: "descrlorem efe fef ",
-    imageSrc: "dwdwd",
+    imageSrc: "https://i.imgur.com/X8vQxhF.jpg",
   },
 ];
 
