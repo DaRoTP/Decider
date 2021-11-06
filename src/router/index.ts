@@ -20,6 +20,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     ...Home,
     path: "/",
+    beforeEnter: (to, from, next) => {
+      if (store.state.isAuth) return next("/dashboard");
+      return next();
+    },
   },
   {
     ...Dashboard,
@@ -64,13 +68,11 @@ const routes: Array<RouteRecordRaw> = [
     ...VotingPanelContainer,
     path: "/poll/:pollId",
     props: true,
-    meta: { auth: true },
   },
   {
     ...PollResults,
     path: "/poll/:pollId/results",
     props: true,
-    meta: { auth: false },
   },
 ];
 
@@ -79,9 +81,15 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, _, next) => {
-  if (to.meta.auth && !store.state.isAuth) {
-    return next("/login");
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.hasOwnProperty("auth")) {
+    if (to.meta.auth && !store.state.isAuth) {
+      return next("/login");
+    }
+    if (!to.meta.auth && store.state.isAuth) {
+      const redirectPath = from.fullPath === "/" ? "/dashboard" : from.fullPath;
+      return next(redirectPath);
+    }
   }
   next();
 });

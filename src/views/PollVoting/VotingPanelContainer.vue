@@ -57,7 +57,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from "vue";
+import {
+  defineComponent,
+  defineAsyncComponent,
+  ref,
+  computed,
+  onMounted,
+} from "vue";
 import { PollTypes, IOption } from "@/types";
 import { Views } from "@/router/viewNames";
 import { getPollByIdService, getPollOptionsByIdService } from "@/service/poll";
@@ -66,27 +72,32 @@ import Timer from "@/components/Timer.vue";
 import GridSpinner from "@/components/Spinners/GridSpinner.vue";
 import PollSteps from "@/components/PollSteps.vue";
 
-import SelectPollVotingPanel from "../SelectPoll/SelectPollVotingPanel.vue";
-import MeterPollVotingPanel from "../MeterPoll/MeterPollVotingPanel.vue";
-import BinaryPollVotingPanel from "../BinaryPoll/BinaryPollVotingPanel.vue";
+const SelectPollVotingPanel = defineAsyncComponent(
+  () => import("@/views/SelectPoll/SelectPollVotingPanel.vue")
+);
+const MeterPollVotingPanel = defineAsyncComponent(
+  () => import("@/views/MeterPoll/MeterPollVotingPanel.vue")
+);
+const BinaryPollVotingPanel = defineAsyncComponent(
+  () => import("@/views/BinaryPoll/BinaryPollVotingPanel.vue")
+);
 
-import PollIntroduction from "./PollIntroduction.vue";
-import PollConclusion from "./PollConclusion.vue";
+const PollConclusion = defineAsyncComponent(
+  () => import("@/views/PollVoting/PollConclusion.vue")
+);
+const PollIntroduction = defineAsyncComponent(
+  () => import("@/views/PollVoting/PollIntroduction.vue")
+);
 
-import BinaryPollSummary from "../BinaryPoll/BinaryPollSummary.vue";
-import MeterPollSummary from "../MeterPoll/MeterPollSummary.vue";
-import SelectPollSummary from "../SelectPoll/SelectPollSummary.vue";
-
-// const SelectPollVotingPanel = () => import("../SelectPoll/SelectPollVotingPanel.vue");
-// const MeterPollVotingPanel = () => import("../SelectPoll/MeterPollVotingPanel.vue");
-// const BinaryPollVotingPanel = () => import("../SelectPoll/BinaryPollVotingPanel.vue");
-
-// const PollIntroduction = () => import("./PollIntroduction.vue");
-// const PollConclusion = () => import("./PollConclusion.vue");
-
-// const BinaryPollSummary = () => import("../BinaryPoll/BinaryPollSummary.vue");
-// const MeterPollSummary = () => import("../BinaryPoll/MeterPollSummary.vue");
-// const SelectPollSummary = () => import("../BinaryPoll/SelectPollSummary.vue");
+const BinaryPollSummary = defineAsyncComponent(
+  () => import("@/views/BinaryPoll/BinaryPollSummary.vue")
+);
+const MeterPollSummary = defineAsyncComponent(
+  () => import("@/views/MeterPoll/MeterPollSummary.vue")
+);
+const SelectPollSummary = defineAsyncComponent(
+  () => import("@/views/SelectPoll/SelectPollSummary.vue")
+);
 
 type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
 
@@ -125,19 +136,16 @@ export default defineComponent({
 
     const submittingData = ref<string[] | number[] | string[][]>([]);
 
-    const { call } = getPollByIdService(props.pollId);
-    const { isLoading, call: callGetOptions } = getPollOptionsByIdService(
+    const { isLoading, call: getPollByIdCall } = getPollByIdService(
       props.pollId
     );
+    const { call: getOPtionsCall } = getPollOptionsByIdService(props.pollId);
 
     onMounted(async () => {
-      const res = await call();
+      const res = await getPollByIdCall();
       title.value = res.title;
       type.value = res.type;
       if (res.endDate) endDate.value = new Date(res.endDate);
-
-      const resOptions = await callGetOptions();
-      options.value = resOptions;
     });
 
     const PollVotingComponent = computed(() => {
@@ -180,7 +188,9 @@ export default defineComponent({
       checkedSteps.value = checkedStepsHandler();
     };
 
-    const activatePollHandler = () => {
+    const activatePollHandler = async () => {
+      const resOptions = await getOPtionsCall();
+      options.value = resOptions;
       participationStatus.value = "ACTIVE";
     };
 
