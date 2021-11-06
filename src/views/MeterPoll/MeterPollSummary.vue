@@ -26,7 +26,7 @@
           :src="option.imageSrc"
           alt=""
         />
-        <span class="flex-1 flex-wrap">{{ option.name }}: </span>
+        <span class="flex-1 flex-wrap">{{ option.name }}</span>
       </div>
       <div class="relative" :style="{ height: '0.25rem' }">
         <span class="bg-gray-400 w-full h-full absolute left-0" />
