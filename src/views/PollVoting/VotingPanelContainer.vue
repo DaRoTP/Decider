@@ -42,7 +42,7 @@
       <template v-else>
         <button
           @click="onSubmitHandler"
-          class="btn-primary p-2 rounded-full px-6 my-4"
+          class="btn-primary p-2 rounded-full px-6 my-4 self-center"
         >
           submit
         </button>

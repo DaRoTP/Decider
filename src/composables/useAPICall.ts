@@ -23,7 +23,7 @@ export default function useAPICall<R, B = void>({
       timeout.value = setTimeout(() => {
         resolve(data);
         isLoading.value = false;
-      }, 3000);
+      }, 1000);
     });
   };
 
