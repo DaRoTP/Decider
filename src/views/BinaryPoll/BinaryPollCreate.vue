@@ -1,21 +1,19 @@
 <template>
-  <form @submit.prevent="createBinaryPollHandler" class="flex flex-col">
-    <div class="flex gap-2">
-      <Input label="Poll title" v-model="title" />
-      <Input label="Poll description" v-model="description" class="flex-1" />
-      <button class="btn-primary p-2 rounded-full px-6 my-4">Create</button>
-    </div>
-    <DatePicker :disabled="!isLimitedByTime" class="self-start">
-      <template #label>
-        <CheckBox
-          v-model="isLimitedByTime"
-          class="self-start"
-          label="Limited time"
-        />
-      </template>
-    </DatePicker>
-    <PollOptionManager v-model:options="pollOptions" />
-  </form>
+  <div class="flex gap-2">
+    <Input label="Poll title" v-model="title" />
+    <Input label="Poll description" v-model="description" class="flex-1" />
+    <button type="" class="btn-primary p-2 rounded-full px-6 my-4">Create</button>
+  </div>
+  <DatePicker :disabled="!isLimitedByTime" class="self-start">
+    <template #label>
+      <CheckBox
+        v-model="isLimitedByTime"
+        class="self-start"
+        label="Limited time"
+      />
+    </template>
+  </DatePicker>
+  <PollOptionManager v-model:options="pollOptions" />
 </template>
 
 <script lang="ts">
@@ -30,10 +28,9 @@ export default defineComponent({
     PollOptionManager,
   },
   setup() {
-    const { title, description, isLimitedByTime, pollOptions } =
-      useCreatePoll();
+    const { title, description, isLimitedByTime, pollOptions } = useCreatePoll();
 
-    const createBinaryPollHandler = async () => {
+    const createPollHandler = async () => {
       const data = {
         title: title.value,
         description: description.value,
@@ -49,7 +46,7 @@ export default defineComponent({
       description,
       isLimitedByTime,
       pollOptions,
-      createBinaryPollHandler,
+      createPollHandler,
     };
   },
 });
