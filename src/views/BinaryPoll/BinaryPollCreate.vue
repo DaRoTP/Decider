@@ -1,34 +1,35 @@
 <template>
+  <PollConfiguration>
+    <div class="flex gap-2">
+
+      <Input label="Poll title" v-model="title" />
+      <Input label="Poll description" v-model="description" class="flex-1" />
+    </div>
+  </PollConfiguration>
   <div class="flex gap-2">
+    <Switch v-model="isTimeLimited" />
     <Input label="Poll title" v-model="title" />
     <Input label="Poll description" v-model="description" class="flex-1" />
-    <button type="" class="btn-primary p-2 rounded-full px-6 my-4">Create</button>
   </div>
-  <DatePicker :disabled="!isLimitedByTime" class="self-start">
-    <template #label>
-      <CheckBox
-        v-model="isLimitedByTime"
-        class="self-start"
-        label="Limited time"
-      />
-    </template>
-  </DatePicker>
   <PollOptionManager v-model:options="pollOptions" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { Views } from "@/router/viewNames";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
 import { useCreatePoll } from "@/composables";
+import PollConfiguration from "@/components/PollConfiguration.vue";
 
 export default defineComponent({
   name: Views.CREATE_POLL.BINARY,
   components: {
+    PollConfiguration,
     PollOptionManager,
   },
   setup() {
     const { title, description, isLimitedByTime, pollOptions } = useCreatePoll();
+    const isTimeLimited = ref<boolean>(false);
 
     const createPollHandler = async () => {
       const data = {
@@ -46,6 +47,7 @@ export default defineComponent({
       description,
       isLimitedByTime,
       pollOptions,
+      isTimeLimited,
       createPollHandler,
     };
   },

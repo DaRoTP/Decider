@@ -6,14 +6,19 @@
       <fa :icon="headerTitle.icon" class="mr-1" />
       {{ headerTitle.title }}
     </h1>
-    <button
-      @click="createPollHandler"
-      type="button"
-      class="btn-primary p-2 rounded-md px-6 shadow-md"
-    >
-      Create
-      <fa icon="plus-square" />
-    </button>
+    <div class="flex gap-2 items-center">
+      <span :style="{ maxWidth: '10.5rem' }" class="text-xs text-gray-500">
+        Once you click create you wn't be able to edit this poll
+      </span>
+      <button
+        @click="createPollHandler"
+        type="button"
+        class="btn-primary p-2 rounded-md px-6 shadow-md"
+      >
+        Create
+        <fa icon="plus-square" />
+      </button>
+    </div>
   </header>
   <router-view v-slot="{ Component }">
     <component ref="view" :is="Component" />
