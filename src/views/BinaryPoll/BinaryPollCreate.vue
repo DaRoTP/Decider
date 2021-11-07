@@ -1,13 +1,28 @@
 <template>
   <PollConfiguration>
-    <div class="flex gap-2">
-
-      <Input label="Poll title" v-model="title" />
-      <Input label="Poll description" v-model="description" class="flex-1" />
+    <div class="flex gap-6 my-4 mx-3">
+      <div class="flex gap-2 items-center">
+        <Switch v-model="isTimeLimited" label="Time Limited" />
+        <span
+          class="text-gray-600 text-xs self-end mb-3"
+          :style="{ maxWidth: '10rem' }"
+        >
+          A limited time poll is available only until specified time
+        </span>
+        <DatePicker :disabled="!isTimeLimited" class="mt-4" />
+      </div>
+      <div class="flex gap-2">
+        <Switch v-model="isLiveResult" label="Live Results" />
+        <span
+          class="text-gray-600 text-xs self-end mb-3"
+          :style="{ maxWidth: '10rem' }"
+        >
+          Show users live results when they finished the poll
+        </span>
+      </div>
     </div>
   </PollConfiguration>
   <div class="flex gap-2">
-    <Switch v-model="isTimeLimited" />
     <Input label="Poll title" v-model="title" />
     <Input label="Poll description" v-model="description" class="flex-1" />
   </div>
@@ -28,8 +43,10 @@ export default defineComponent({
     PollOptionManager,
   },
   setup() {
-    const { title, description, isLimitedByTime, pollOptions } = useCreatePoll();
+    const { title, description, isLimitedByTime, pollOptions } =
+      useCreatePoll();
     const isTimeLimited = ref<boolean>(false);
+    const isLiveResult = ref<boolean>(false);
 
     const createPollHandler = async () => {
       const data = {
@@ -48,6 +65,7 @@ export default defineComponent({
       isLimitedByTime,
       pollOptions,
       isTimeLimited,
+      isLiveResult,
       createPollHandler,
     };
   },
