@@ -15,6 +15,7 @@
         v-for="(option, index) in options"
         :selected="isOptionSelected(option.name)"
         :key="option.name"
+        :imageSrc="option.imageSrc"
         :index="index + 1"
         :name="option.name"
         :description="option.description"

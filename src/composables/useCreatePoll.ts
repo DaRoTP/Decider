@@ -1,5 +1,6 @@
 import { ref, Ref } from "vue";
 import { IOption } from "@/types";
+import { meterPollOptions } from "@/data";
 
 interface IuseCreatePoll {
   title: Ref<string>;
@@ -12,12 +13,7 @@ export default function useCreatePoll(): IuseCreatePoll {
   const title = ref<string>("");
   const description = ref<string>("");
   const isLimitedByTime = ref<boolean>(false);
-  const pollOptions = ref<IOption[]>([
-    { name: "option 1", description: "option one descrition", imageSrc: "" },
-    { name: "option 2", description: "option two descrition", imageSrc: "" },
-    { name: "option 3", description: "option thre descrition", imageSrc: "" },
-    { name: "option 4", description: "option four descrition", imageSrc: "" },
-  ]);
+  const pollOptions = ref<IOption[]>(meterPollOptions);
 
   return {
     title,

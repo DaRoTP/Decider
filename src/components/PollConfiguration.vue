@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="bg-gray-300 -mx-3 flex flex-col transition-all overflow-hidden"
+      class="bg-blue-100 -mx-3 flex flex-col transition-all overflow-hidden"
       :style="{ maxHeight: '20rem' }"
       :class="{ 'config-hide': isMinimized }"
     >
@@ -9,8 +9,19 @@
     </div>
     <button
       @click="isMinimized = !isMinimized"
-      class="bg-gray-600 text-white rounded-lg px-1 self-center"
+      class="
+        bg-blue-200
+        text-primary
+        rounded-xl
+        text-sm
+        px-2
+        py-1
+        -mt-2
+        self-center
+        shadow-sm
+      "
     >
+      <fa icon="sliders-h" />
       Config
     </button>
   </div>
@@ -22,7 +33,7 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "PollConfiguration",
   setup() {
-    const isMinimized = ref<boolean>(false);
+    const isMinimized = ref<boolean>(true);
     return {
       isMinimized,
     };

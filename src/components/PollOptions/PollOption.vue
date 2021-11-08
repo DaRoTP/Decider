@@ -1,38 +1,31 @@
 <template>
   <li
-    class="poll-option flex bg-white p-2 rounded-sm shadow-md gap-2 relative"
-    :class="{ selected: isSelected }"
+    class="poll-option bg-white flex items-center cursor-pointer"
+    :class="{ selected: selected }"
+    @click="$emit('upadte:selected', !selected)"
   >
-    <span class="bg-primary text-white px-2 shadow-md rounded-md absolute">
-      {{ `${index}.` }}
+    <span
+      class="
+        poll-option-index
+        bg-primary
+        text-white
+        rounded-md
+        flex
+        items-center
+        justify-center
+        mx-2
+        text-xs
+      "
+    >
+      {{ index }}.
     </span>
-    <img
-      v-if="isExapned"
-      class="poll-option-image object-cover rounded-sm"
-      src="../../assets/images/broken-image.svg"
-    />
-    <div class="flex-1">
-      <div
-        class="flex items-center cursor-pointer"
-        :class="{ 'ml-9': !isExapned }"
-      >
-        <span class="text-gray-900">{{ name }}</span>
-        <fa
-          @click.stop="toggleExpand"
-          icon="chevron-down"
-          class="ml-auto text-xs"
-          role="button"
-        />
-      </div>
-      <div v-if="isExapned">
-        {{ description }}
-      </div>
-    </div>
+    <span class="mx-2 flex-1">{{ name }}</span>
+    <img :src="imageSrc" class="object-cover" />
   </li>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Poll Option",
@@ -44,64 +37,48 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    expand: {
-      type: Boolean,
-      default: false,
-    },
     selected: {
       type: Boolean,
       default: false,
-    },
-    description: {
-      type: String,
-      default: "",
     },
     imageSrc: {
       type: String,
       default: "",
     },
   },
-  setup(props) {
-    const isExapned = ref<boolean>(props.expand);
-    const isSelected = ref<boolean>(props.selected);
-
-    const toggleExpand = () => {
-      isExapned.value = !isExapned.value;
-    };
-
-    watch(
-      () => props.expand,
-      (newVal) => {
-        isExapned.value = newVal;
-      }
-    );
-
-    watch(
-      () => props.selected,
-      (newVal) => {
-        isSelected.value = newVal;
-      }
-    );
-
-    return {
-      isExapned,
-      isSelected,
-      toggleExpand,
-    };
+  setup() {
+    return {};
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+$image-width: 6rem;
+$image-height: 2.5rem;
+$option-transition: width 0.1s ease-in-out;
+
 .poll-option {
-  border: solid 2px white;
-  &.selected {
-    background: rgb(192, 226, 255);
-    border-color: $primary;
+  border: solid 1px rgb(233, 236, 248);
+  &::before {
+    content: "";
+    background: $primary;
+    height: 100%;
+    width: 0;
+    transition: $option-transition;
   }
-  &-image {
-    height: 5rem;
-    width: 7rem;
+  &-index {
+    min-width: 1.5rem;
+    height: 1.5rem;
+  }
+  img {
+    height: $image-height;
+    width: $image-width;
+  }
+  &.selected {
+    background: rgb(230, 236, 245);
+    &::before {
+      width: 0.25rem;
+    }
   }
 }
 </style>

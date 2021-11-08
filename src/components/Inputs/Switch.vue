@@ -8,15 +8,15 @@
     <template #input>
       <button
         @click="$emit('update:modelValue', !modelValue)"
-        :style="{ width: '4rem', height: '2rem' }"
-        class="bg-primary rounded-md p-1 relative"
+        :style="{ width: '3rem', height: '1.5rem' }"
+        class="bg-primary rounded-md p-1 relative shadow-md"
         :class="{ 'bg-gray-400': !modelValue }"
       >
         <span
           :style="{
-            width: '1.8rem',
-            height: '1.4rem',
-            transform: modelValue ? 'translate(1.6rem)' : '',
+            width: '1rem',
+            height: '1rem',
+            transform: modelValue ? 'translate(1.5rem)' : '',
           }"
           class="
             bg-white
