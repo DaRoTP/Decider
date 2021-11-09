@@ -1,5 +1,10 @@
 import useAPICall from "@/composables/useAPICall";
-import { IOptionsReturn, IuseAPICallNoParams, IOption } from "@/types";
+import {
+  IOptionsReturn,
+  IuseAPICallNoParams,
+  IuseAPICallWithPayload,
+  IOption,
+} from "@/types";
 import {
   binaryPollWithTimeLimit,
   selectPollWithTimeLimit,
@@ -28,5 +33,43 @@ export const getPollOptionsByIdService = (
     url: `/poll/${pollId}/options`,
   });
   const call = () => apiCall(selectPollOptions);
+  return { isLoading, call };
+};
+
+interface ICreatePollPayload {
+  type: string;
+  title: string;
+  description?: string;
+  isLimitedByTime: boolean;
+  isLiveResult: boolean;
+  options: IOption[];
+  endDate?: string;
+  maxChoice?: number;
+}
+
+interface ICreatePollReturn {
+  id: string;
+  name: string;
+  description: string;
+}
+
+const createPollReturn = {
+  id: "69",
+  name: "New test poll",
+  description: "some test description hello there", 
+};
+
+export const createPollService = (): IuseAPICallWithPayload<
+  ICreatePollReturn,
+  ICreatePollPayload
+> => {
+  const { isLoading, call: apiCall } = useAPICall<
+    ICreatePollReturn,
+    ICreatePollPayload
+  >({
+    method: "POST",
+    url: `/poll/`,
+  });
+  const call = (payload: ICreatePollPayload) => apiCall(createPollReturn, payload);
   return { isLoading, call };
 };

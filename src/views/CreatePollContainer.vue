@@ -12,11 +12,13 @@
       </span>
       <button
         @click="createPollHandler"
+        :disabled="isLoading"
         type="button"
         class="btn-primary p-2 rounded-md px-6 shadow-md"
       >
         Create
-        <fa icon="plus-square" />
+        <InlineLoader v-if="isLoading" />
+        <fa v-else icon="plus-square" />
       </button>
     </div>
   </header>
@@ -29,9 +31,13 @@
 import { defineComponent, ref, computed } from "vue";
 import { useRoute } from "vue-router";
 import { Views } from "@/router/viewNames";
+import InlineLoader from "@/components/Spinners/InlineLoader.vue";
 
 export default defineComponent({
   name: Views.CREATE_POLL.CONTAINER,
+  components: {
+    InlineLoader,
+  },
   setup() {
     const view = ref();
     const route = useRoute();
@@ -51,12 +57,19 @@ export default defineComponent({
       }
     });
 
+    const isLoading = computed(() => {
+      if (view.value) return view.value.$.ctx["isLoading"];
+      return false;
+    });
+
     const createPollHandler = () => {
       if (view.value) view.value.$.ctx["createPollHandler"]();
+      console.log(view.value.$);
     };
     return {
       headerTitle,
       view,
+      isLoading,
       createPollHandler,
     };
   },

@@ -1,6 +1,7 @@
 import { ref, Ref } from "vue";
 import { IOption, PollTypes } from "@/types";
 import { meterPollOptions } from "@/data";
+import { createPollService } from "@/service";
 
 interface IuseCreatePoll {
   title: Ref<string>;
@@ -10,6 +11,7 @@ interface IuseCreatePoll {
   isLiveResult: Ref<boolean>;
   pollOptions: Ref<IOption[]>;
   createPollHandler: createPollHandler;
+  isLoading: Ref<boolean>;
 }
 
 type createPollHandler = (additionData?: Record<string, any>) => void;
@@ -26,6 +28,8 @@ export default function useCreatePoll({
   const isLiveResult = ref<boolean>(false);
   const pollOptions = ref<IOption[]>(meterPollOptions);
 
+  const { isLoading, call } = createPollService();
+
   const createPollHandler: createPollHandler = async (additionData = {}) => {
     const data = {
       type,
@@ -37,8 +41,7 @@ export default function useCreatePoll({
       endDate: endDate.value,
       ...additionData,
     };
-    console.log("SUBMITING POLL");
-    console.log(data);
+    await call(data);
   };
 
   return {
@@ -48,6 +51,7 @@ export default function useCreatePoll({
     isLimitedByTime,
     pollOptions,
     isLiveResult,
+    isLoading,
     createPollHandler,
   };
 }
