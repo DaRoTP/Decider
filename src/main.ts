@@ -18,6 +18,7 @@ import Select from "@/components/Inputs/Select.vue";
 import Slider from "@/components/Inputs/Slider.vue";
 import CheckBox from "@/components/Inputs/CheckBox.vue";
 import DatePicker from "@/components/Inputs/DatePicker.vue";
+import Switch from "@/components/Inputs/Switch.vue";
 
 library.add(fas);
 
@@ -38,6 +39,7 @@ app
   .component("Select", Select)
   .component("Slider", Slider)
   .component("CheckBox", CheckBox)
-  .component("DatePicker", DatePicker);
+  .component("DatePicker", DatePicker)
+  .component("Switch", Switch);
 
 app.mount("#app");

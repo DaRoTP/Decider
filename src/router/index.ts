@@ -53,14 +53,17 @@ const routes: Array<RouteRecordRaw> = [
       {
         ...BinaryCreatePoll,
         path: "/create-poll/binary",
+        meta: { pollType: "BINARY" },
       },
       {
         ...MeterCreatePoll,
         path: "/create-poll/meter",
+        meta: { pollType: "METER" },
       },
       {
         ...SelectCreatePoll,
         path: "/create-poll/select",
+        meta: { pollType: "SELECT" },
       },
     ],
   },

@@ -1,76 +1,55 @@
 <template>
-  <form @submit.prevent="submitForm" class="create-meter-poll flex flex-col">
-    <div class="flex gap-2">
-      <Input label="Poll title" v-model="title" />
-      <Input label="Poll description" v-model="description" class="flex-1" />
-      <button class="btn-primary p-2 rounded-full px-6 my-4">Create</button>
+  <PollConfiguration>
+    <div class="flex p-4 gap-4">
+      <div class="flex gap-2">
+        <Switch v-model="isLiveResult" label="Live Results" />
+        <span class="text-gray-600 text-xs" :style="{ maxWidth: '8rem' }">
+          Show users live results when they finished the poll
+        </span>
+      </div>
+      <div class="flex gap-2">
+        <Switch v-model="isLimitedByTime" label="Time Limited" />
+        <span class="text-gray-600 text-xs" :style="{ maxWidth: '8rem' }">
+          A limited time poll is available only until specified time
+        </span>
+      </div>
     </div>
-    <div class="flex gap-2">
-      <Select
-        v-model="meterPollType"
-        label="Meter Type"
-        :options="['Percentage', 'Integer', 'Decimal']"
-        class="flex-grow justify-end"
-      />
-      <DatePicker :disabled="!isLimitedByTime">
-        <template #label>
-          <CheckBox
-            v-model="isLimitedByTime"
-            class="self-start"
-            label="Limited time"
-          />
-        </template>
-      </DatePicker>
-      <span :style="{ maxWidth: '15rem' }" class="self-end mb-4">
-        Once you click create you will not be able to edit this poll
-      </span>
-    </div>
-    <PollOptionManager v-model:options="pollOptions" />
-  </form>
+  </PollConfiguration>
+  <div class="flex gap-2">
+    <Input label="Poll title" v-model="title" />
+    <Input label="Poll description" v-model="description" class="flex-1" />
+  </div>
+  <div
+    class="overflow-hidden transition-all h-0 self-start"
+    :class="{ 'h-16': isLimitedByTime }"
+  >
+    <DatePicker
+      label="Poll end date"
+      v-model="endDate"
+      :disabled="!isLimitedByTime"
+    />
+  </div>
+  <PollOptionManager v-model:options="pollOptions" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { MeterPollTypes } from "@/types";
+import { defineComponent } from "vue";
+import { Views } from "@/router/viewNames";
 import PollOptionManager from "@/components/PollOptions/PollOptionManager.vue";
 import { useCreatePoll } from "@/composables";
-import { Views } from "@/router/viewNames";
+import PollConfiguration from "@/components/PollConfiguration.vue";
 
 export default defineComponent({
   name: Views.CREATE_POLL.METER,
   components: {
+    PollConfiguration,
     PollOptionManager,
   },
   setup() {
-    const { title, description, isLimitedByTime, pollOptions } =
-      useCreatePoll();
-    const meterPollTypeOptions = [
-      { label: "Percentage", value: "PERCENTAGE" },
-      { label: "Integer", value: "INTEGER" },
-      { label: "Decimal", value: "DECIMAL" },
-    ];
-    const meterPollType = ref<MeterPollTypes>("PERCENTAGE");
-
-    const submitForm = () => {
-      const data = {
-        title: title.value,
-        description: description.value,
-        isLimitedByTime: isLimitedByTime.value,
-        meterPollType: meterPollType.value,
-        options: pollOptions.value,
-      };
-      console.log("SUBMITING NEW POLL");
-      console.log(data);
-    };
+    const params = useCreatePoll({ type: "METER" });
 
     return {
-      meterPollTypeOptions,
-      meterPollType,
-      pollOptions,
-      title,
-      description,
-      isLimitedByTime,
-      submitForm,
+      ...params,
     };
   },
 });
