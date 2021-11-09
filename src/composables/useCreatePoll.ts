@@ -4,6 +4,7 @@ import { meterPollOptions } from "@/data";
 
 interface IuseCreatePoll {
   title: Ref<string>;
+  endDate: Ref<string>;
   description: Ref<string>;
   isLimitedByTime: Ref<boolean>;
   isLiveResult: Ref<boolean>;
@@ -20,6 +21,7 @@ export default function useCreatePoll({
 }): IuseCreatePoll {
   const title = ref<string>("");
   const description = ref<string>("");
+  const endDate = ref<string>("");
   const isLimitedByTime = ref<boolean>(false);
   const isLiveResult = ref<boolean>(false);
   const pollOptions = ref<IOption[]>(meterPollOptions);
@@ -32,6 +34,7 @@ export default function useCreatePoll({
       isLimitedByTime: isLimitedByTime.value,
       isLiveResult: isLiveResult.value,
       options: pollOptions.value,
+      endDate: endDate.value,
       ...additionData,
     };
     console.log("SUBMITING POLL");
@@ -41,6 +44,7 @@ export default function useCreatePoll({
   return {
     title,
     description,
+    endDate,
     isLimitedByTime,
     pollOptions,
     isLiveResult,
