@@ -46,6 +46,9 @@ export default defineComponent({
   },
   props: {
     ...ComonInputProps,
+    modelValue: {
+      type: Boolean,
+    },
   },
   setup() {
     return {};
