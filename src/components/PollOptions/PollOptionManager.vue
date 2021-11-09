@@ -1,8 +1,8 @@
 <template>
-  <section class="rounded-sm overflow-hidden shadow-md">
+  <section class="rounded-sm overflow-hidden shadow-md my-5">
     <form
       @submit.prevent="submitHandler"
-      class="bg-blue-200 flex gap-4 items-center p-2 pt-5 my-5"
+      class="bg-blue-200 flex gap-4 items-center p-2 pt-5"
     >
       <div class="flex items-center gap-2 flex-1">
         <fa icon="heading" class="text-xl mb-3" />
