@@ -64,7 +64,6 @@ export default defineComponent({
 
     const createPollHandler = () => {
       if (view.value) view.value.$.ctx["createPollHandler"]();
-      console.log(view.value.$);
     };
     return {
       headerTitle,
