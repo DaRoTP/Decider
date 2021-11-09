@@ -22,3 +22,14 @@ export interface IOptionsReturn {
   userVoted: boolean;
   type: PollTypes;
 }
+
+export interface ICreatePollPayload {
+  type: string;
+  title: string;
+  description?: string;
+  isLimitedByTime: boolean;
+  isLiveResult: boolean;
+  options: IOption[];
+  endDate?: string;
+  maxChoice?: number;
+}
