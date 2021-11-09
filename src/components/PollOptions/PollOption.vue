@@ -13,6 +13,7 @@
         flex
         items-center
         justify-center
+        shadow-md
         mx-2
         text-xs
       "
