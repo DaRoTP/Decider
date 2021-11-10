@@ -1,84 +1,86 @@
 <template>
-  <nav
-    class="sidebar flex flex-col align-center p-2"
+  <aside
+    class="sidebar bg-primary shadow-xl text-white transition-all p-2"
     :class="{ minimized: isMinimized }"
   >
-    <header class="flex items-center justify-between text-xl my-2">
-      <router-link :to="{ name: Views.MAIN.HOME }">
-        <h1 class="font-bold flex justify-center items-center overflow-hidden">
-          <fa icon="chart-pie" class="mr-1" />
-          <span>DESIDER</span>
-        </h1>
+    <header class="flex items-center justify-between px-2">
+      <router-link
+        :to="{ name: Views.MAIN.HOME }"
+        class="font-bold text-lg text-link transition-all"
+      >
+        <fa icon="chart-pie" />
+        <span class="ml-2">DECIDER</span>
       </router-link>
-      <fa icon="bars" @click="minimizeToggle" role="button" />
+      <fa icon="bars" @click="isMinimized = !isMinimized" role="button" />
     </header>
-    <ul class="flex flex-col gap-4 mt-3 flex-grow p-1">
+    <ul class="flex flex-col flex-1 mt-7 gap-3">
       <slot />
     </ul>
-    <footer>
-      <hr class="my-3 opacity-20" />
-      <ul class="flex flex-col gap-2 opacity-50">
-        <li>
-          <a href="#" class="flex text-xs">
-            <fa icon="user" class="mr-1" />
-            <span>Author @DaRo</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex text-xs">
-            <fa icon="code" class="mr-1" />
-            <span>Source code</span>
+    <footer class="my-2">
+      <hr class="opacity-20 py-2" />
+      <ul class="flex flex-col gap-3 opacity-50">
+        <li v-for="link in footerLinks" :key="link.name" class="mx-2">
+          <a :href="link.link" class="flex items-center text-xs">
+            <strong class="w-5 flex items-center justify-center mr-2">
+              <fa :icon="link.icon" />
+            </strong>
+            <span class="footer-text">{{ link.name }}</span>
           </a>
         </li>
       </ul>
     </footer>
-  </nav>
+  </aside>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { Views } from "@/router/viewNames";
 
 export default defineComponent({
   name: "Sidebar",
   setup() {
-    const isMinimized = ref(false);
+    const isMinimized = ref<boolean>(false);
 
-    const minimizeToggle = () => {
-      isMinimized.value = !isMinimized.value;
+    const footerLinks = [
+      { name: "Author @DaRo", icon: "user", link: "#" },
+      { name: "Source code", icon: "code", link: "#" },
+    ];
+
+    return {
+      Views,
+      isMinimized,
+      footerLinks,
     };
-
-    return { Views, isMinimized, minimizeToggle };
   },
 });
 </script>
 
 <style lang="scss">
-$sidebar-width: 12rem;
-$sidebar-width-minimized: 3.7rem;
-$sidebar-transition: all 0.2s ease-in-out;
+$sidebar-width: 10rem;
+$sidebar-width-minimized: 3.25rem;
 
 .sidebar {
-  background: $primary;
+  display: flex;
+  position: relative;
+  flex-direction: column;
   height: 100%;
-  color: white;
-  width: $sidebar-width;
-  transition: $sidebar-transition;
-  overflow: hidden;
-  header h1 {
-    transition: $sidebar-transition;
+  min-width: $sidebar-width;
+  z-index: 10;
+
+  footer span {
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 10rem;
   }
 
   &.minimized {
+    min-width: $sidebar-width-minimized;
     width: $sidebar-width-minimized;
-
-    header h1 {
-      width: 0;
+    .text-link {
+      margin-left: -10rem;
     }
-    .nav-item {
-      span {
-        opacity: 0;
-      }
+    footer .footer-text {
+      max-width: 0;
     }
   }
 }

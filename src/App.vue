@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full h-full">
     <GridSpinner v-if="false" class="self-center top-1/2" />
-    <div v-else class="flex h-full">
+    <div v-else class="flex h-full relative">
       <Sidebar>
         <NavItem
           v-for="link in sidebarLinks"
