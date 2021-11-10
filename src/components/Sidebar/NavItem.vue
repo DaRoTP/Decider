@@ -1,12 +1,12 @@
 <template>
-  <li class="nav-item">
-    <router-link v-if="to" :to="to" class="flex flex-nowrap items-center">
-      <fa :icon="icon" class="mr-1" />
-      <span class="sidebar-text flex-nowrap whitespace-nowrap">
+  <li class="nav-item overflow-hidden">
+    <router-link v-if="to" :to="to">
+      <fa :icon="icon" class="mr-2" />
+      <span class="sidebar-text font-bold flex-nowrap whitespace-nowrap">
         {{ label }}
       </span>
     </router-link>
-    <button v-else @click="clickItem" class="flex flex-nowrap items-center">
+    <button v-else @click="clickItem">
       <fa :icon="icon" class="mr-2" />
       <span class="sidebar-text whitespace-nowrap">
         {{ label }}
@@ -46,8 +46,20 @@ export default defineComponent({
 
 <style lang="scss">
 .nav-item {
+  & > * {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    &:hover {
+      background: darken($primary, 5%);
+    }
+  }
+
   & > .router-link-active {
-    text-decoration: underline;
+    color: $primary;
+    background: white;
   }
 }
 </style>

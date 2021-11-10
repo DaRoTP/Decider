@@ -1,65 +1,33 @@
 <template>
   <nav
-    class="sidebar flex flex-col align-center p-3"
+    class="sidebar flex flex-col align-center p-2"
     :class="{ minimized: isMinimized }"
   >
-    <fa icon="bars" class="self-end" @click="minimizeToggle" role="button" />
-    <header class="flex flex-col my-4">
-      <router-link
-        :to="{ name: isAuth ? Views.MAIN.DASHBOARD : Views.MAIN.HOME }"
-      >
-        <h1 class="font-bold flex justify-center items-center">
+    <header class="flex items-center justify-between text-xl my-2">
+      <router-link :to="{ name: Views.MAIN.HOME }">
+        <h1 class="font-bold flex justify-center items-center overflow-hidden">
           <fa icon="chart-pie" class="mr-1" />
-          <span class="sidebar-text">DESIDER</span>
+          <span>DESIDER</span>
         </h1>
       </router-link>
+      <fa icon="bars" @click="minimizeToggle" role="button" />
     </header>
     <ul class="flex flex-col gap-4 mt-3 flex-grow p-1">
-      <template v-if="isAuth">
-        <NavItem
-          :to="{ name: Views.MAIN.DASHBOARD }"
-          icon="home"
-          label="Dahsboard"
-        />
-        <NavItem
-          :to="{ name: Views.MAIN.DASHBOARD }"
-          icon="poll"
-          label="My Polls"
-        />
-        <NavItem
-          @click="logout"
-          icon="sign-out-alt"
-          label="Log out"
-          class="mt-auto"
-        />
-        <NavItem icon="cog" label="Settings" />
-      </template>
-      <template v-else>
-        <NavItem
-          :to="{ name: Views.MAIN.LOGIN }"
-          icon="sign-in-alt"
-          label="Login"
-        />
-        <NavItem
-          :to="{ name: Views.MAIN.REGISTER }"
-          icon="edit"
-          label="Register"
-        />
-      </template>
+      <slot />
     </ul>
     <footer>
       <hr class="my-3 opacity-20" />
-      <ul class="flex flex-col items-center gap-2 opacity-50">
+      <ul class="flex flex-col gap-2 opacity-50">
         <li>
           <a href="#" class="flex text-xs">
             <fa icon="user" class="mr-1" />
-            <span class="sidebar-text">Author @DaRo</span>
+            <span>Author @DaRo</span>
           </a>
         </li>
         <li>
           <a href="#" class="flex text-xs">
             <fa icon="code" class="mr-1" />
-            <span class="sidebar-text">Source code</span>
+            <span>Source code</span>
           </a>
         </li>
       </ul>
@@ -68,51 +36,49 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { ref, defineComponent } from "vue";
 import { Views } from "@/router/viewNames";
-import NavItem from "./NavItem.vue";
 
 export default defineComponent({
   name: "Sidebar",
-  components: {
-    NavItem,
-  },
   setup() {
-    const store = useStore();
     const isMinimized = ref(false);
-
-    const logout = () => {
-      store.dispatch("LOGOUT");
-    };
 
     const minimizeToggle = () => {
       isMinimized.value = !isMinimized.value;
     };
 
-    const isAuth = computed(() => store.state.isAuth);
-
-    return { Views, isMinimized, isAuth, logout, minimizeToggle };
+    return { Views, isMinimized, minimizeToggle };
   },
 });
 </script>
 
 <style lang="scss">
-$sidebar-width: 11rem;
-$sidebar-width-minimized: 3rem;
+$sidebar-width: 12rem;
+$sidebar-width-minimized: 3.7rem;
+$sidebar-transition: all 0.2s ease-in-out;
 
 .sidebar {
   background: $primary;
   height: 100%;
   color: white;
-  min-width: $sidebar-width;
-  transition: all 500ms;
+  width: $sidebar-width;
+  transition: $sidebar-transition;
   overflow: hidden;
+  header h1 {
+    transition: $sidebar-transition;
+  }
 
   &.minimized {
-    min-width: $sidebar-width-minimized;
-    .sidebar-text {
-      display: none;
+    width: $sidebar-width-minimized;
+
+    header h1 {
+      width: 0;
+    }
+    .nav-item {
+      span {
+        opacity: 0;
+      }
     }
   }
 }
