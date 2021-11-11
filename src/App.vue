@@ -9,7 +9,16 @@
           :to="link.to"
           :icon="link.icon"
           :label="link.name"
-        />
+        >
+          <NavItem
+            v-if="link.children"
+            v-for="it in link.children"
+            :key="it.name"
+            :to="it.to"
+            :icon="it.icon"
+            :label="it.name"
+          />
+        </NavItem>
         <template v-if="$store.state.isAuth">
           <NavItem
             @click="$store.dispatch('LOGOUT')"
@@ -59,17 +68,17 @@ export default defineComponent({
         children: [
           {
             name: "Binary",
-            icon: "poll",
+            icon: "network-wired",
             to: { name: Views.CREATE_POLL.BINARY },
           },
           {
             name: "Select",
-            icon: "poll",
+            icon: "tasks",
             to: { name: Views.CREATE_POLL.SELECT },
           },
           {
             name: "Meter",
-            icon: "poll",
+            icon: "thermometer-half",
             to: { name: Views.CREATE_POLL.METER },
           },
         ],

@@ -6,18 +6,28 @@
         {{ label }}
       </span>
     </router-link>
-    <a v-else @click="$emit('click')" class="cursor-pointer">
-      <fa :icon="icon" />
-      <span class="nav-item-text">
-        {{ label }}
-      </span>
-    </a>
+    <span v-else class="cursor-pointer flex flex-col items-start">
+      <a @click="clickHandler" class="flex items-center w-full">
+        <fa :icon="icon" />
+        <span class="nav-item-text flex-1">
+          {{ label }}
+        </span>
+        <fa v-if="!!$slots.default" icon="caret-down" class="ml-auto mr-0" />
+      </a>
+      <ul
+        v-if="!!$slots.default"
+        class="dropdown-list overflow-hidden flex flex-col w-full"
+        :class="{ 'h-0': dropdownMinimized }"
+      >
+        <slot />
+      </ul>
+    </span>
     <span class="tooltip absolute text-sm">{{ label }}</span>
   </li>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 import { RouteLocationRaw } from "vue-router";
 
 export default defineComponent({
@@ -34,6 +44,19 @@ export default defineComponent({
       type: String,
       default: "list",
     },
+  },
+  setup(_, { emit }) {
+    const dropdownMinimized = ref<boolean>(false);
+
+    const clickHandler = () => {
+      emit("click");
+      dropdownMinimized.value = !dropdownMinimized.value;
+    };
+
+    return {
+      dropdownMinimized,
+      clickHandler,
+    };
   },
 });
 </script>
@@ -68,6 +91,10 @@ export default defineComponent({
     transform: translateX(3rem);
     white-space: nowrap;
     display: none;
+  }
+  .dropdown-list > * {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
   }
 }
 .sidebar.minimized {
