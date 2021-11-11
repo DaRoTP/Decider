@@ -14,31 +14,31 @@
     </header>
     <PollIntroduction
       v-if="participationStatus === 'INACTIVE'"
-      @activate-poll="activatePollHandler"
+      @activate-poll="startPoll"
     />
     <PollConclusion v-else-if="participationStatus === 'ENDED'" />
     <template v-else-if="participationStatus === 'ACTIVE'">
       <component
-        v-if="currentStep <= options.length"
+        v-if="true"
         :is="PollVotingComponent"
-        :currentStep="currentStep"
         :options="options"
+        :meta="meta"
         v-model:submittingData="submittingData"
-        @change:step="stepChangeHandler"
+        @confirm="() => (participationStatus = 'SUMMARY')"
       />
-      <template v-else>
-        <button
-          @click="onSubmitHandler"
-          class="btn-primary p-2 rounded-full px-6 my-4 self-center"
-        >
-          submit
-        </button>
-        <component
-          :is="PollSummaryComponent"
-          :options="options"
-          :selectedOptions="submittingData"
-        />
-      </template>
+    </template>
+    <template v-else-if="participationStatus === 'SUMMARY'">
+      <button
+        @click="onSubmitHandler"
+        class="btn-primary p-2 rounded-full px-6 my-4 self-center"
+      >
+        submit
+      </button>
+      <component
+        :is="PollSummaryComponent"
+        :options="options"
+        :selectedOptions="submittingData"
+      />
     </template>
   </section>
 </template>
@@ -85,7 +85,7 @@ const SelectPollSummary = defineAsyncComponent(
   () => import("@/views/SelectPoll/SelectPollSummary.vue")
 );
 
-type PollParticipationType = "ACTIVE" | "INACTIVE" | "ENDED";
+type PollParticipationType = "ACTIVE" | "SUMMARY" | "INACTIVE" | "ENDED";
 
 export default defineComponent({
   name: Views.VOTING_PANNEL.CONTAINER,
@@ -111,14 +111,10 @@ export default defineComponent({
     const title = ref<string>("");
     const type = ref<PollTypes>();
     const endDate = ref<Date>();
-
-    const currentStep = ref<number>(1);
-    const checkedSteps = ref<number[]>([]);
-
     const options = ref<IOption[][] | IOption[]>([]);
+    const meta = ref({});
 
     const participationStatus = ref<PollParticipationType>("INACTIVE");
-
     const submittingData = ref<string[] | number[]>([]);
 
     const { isLoading, call: getPollByIdCall } = getPollByIdService(
@@ -130,6 +126,7 @@ export default defineComponent({
       const res = await getPollByIdCall();
       title.value = res.title;
       type.value = res.type;
+      if (res.meta) meta.value = res.meta;
       if (res.endDate) endDate.value = new Date(res.endDate);
     });
 
@@ -147,28 +144,7 @@ export default defineComponent({
       return null;
     });
 
-    const checkedStepsHandler = () => {
-      console.log(submittingData.value);
-      if (type.value === "BINARY") {
-        return (submittingData.value as string[])
-          .filter((option) => option !== "")
-          .map((_, indx) => indx + 1);
-      }
-      if (type.value === "METER") {
-        const checkStepList: number[] = new Array(currentStep.value - 1);
-        for (let i = 0; i < currentStep.value - 1; ++i)
-          checkStepList[i] = i + 1;
-        return checkStepList;
-      }
-      return [];
-    };
-
-    const stepChangeHandler = (step: number) => {
-      currentStep.value = step;
-      checkedSteps.value = checkedStepsHandler();
-    };
-
-    const activatePollHandler = async () => {
+    const startPoll = async () => {
       const resOptions = await getOPtionsCall();
       options.value = resOptions;
       participationStatus.value = "ACTIVE";
@@ -181,18 +157,16 @@ export default defineComponent({
 
     return {
       title,
+      meta,
       PollVotingComponent,
       PollSummaryComponent,
       endDate,
       isLoading,
       options,
-      currentStep,
-      checkedSteps,
       participationStatus,
       submittingData,
       onSubmitHandler,
-      activatePollHandler,
-      stepChangeHandler,
+      startPoll,
     };
   },
 });

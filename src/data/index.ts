@@ -18,6 +18,9 @@ const selectPollWithTimeLimit: IOptionsReturn = {
   resultPreview: false,
   userVoted: false,
   type: "SELECT",
+  meta: {
+    maxChoice: 3,
+  },
 };
 
 const meterPollWithTimeLimit: IOptionsReturn = {
