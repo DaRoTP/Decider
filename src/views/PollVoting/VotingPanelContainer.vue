@@ -1,11 +1,17 @@
 <template>
-  <GridSpinner v-if="isLoading" class="self-center" />
+  <GridSpinner v-if="isLoading" class="self-center top-1/3" />
   <section v-else class="flex flex-col">
-    <header class="flex justify-between">
+    <header
+      class="flex justify-between bg-white -mx-3 -mt-3 mb-4 p-3 shadow-sm"
+    >
       <h1 class="text-primary font-bold text-xl">{{ title }}</h1>
-      <Timer v-if="endDate" :endDate="endDate" />
+      <div class="flex items-center gap-2">
+        <p class="text-gray-600 text-xs" :style="{ maxWidth: '12rem' }">
+          Please submit this poll before the time runs out
+        </p>
+        <Timer v-if="endDate" :endDate="endDate" />
+      </div>
     </header>
-    <hr class="my-2" />
     <PollIntroduction
       v-if="participationStatus === 'INACTIVE'"
       @activate-poll="activatePollHandler"

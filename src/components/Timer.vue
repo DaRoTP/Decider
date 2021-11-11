@@ -1,20 +1,20 @@
 <template>
-  <div class="flex gap-2">
+  <div class="flex gap-2 text-primary">
     <div v-if="timeDiff.days !== undefined">
-      <span>{{ timeDiff.days }}</span
-      ><strong>d</strong>
+      <strong class="text-lg">{{ timeDiff.days }}</strong>
+      <strong class="text-sm">d</strong>
     </div>
     <div v-if="timeDiff.hours !== undefined">
-      <span>{{ timeDiff.hours }}</span
-      ><strong>h</strong>
+      <strong class="text-lg">{{ timeDiff.hours }}</strong>
+      <strong class="text-sm">h</strong>
     </div>
     <div v-if="timeDiff.minutes !== undefined">
-      <span>{{ timeDiff.minutes }}</span
-      ><strong>m</strong>
+      <strong class="text-lg">{{ timeDiff.minutes }}</strong>
+      <strong class="text-sm">m</strong>
     </div>
     <div v-if="timeDiff.seconds !== undefined">
-      <span>{{ timeDiff.seconds }}</span
-      ><strong>s</strong>
+      <strong class="text-lg">{{ timeDiff.seconds }}</strong>
+      <strong class="text-sm">s</strong>
     </div>
   </div>
 </template>
@@ -67,5 +67,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped></style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col w-full h-full">
-    <GridSpinner v-if="false" class="self-center top-1/2" />
+  <div class="flex flex-col w-full h-full justify-center">
+    <GridSpinner v-if="false" class="kek" />
     <div v-else class="flex h-full relative">
       <Sidebar>
         <NavItem
