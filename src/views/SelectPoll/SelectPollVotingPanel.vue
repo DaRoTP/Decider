@@ -1,33 +1,48 @@
 <template>
-  <div class="flex flex-col items-center">
-    <button
-      class="btn-primary p-2 rounded-full px-6 my-4"
-      @click="nextStepHandler"
-      :disabled="selectedOptions[currentStep - 1]?.length === 0"
+  <section class="flex flex-col">
+    <header class="flex justify-between mb-2">
+      <div v-if="!meta" class="flex gap-2 items-center">
+        <strong class="text-primary text-xl">
+          {{ selectedOptions.length }}/4
+        </strong>
+        <span class="text-xs text-gray-500" :style="{ maxWidth: '5rem' }">
+          you can select max {{ meta?.maxChoice || "2" }}
+        </span>
+      </div>
+      <button class="btn-primary px-2 py-1 shadow-md rounded-md">Submit</button>
+    </header>
+    <PollOption
+      v-for="(option, index) in options"
+      :key="option.name"
+      :name="option.name"
+      :imageSrc="option.imageSrc"
+      :index="index"
+      @click="toggleSelectOption(option.name)"
+      :selected="selectedOptions.includes(option.name)"
+      :showContentRight="selectedOptions.includes(option.name)"
+      :style="{ minWidth: '30rem' }"
     >
-      next
-    </button>
-    <div class="flex flex-col items-center">
-      <PollOptionList
-        :options="options[currentStep - 1]"
-        :selectedOptions="selectedOptions[currentStep - 1]"
-        :style="{ width: '20rem' }"
-        @option-click="toggleSelectOption"
-      />
-    </div>
-  </div>
+      <template #content-right>
+        <div
+          class="bg-primary text-white w-full flex justify-center items-center"
+        >
+          <fa icon="check" />
+        </div>
+      </template>
+    </PollOption>
+  </section>
 </template>
 
 <script lang="ts">
 import { defineComponent, toRef, PropType } from "vue";
-import PollOptionList from "@/components/PollOptions/PollOptionList.vue";
+import PollOption from "@/components/PollOptions/PollOption.vue";
 import { IOption } from "@/types";
 import { Views } from "@/router/viewNames";
 
 export default defineComponent({
   name: Views.VOTING_PANNEL.SELECT,
   components: {
-    PollOptionList,
+    PollOption,
   },
   props: {
     options: {
@@ -35,42 +50,29 @@ export default defineComponent({
       required: true,
     },
     submittingData: {
-      type: Array as PropType<string[][]>,
+      type: Array as PropType<string[]>,
       required: true,
     },
-    currentStep: {
-      type: Number,
-      default: 1,
+    meta: {
+      type: Object,
     },
   },
   setup(props, { emit }) {
     const selectedOptions = toRef(props, "submittingData");
-    emit(
-      "update:submittingData",
-      props.options.map(() => [])
-    );
 
-    const toggleSelectOption = (option: IOption) => {
-      const optionIndex = selectedOptions.value[
-        props.currentStep - 1
-      ].findIndex((name) => name === option.name);
+    const toggleSelectOption = (optionName: string) => {
+      const optionIndex = selectedOptions.value.findIndex(
+        (name) => name === optionName
+      );
       if (optionIndex > -1) {
-        return selectedOptions.value[props.currentStep - 1].splice(
-          optionIndex,
-          1
-        );
+        return selectedOptions.value.splice(optionIndex, 1);
       }
-      selectedOptions.value[props.currentStep - 1].push(option.name);
+      selectedOptions.value.push(optionName);
       emit("update:submittingData", selectedOptions.value);
-    };
-
-    const nextStepHandler = () => {
-      emit("change:step", props.currentStep + 1);
     };
 
     return {
       selectedOptions,
-      nextStepHandler,
       toggleSelectOption,
     };
   },

@@ -18,25 +18,6 @@
     />
     <PollConclusion v-else-if="participationStatus === 'ENDED'" />
     <template v-else-if="participationStatus === 'ACTIVE'">
-      <div class="flex flex-col my-4">
-        <PollSteps
-          class="self-center"
-          :numberOfSteps="options.length"
-          v-model:currentStep="currentStep"
-          :checkedSteps="checkedSteps"
-          stepNavType="BACK"
-        />
-        <button
-          v-if="
-            checkedSteps.length === options.length &&
-            currentStep <= options.length
-          "
-          class="btn-primary p-2 rounded-full px-6 my-4 self-end"
-          @click="currentStep = options.length + 1"
-        >
-          back to summary
-        </button>
-      </div>
       <component
         v-if="currentStep <= options.length"
         :is="PollVotingComponent"
@@ -76,7 +57,6 @@ import { getPollByIdService, getPollOptionsByIdService } from "@/service/poll";
 
 import Timer from "@/components/Timer.vue";
 import GridSpinner from "@/components/Spinners/GridSpinner.vue";
-import PollSteps from "@/components/PollSteps.vue";
 
 const SelectPollVotingPanel = defineAsyncComponent(
   () => import("@/views/SelectPoll/SelectPollVotingPanel.vue")
@@ -118,7 +98,6 @@ export default defineComponent({
     SelectPollSummary,
     PollIntroduction,
     PollConclusion,
-    PollSteps,
     Timer,
     GridSpinner,
   },
@@ -140,7 +119,7 @@ export default defineComponent({
 
     const participationStatus = ref<PollParticipationType>("INACTIVE");
 
-    const submittingData = ref<string[] | number[] | string[][]>([]);
+    const submittingData = ref<string[] | number[]>([]);
 
     const { isLoading, call: getPollByIdCall } = getPollByIdService(
       props.pollId
@@ -180,11 +159,6 @@ export default defineComponent({
         for (let i = 0; i < currentStep.value - 1; ++i)
           checkStepList[i] = i + 1;
         return checkStepList;
-      }
-      if (type.value === "SELECT") {
-        return (submittingData.value as string[][])
-          .map((selected, index) => (selected.length !== 0 ? index + 1 : -1))
-          .filter((item) => item > -1);
       }
       return [];
     };
