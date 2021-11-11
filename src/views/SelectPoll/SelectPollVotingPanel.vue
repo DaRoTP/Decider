@@ -1,9 +1,9 @@
 <template>
-  <section class="flex flex-col">
+  <section class="flex flex-col mx-auto mt-4">
     <header class="flex justify-between mb-2">
       <div v-if="meta && meta.maxChoice" class="flex gap-2 items-center">
         <strong class="text-primary text-xl">
-          {{ selectedOptions.length }}/{{ meta.maxChoice }}
+          {{ submittingData.length }}/{{ meta.maxChoice }}
         </strong>
         <span class="text-xs text-gray-500" :style="{ maxWidth: '5.5rem' }">
           you can select max {{ meta.maxChoice }} options
@@ -21,7 +21,7 @@
       :key="option.name"
       :name="option.name"
       :imageSrc="option.imageSrc"
-      :index="index"
+      :index="index + 1"
       @click="toggleSelectOption(option.name)"
       :selected="submittingData.includes(option.name)"
       :showContentRight="submittingData.includes(option.name)"
@@ -63,7 +63,6 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-
     const toggleSelectOption = (optionName: string) => {
       if (
         !props.meta ||
