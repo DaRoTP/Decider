@@ -21,6 +21,7 @@ export interface IOptionsReturn {
   resultPreview: boolean;
   userVoted: boolean;
   type: PollTypes;
+  meta?: any;
 }
 
 export interface ICreatePollPayload {

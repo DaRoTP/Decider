@@ -36,23 +36,17 @@
           :imageSrc="option.imageSrc"
           :index="index + 1"
           :selected="selectedOption === option.name"
-        />
-        <button
-          class="
-            flex
-            items-center
-            justify-center
-            overflow-hidden
-            w-0
-            bg-red-400
-            text-white
-            transition-all
-          "
-          :class="{ 'w-10': selectedOption === option.name }"
-          @click="removeOptionHandler(index)"
+          :showContentRight="selectedOption === option.name"
         >
-          <fa icon="trash" />
-        </button>
+          <template #content-right>
+            <button
+              class="bg-red-400 text-white w-full h-full"
+              @click="removeOptionHandler(index)"
+            >
+              <fa icon="trash" />
+            </button>
+          </template>
+        </PollOption>
       </span>
     </ul>
   </section>

@@ -28,8 +28,8 @@ export const getPollByIdService = (
 
 export const getPollOptionsByIdService = (
   pollId: string
-): IuseAPICallNoParams<IOption[] | IOption[][]> => {
-  const { isLoading, call: apiCall } = useAPICall<IOption[] | IOption[][]>({
+): IuseAPICallNoParams<IOption[]> => {
+  const { isLoading, call: apiCall } = useAPICall<IOption[]>({
     method: "GET",
     url: `/poll/${pollId}/options`,
   });

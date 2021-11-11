@@ -18,6 +18,9 @@ const selectPollWithTimeLimit: IOptionsReturn = {
   resultPreview: false,
   userVoted: false,
   type: "SELECT",
+  meta: {
+    maxChoice: 3,
+  },
 };
 
 const meterPollWithTimeLimit: IOptionsReturn = {
@@ -64,7 +67,8 @@ const binaryPollOptions: IOption[][] = [
     {
       name: "szesc",
       description: "dwa description",
-      imageSrc: "https://thumbs.dreamstime.com/z/macro-image-imgur-com-homepage-loaded-screen-web-browser-imgur-com-web-site-selective-focus-180826286.jpg",
+      imageSrc:
+        "https://thumbs.dreamstime.com/z/macro-image-imgur-com-homepage-loaded-screen-web-browser-imgur-com-web-site-selective-focus-180826286.jpg",
     },
   ],
 ];
@@ -87,25 +91,37 @@ const meterPollOptions: IOption[] = [
   },
 ];
 
-const selectPollOptions: IOption[][] = [
-  [
-    { name: "jeden", description: "jeden description" },
-    { name: "dwa", description: "jeden description" },
-    { name: "tezy", description: "jeden description" },
-    { name: "cztery", description: "jeden description" },
-  ],
-  [
-    { name: "cztery", description: "jeden description" },
-    { name: "piec", description: "jeden description" },
-    { name: "szesc", description: "jeden description" },
-    { name: "siedem", description: "jeden description" },
-  ],
-  [
-    { name: "osiem", description: "jeden description" },
-    { name: "dzieiwc", description: "jeden description" },
-    { name: "dzieisiec", description: "jeden description" },
-    { name: "jedenyscie", description: "jeden description" },
-  ],
+const selectPollOptions: IOption[] = [
+  {
+    name: "jeden",
+    description: "jeden description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
+  {
+    name: "dwa",
+    description: "jeden description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
+  {
+    name: "tezy",
+    description: "jeden description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
+  {
+    name: "cztery",
+    description: "jeden description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
+  {
+    name: "piec",
+    description: "jeden description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
+  {
+    name: "szesc",
+    description: "jeden description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
 ];
 
 const userReturn = {

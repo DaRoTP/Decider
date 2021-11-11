@@ -1,33 +1,53 @@
 <template>
-  <div class="flex flex-col items-center">
-    <button
-      class="btn-primary p-2 rounded-full px-6 my-4"
-      @click="nextStepHandler"
-      :disabled="selectedOptions[currentStep - 1]?.length === 0"
+  <section class="flex flex-col mx-auto mt-4">
+    <header class="flex justify-between mb-2">
+      <div v-if="meta && meta.maxChoice" class="flex gap-2 items-center">
+        <strong class="text-primary text-xl">
+          {{ submittingData.length }}/{{ meta.maxChoice }}
+        </strong>
+        <span class="text-xs text-gray-500" :style="{ maxWidth: '5.5rem' }">
+          you can select max {{ meta.maxChoice }} options
+        </span>
+      </div>
+      <button
+        @click="$emit('confirm')"
+        class="btn-primary px-2 py-1 shadow-md rounded-md ml-auto"
+      >
+        Confirm
+      </button>
+    </header>
+    <PollOption
+      v-for="(option, index) in options"
+      :key="option.name"
+      :name="option.name"
+      :imageSrc="option.imageSrc"
+      :index="index + 1"
+      @click="toggleSelectOption(option.name)"
+      :selected="submittingData.includes(option.name)"
+      :showContentRight="submittingData.includes(option.name)"
+      :style="{ minWidth: '30rem' }"
     >
-      next
-    </button>
-    <div class="flex flex-col items-center">
-      <PollOptionList
-        :options="options[currentStep - 1]"
-        :selectedOptions="selectedOptions[currentStep - 1]"
-        :style="{ width: '20rem' }"
-        @option-click="toggleSelectOption"
-      />
-    </div>
-  </div>
+      <template #content-right>
+        <div
+          class="bg-primary text-white w-full flex justify-center items-center"
+        >
+          <fa icon="check" />
+        </div>
+      </template>
+    </PollOption>
+  </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef, PropType } from "vue";
-import PollOptionList from "@/components/PollOptions/PollOptionList.vue";
+import { defineComponent, PropType } from "vue";
+import PollOption from "@/components/PollOptions/PollOption.vue";
 import { IOption } from "@/types";
 import { Views } from "@/router/viewNames";
 
 export default defineComponent({
   name: Views.VOTING_PANNEL.SELECT,
   components: {
-    PollOptionList,
+    PollOption,
   },
   props: {
     options: {
@@ -35,46 +55,45 @@ export default defineComponent({
       required: true,
     },
     submittingData: {
-      type: Array as PropType<string[][]>,
+      type: Array as PropType<string[]>,
       required: true,
     },
-    currentStep: {
-      type: Number,
-      default: 1,
+    meta: {
+      type: Object,
     },
   },
   setup(props, { emit }) {
-    const selectedOptions = toRef(props, "submittingData");
-    emit(
-      "update:submittingData",
-      props.options.map(() => [])
-    );
+    const toggleSelectOption = (optionName: string) => {
+      if (
+        !props.meta ||
+        !props.meta?.maxChoice ||
+        props.meta?.maxChoice === 1
+      ) {
+        if (
+          props.submittingData.length > 0 &&
+          props.submittingData[0] === optionName
+        ) {
+          return emit("update:submittingData", []);
+        } else {
+          return emit("update:submittingData", [optionName]);
+        }
+      }
 
-    const toggleSelectOption = (option: IOption) => {
-      const optionIndex = selectedOptions.value[
-        props.currentStep - 1
-      ].findIndex((name) => name === option.name);
-      if (optionIndex > -1) {
-        return selectedOptions.value[props.currentStep - 1].splice(
-          optionIndex,
-          1
+      if (props.submittingData.includes(optionName)) {
+        return emit(
+          "update:submittingData",
+          props.submittingData.filter((item) => item !== optionName)
         );
       }
-      selectedOptions.value[props.currentStep - 1].push(option.name);
-      emit("update:submittingData", selectedOptions.value);
-    };
-
-    const nextStepHandler = () => {
-      emit("change:step", props.currentStep + 1);
+      if (props.meta && props.submittingData.length >= props.meta.maxChoice) {
+        return;
+      }
+      emit("update:submittingData", [...props.submittingData, optionName]);
     };
 
     return {
-      selectedOptions,
-      nextStepHandler,
       toggleSelectOption,
     };
   },
 });
 </script>
-
-<style scoped></style>
