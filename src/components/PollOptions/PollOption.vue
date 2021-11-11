@@ -22,6 +22,12 @@
     </span>
     <span class="mx-2 flex-1">{{ name }}</span>
     <img :src="imageSrc" class="object-cover" />
+    <span
+      class="w-0 h-full flex overflow-hidden transition-all"
+      :class="{ 'w-10': showContentRight }"
+    >
+      <slot name="content-right" />
+    </span>
   </li>
 </template>
 
@@ -39,6 +45,10 @@ export default defineComponent({
       required: true,
     },
     selected: {
+      type: Boolean,
+      default: false,
+    },
+    showContentRight: {
       type: Boolean,
       default: false,
     },
