@@ -1,118 +1,86 @@
 <template>
-  <nav
-    class="sidebar flex flex-col align-center p-3"
+  <aside
+    class="sidebar bg-primary shadow-xl text-white transition-all p-2"
     :class="{ minimized: isMinimized }"
   >
-    <fa icon="bars" class="self-end" @click="minimizeToggle" role="button" />
-    <header class="flex flex-col my-4">
+    <header class="flex items-center justify-between px-2">
       <router-link
-        :to="{ name: isAuth ? Views.MAIN.DASHBOARD : Views.MAIN.HOME }"
+        :to="{ name: Views.MAIN.HOME }"
+        class="font-bold text-lg text-link transition-all"
       >
-        <h1 class="font-bold flex justify-center items-center">
-          <fa icon="chart-pie" class="mr-1" />
-          <span class="sidebar-text">DESIDER</span>
-        </h1>
+        <fa icon="chart-pie" />
+        <span class="ml-2">DECIDER</span>
       </router-link>
+      <fa icon="bars" @click="isMinimized = !isMinimized" role="button" />
     </header>
-    <ul class="flex flex-col gap-4 mt-3 flex-grow p-1">
-      <template v-if="isAuth">
-        <NavItem
-          :to="{ name: Views.MAIN.DASHBOARD }"
-          icon="home"
-          label="Dahsboard"
-        />
-        <NavItem
-          :to="{ name: Views.MAIN.DASHBOARD }"
-          icon="poll"
-          label="My Polls"
-        />
-        <NavItem
-          @click="logout"
-          icon="sign-out-alt"
-          label="Log out"
-          class="mt-auto"
-        />
-        <NavItem icon="cog" label="Settings" />
-      </template>
-      <template v-else>
-        <NavItem
-          :to="{ name: Views.MAIN.LOGIN }"
-          icon="sign-in-alt"
-          label="Login"
-        />
-        <NavItem
-          :to="{ name: Views.MAIN.REGISTER }"
-          icon="edit"
-          label="Register"
-        />
-      </template>
+    <ul class="flex flex-col flex-1 mt-7 gap-3">
+      <slot />
     </ul>
-    <footer>
-      <hr class="my-3 opacity-20" />
-      <ul class="flex flex-col items-center gap-2 opacity-50">
-        <li>
-          <a href="#" class="flex text-xs">
-            <fa icon="user" class="mr-1" />
-            <span class="sidebar-text">Author @DaRo</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex text-xs">
-            <fa icon="code" class="mr-1" />
-            <span class="sidebar-text">Source code</span>
+    <footer class="my-2">
+      <hr class="opacity-20 py-2" />
+      <ul class="flex flex-col gap-3 opacity-50">
+        <li v-for="link in footerLinks" :key="link.name" class="mx-2">
+          <a :href="link.link" class="flex items-center text-xs">
+            <strong class="w-5 flex items-center justify-center mr-2">
+              <fa :icon="link.icon" />
+            </strong>
+            <span class="footer-text">{{ link.name }}</span>
           </a>
         </li>
       </ul>
     </footer>
-  </nav>
+  </aside>
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { defineComponent, ref } from "vue";
 import { Views } from "@/router/viewNames";
-import NavItem from "./NavItem.vue";
 
 export default defineComponent({
   name: "Sidebar",
-  components: {
-    NavItem,
-  },
   setup() {
-    const store = useStore();
-    const isMinimized = ref(false);
+    const isMinimized = ref<boolean>(false);
 
-    const logout = () => {
-      store.dispatch("LOGOUT");
+    const footerLinks = [
+      { name: "Author @DaRo", icon: "user", link: "#" },
+      { name: "Source code", icon: "code", link: "#" },
+    ];
+
+    return {
+      Views,
+      isMinimized,
+      footerLinks,
     };
-
-    const minimizeToggle = () => {
-      isMinimized.value = !isMinimized.value;
-    };
-
-    const isAuth = computed(() => store.state.isAuth);
-
-    return { Views, isMinimized, isAuth, logout, minimizeToggle };
   },
 });
 </script>
 
 <style lang="scss">
-$sidebar-width: 11rem;
-$sidebar-width-minimized: 3rem;
+$sidebar-width: 10rem;
+$sidebar-width-minimized: 3.25rem;
 
 .sidebar {
-  background: $primary;
+  display: flex;
+  position: relative;
+  flex-direction: column;
   height: 100%;
-  color: white;
   min-width: $sidebar-width;
-  transition: all 500ms;
-  overflow: hidden;
+  z-index: 10;
+
+  footer span {
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 10rem;
+  }
 
   &.minimized {
     min-width: $sidebar-width-minimized;
-    .sidebar-text {
-      display: none;
+    width: $sidebar-width-minimized;
+    .text-link {
+      margin-left: -10rem;
+    }
+    footer .footer-text {
+      max-width: 0;
     }
   }
 }
