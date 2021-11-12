@@ -10,13 +10,11 @@
       <ChoiceCard
         :title="rightOption.name"
         :imageSrc="rightOption.imageSrc"
-        :selected="submittingData[currentStep - 1] === rightOption.name"
         @click="selectOptionHandler(rightOption.name)"
       />
       <ChoiceCard
         :title="leftOption.name"
         :imageSrc="leftOption.imageSrc"
-        :selected="submittingData[currentStep - 1] === leftOption.name"
         @click="selectOptionHandler(leftOption.name)"
       />
     </div>
