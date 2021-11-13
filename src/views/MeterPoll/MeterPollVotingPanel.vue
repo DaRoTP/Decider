@@ -1,30 +1,34 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col items-center">
     <PollSteps
       :numberOfSteps="options.length"
       :currentStep="currentStep"
       :checkedSteps="checkedSteps"
       stepNavType="BACK"
     />
-    <MeterOptionCard :imageSrc="currentOption.imageSrc" />
-    <h1 class="text-primary font-bold text-xl">
-      {{ currentOption.name }}
-    </h1>
-    <p class="text-primary">{{ currentOption.description }}</p>
-    <div class="flex gap-2">
-      <div class="flex gap-1 items-center">
-        <Input type="number" v-model="meterValue" />
-        <span>%</span>
+    <div class="flex flex-col mt-4">
+      <MeterOptionCard :imageSrc="currentOption.imageSrc" />
+      <div class="my-3">
+        <h1 class="text-primary font-bold text-xl text-center">
+          {{ currentOption.name }}
+        </h1>
+        <p class="text-primary text-center">{{ currentOption.description }}</p>
       </div>
-      <Slider class="flex-grow" v-model="meterValue" :min="1" :max="100" />
+      <div class="flex gap-2">
+        <div class="flex gap-1 items-center">
+          <Input type="number" v-model="meterValue" />
+          <span>%</span>
+        </div>
+        <Slider class="flex-grow" v-model="meterValue" :min="1" :max="100" />
+      </div>
+      <button
+        v-if="meterValue !== 0"
+        @click="nextStepHandler"
+        class="btn-primary p-2 rounded-md px-6 my-4 self-end"
+      >
+        {{ currentStep >= options.length ? "Confirm" : "Next" }}
+      </button>
     </div>
-    <button
-      v-if="meterValue !== 0"
-      @click="nextStepHandler"
-      class="btn-primary p-2 rounded-md px-6 my-4 self-end"
-    >
-      {{ currentStep >= options.length ? "Confirm" : "Next" }}
-    </button>
   </div>
 </template>
 
