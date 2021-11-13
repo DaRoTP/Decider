@@ -28,16 +28,33 @@
       />
     </template>
     <template v-else-if="participationStatus === 'SUMMARY'">
-      <button
-        @click="onSubmitHandler"
-        class="btn-primary p-2 rounded-full px-6 my-4 self-center"
-      >
-        submit
-      </button>
+      <div class="flex gap-4 justify-end items-center">
+        <a
+          href="#"
+          @click="() => (participationStatus = 'ACTIVE')"
+          class="underline font-bold text-gray-800"
+        >
+          Back to voting
+        </a>
+        <button
+          @click="onSubmitHandler"
+          class="
+            bg-yellow-400
+            text-gray-900
+            p-2
+            rounded-md
+            px-6
+            my-4
+            self-center
+          "
+        >
+          submit
+        </button>
+      </div>
       <component
         :is="PollSummaryComponent"
         :options="options"
-        :selectedOptions="submittingData"
+        :submittingData="submittingData"
       />
     </template>
   </section>
