@@ -25,8 +25,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-$card-width: 22rem;
-$card-height: 22rem;
+$card-width: 20rem;
+$card-height: 20rem;
 
 @mixin card-slide($name, $translate-x, $rotate) {
   @keyframes #{$name} {

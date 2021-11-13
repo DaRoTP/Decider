@@ -76,7 +76,7 @@ export default defineComponent({
       show.value = false;
       setTimeout(() => {
         show.value = true;
-      }, 1000);
+      }, 500);
       if (currentStep.value >= props.options.length) {
         emit("confirm");
       }
