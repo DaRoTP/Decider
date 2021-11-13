@@ -22,7 +22,7 @@ export const getPollByIdService = (
     method: "GET",
     url: `/poll/${pollId}`,
   });
-  const call = () => apiCall(meterPollWithTimeLimit);
+  const call = () => apiCall(selectPollWithTimeLimit);
   return { isLoading, call };
 };
 
@@ -33,7 +33,7 @@ export const getPollOptionsByIdService = (
     method: "GET",
     url: `/poll/${pollId}/options`,
   });
-  const call = () => apiCall(meterPollOptions);
+  const call = () => apiCall(selectPollOptions);
   return { isLoading, call };
 };
 
