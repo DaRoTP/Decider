@@ -8,14 +8,22 @@
     />
     <div class="flex gap-2">
       <ChoiceCard
+        class="left-choice-card transition-all"
+        :class="[chocieCardSelectedClass(rightOption.name)]"
         :title="rightOption.name"
         :imageSrc="rightOption.imageSrc"
         @click="selectOptionHandler(rightOption.name)"
+        @mouseenter="() => (hoverOverOption = rightOption.name)"
+        @mouseleave="() => (hoverOverOption = '')"
       />
       <ChoiceCard
+        class="right-choice-card transition-all"
+        :class="[chocieCardSelectedClass(leftOption.name)]"
         :title="leftOption.name"
         :imageSrc="leftOption.imageSrc"
         @click="selectOptionHandler(leftOption.name)"
+        @mouseenter="() => (hoverOverOption = leftOption.name)"
+        @mouseleave="() => (hoverOverOption = '')"
       />
     </div>
   </section>
@@ -49,6 +57,7 @@ export default defineComponent({
     const selectedOptions = ref<string[]>([]);
     const currentOptions = ref<[IOption, IOption][]>([]);
     const currentStep = ref<number>(1);
+    const hoverOverOption = ref<string>("");
 
     currentOptions.value = generatePairList<IOption>(
       shuffle<IOption>(props.options)
@@ -69,6 +78,13 @@ export default defineComponent({
           ) + 1
       );
     });
+
+    const chocieCardSelectedClass = (optionName: string) => {
+      if (hoverOverOption.value === "") return "";
+      return hoverOverOption.value === optionName
+        ? "selected-choice-card"
+        : "not-selected-choice-card";
+    };
 
     const selectOptionHandler = (optionName: string) => {
       let optionPoints = props.submittingData[optionName];
@@ -112,10 +128,38 @@ export default defineComponent({
       leftOption,
       rightOption,
       checkedSteps,
+      hoverOverOption,
       selectOptionHandler,
+      chocieCardSelectedClass,
     };
   },
 });
 </script>
 
-<style scoped></style>
+<style lang="scss">
+$translate-x: 3rem;
+$scale-up: 1.02;
+$scale-down: 0.8;
+.selected-choice-card {
+  &.right-choice-card {
+    transform: scale($scale-up) translateX(-$translate-x);
+    z-index: 2;
+  }
+  &.left-choice-card {
+    transform: scale($scale-up) translateX($translate-x);
+    z-index: 2;
+  }
+}
+
+.not-selected-choice-card {
+  opacity: 0.6;
+  &.right-choice-card {
+    transform: scale($scale-down) translateX(-$translate-x);
+    z-index: 0;
+  }
+  &.left-choice-card {
+    transform: scale($scale-down) translateX($translate-x);
+    z-index: 0;
+  }
+}
+</style>

@@ -35,22 +35,22 @@ const meterPollWithTimeLimit: IOptionsReturn = {
 
 const binaryPollOptions: IOption[] = [
   {
-    name: "jeden",
+    name: "jeden testowy tekst",
     description: "dwa description",
     imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
   },
   {
-    name: "dwa",
+    name: "dwa lorem ipsum dwanascie razy",
     description: "dwa description",
     imageSrc: "https://blog.imgur.com/wp-content/uploads/2016/06/PqVjUFZ.jpg",
   },
   {
-    name: "trzy",
+    name: "trzy try trzynascie trzydziescie jeden dwa trzy",
     description: "dwa description",
     imageSrc: "https://i.imgur.com/X8vQxhF.jpg",
   },
   {
-    name: "cztery",
+    name: "cztery czternascie siedemnascei jaies randomowe litermki",
     description: "dwa description",
     imageSrc: "https://pbs.twimg.com/media/FDH-MlPVkAcPEZx.jpg",
   },

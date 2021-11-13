@@ -1,24 +1,11 @@
 <template>
-  <div class="choice-card-wrapper flex flex-col items-center justify-center">
-    <div
-      class="
-        choice-card
-        shadow-md
-        rounded-md
-        cursor-pointer
-        relative
-        overflow-hidden
-        h-full
-        w-full
-      "
-      :class="{ 'outline-black': selected }"
-    >
-      <img :src="imageSrc" class="h-full object-cover" />
-      <div class="gradient-change"></div>
-      <h1 class="text-white font-bold absolute bottom-1 w-full text-center">
-        {{ title }}
-      </h1>
+  <div class="choice-card-wrapper cursor-pointer">
+    <div class="choice-card-image-wrapper">
+      <img :src="imageSrc" class="h-full object-cover shadow-md" />
     </div>
+    <h1 class="font-bold text-center">
+      {{ title }}
+    </h1>
   </div>
 </template>
 
@@ -47,25 +34,49 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.choice-card-wrapper {
-  height: 22rem;
-  width: 20rem;
-  padding: 1rem;
-  transition: all 0.2s ease-in-out;
+$rounded: 0.7rem;
+$lighter-primary: #2247E7;
 
-  .gradient-change {
-    width: 100%;
-    height: 50%;
-    background: $primary;
-    background: linear-gradient(0deg, $primary 0%, rgba(0, 212, 255, 0) 100%);
-    position: absolute;
-    bottom: 0;
-    transition: all 0.2s ease-in-out;
+.choice-card-wrapper {
+  position: relative;
+  border-radius: $rounded;
+  .choice-card-image-wrapper {
+    background: white;
+    height: 20rem;
+    width: 25rem;
+    position: relative;
+    display: block;
+    border-radius: $rounded;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 0 0 0 $primary;
+      transition: all 0.1s ease-in-out;
+      border-radius: $rounded;
+    }
+    img {
+      border-radius: $rounded;
+    }
   }
+  h1 {
+    font-size: 1.2rem;
+    transition: all 0.1s ease-in-out;
+    position: absolute;
+    width: 100%;
+    color: $primary;
+  }
+
   &:hover {
-    padding: 0;
-    .gradient-change {
-      height: 25%;
+    box-shadow: 0 0 10px 3px rgba($lighter-primary, 0.6);
+    .choice-card-image-wrapper::after {
+      // box-shadow: inset 0 0 0 0.5rem $lighter-primary;
+    }
+    h1 {
+      color: $lighter-primary;
     }
   }
 }
