@@ -33,44 +33,88 @@ const meterPollWithTimeLimit: IOptionsReturn = {
   type: "METER",
 };
 
-const binaryPollOptions: IOption[][] = [
-  [
-    {
-      name: "jeden",
-      description: "dwa description",
-      imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
-    },
-    {
-      name: "dwa",
-      description: "dwa description",
-      imageSrc: "https://blog.imgur.com/wp-content/uploads/2016/06/PqVjUFZ.jpg",
-    },
-  ],
-  [
-    {
-      name: "trzy",
-      description: "dwa description",
-      imageSrc: "https://i.imgur.com/X8vQxhF.jpg",
-    },
-    {
-      name: "cztery",
-      description: "dwa description",
-      imageSrc: "https://pbs.twimg.com/media/FDH-MlPVkAcPEZx.jpg",
-    },
-  ],
-  [
-    {
-      name: "piec",
-      description: "dwa description",
-      imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
-    },
-    {
-      name: "szesc",
-      description: "dwa description",
-      imageSrc:
-        "https://thumbs.dreamstime.com/z/macro-image-imgur-com-homepage-loaded-screen-web-browser-imgur-com-web-site-selective-focus-180826286.jpg",
-    },
-  ],
+const binaryPollOptions: IOption[] = [
+  {
+    name: "jeden testowy tekst",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+  },
+  {
+    name: "dwa lorem ipsum dwanascie razy",
+    description: "dwa description",
+    imageSrc: "https://blog.imgur.com/wp-content/uploads/2016/06/PqVjUFZ.jpg",
+  },
+  {
+    name: "trzy try trzynascie trzydziescie jeden dwa trzy",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/X8vQxhF.jpg",
+  },
+  {
+    name: "cztery czternascie siedemnascei jaies randomowe litermki",
+    description: "dwa description",
+    imageSrc: "https://pbs.twimg.com/media/FDH-MlPVkAcPEZx.jpg",
+  },
+  {
+    name: "piec",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
+  {
+    name: "szesc",
+    description: "dwa description",
+    imageSrc:
+      "https://thumbs.dreamstime.com/z/macro-image-imgur-com-homepage-loaded-screen-web-browser-imgur-com-web-site-selective-focus-180826286.jpg",
+  },
+  {
+    name: "siedem",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
+  {
+    name: "osiem",
+    description: "dwa description",
+    imageSrc: "https://pbs.twimg.com/media/FDH-MlPVkAcPEZx.jpg",
+  },
+  {
+    name: "dziewiec",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/eFfmdb3.jpg?fb",
+  },
+  {
+    name: "dziesiec",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+  },
+  {
+    name: "jedenascie",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+  },
+  {
+    name: "dwanascie",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+  },
+  {
+    name: "trzynascie",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+  },
+  {
+    name: "czternascie",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+  },
+  {
+    name: "pietnascie",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+  },
+  {
+    name: "szesnascie",
+    description: "dwa description",
+    imageSrc: "https://i.imgur.com/bm0OQTf.jpg",
+  },
 ];
 
 const meterPollOptions: IOption[] = [

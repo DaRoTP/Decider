@@ -3,7 +3,7 @@
     <header class="flex justify-between mb-2">
       <div v-if="meta && meta.maxChoice" class="flex gap-2 items-center">
         <strong class="text-primary text-xl">
-          {{ submittingData.length }}/{{ meta.maxChoice }}
+          {{ numberOfSelectedOPtions }}/{{ meta.maxChoice }}
         </strong>
         <span class="text-xs text-gray-500" :style="{ maxWidth: '5.5rem' }">
           you can select max {{ meta.maxChoice }} options
@@ -23,8 +23,8 @@
       :imageSrc="option.imageSrc"
       :index="index + 1"
       @click="toggleSelectOption(option.name)"
-      :selected="submittingData.includes(option.name)"
-      :showContentRight="submittingData.includes(option.name)"
+      :selected="!!submittingData[option.name]"
+      :showContentRight="!!submittingData[option.name]"
       :style="{ minWidth: '30rem' }"
     >
       <template #content-right>
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, computed, PropType } from "vue";
 import PollOption from "@/components/PollOptions/PollOption.vue";
 import { IOption } from "@/types";
 import { Views } from "@/router/viewNames";
@@ -55,7 +55,7 @@ export default defineComponent({
       required: true,
     },
     submittingData: {
-      type: Array as PropType<string[]>,
+      type: Object as PropType<Record<string, number>>,
       required: true,
     },
     meta: {
@@ -63,6 +63,10 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const numberOfSelectedOPtions = computed(() =>
+      Object.values(props.submittingData).reduce((acc, item) => acc + item)
+    );
+
     const toggleSelectOption = (optionName: string) => {
       if (
         !props.meta ||
@@ -70,28 +74,38 @@ export default defineComponent({
         props.meta?.maxChoice === 1
       ) {
         if (
-          props.submittingData.length > 0 &&
-          props.submittingData[0] === optionName
+          numberOfSelectedOPtions.value > 0 &&
+          props.submittingData[optionName] === 1
         ) {
-          return emit("update:submittingData", []);
+          return emit("update:submittingData", {
+            ...props.submittingData,
+            [optionName]: 0,
+          });
         } else {
-          return emit("update:submittingData", [optionName]);
+          return emit("update:submittingData", {
+            ...props.submittingData,
+            [optionName]: 1,
+          });
         }
       }
 
-      if (props.submittingData.includes(optionName)) {
-        return emit(
-          "update:submittingData",
-          props.submittingData.filter((item) => item !== optionName)
-        );
+      if (props.submittingData[optionName] === 1) {
+        return emit("update:submittingData", {
+          ...props.submittingData,
+          [optionName]: 0,
+        });
       }
-      if (props.meta && props.submittingData.length >= props.meta.maxChoice) {
+      if (props.meta && numberOfSelectedOPtions.value >= props.meta.maxChoice) {
         return;
       }
-      emit("update:submittingData", [...props.submittingData, optionName]);
+      return emit("update:submittingData", {
+        ...props.submittingData,
+        [optionName]: 1,
+      });
     };
 
     return {
+      numberOfSelectedOPtions,
       toggleSelectOption,
     };
   },

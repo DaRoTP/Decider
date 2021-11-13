@@ -115,7 +115,7 @@ export default defineComponent({
     const meta = ref({});
 
     const participationStatus = ref<PollParticipationType>("INACTIVE");
-    const submittingData = ref<string[] | number[]>([]);
+    const submittingData = ref<Record<string, number>>({});
 
     const { isLoading, call: getPollByIdCall } = getPollByIdService(
       props.pollId
@@ -147,6 +147,10 @@ export default defineComponent({
     const startPoll = async () => {
       const resOptions = await getOPtionsCall();
       options.value = resOptions;
+      submittingData.value = resOptions.reduce(
+        (acc, option) => ({ ...acc, [`${option.name}`]: 0 }),
+        {}
+      );
       participationStatus.value = "ACTIVE";
     };
 

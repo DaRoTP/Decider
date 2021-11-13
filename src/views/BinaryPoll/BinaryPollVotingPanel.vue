@@ -1,76 +1,165 @@
 <template>
-  <div class="flex gap-2 justify-center">
-    <ChoiceCard
-      :title="leftOption.name"
-      :imageSrc="leftOption.imageSrc"
-      :selected="submittingData[currentStep - 1] === leftOption.name"
-      @click="clickOptionHandler(options[currentStep - 1][0]?.name)"
+  <section class="flex flex-col gap-4 items-center">
+    <PollSteps
+      :numberOfSteps="currentOptions.length"
+      :currentStep="currentStep"
+      :checkedSteps="checkedSteps"
+      stepNavType="BACK"
     />
-    <ChoiceCard
-      :title="rightOption.name"
-      :imageSrc="rightOption.imageSrc"
-      :selected="submittingData[currentStep - 1] === rightOption.name"
-      @click="clickOptionHandler(rightOption.name)"
-    />
-  </div>
+    <div class="flex gap-2">
+      <ChoiceCard
+        class="left-choice-card transition-all"
+        :class="[chocieCardSelectedClass(rightOption.name)]"
+        :title="rightOption.name"
+        :imageSrc="rightOption.imageSrc"
+        @click="selectOptionHandler(rightOption.name)"
+        @mouseenter="() => (hoverOverOption = rightOption.name)"
+        @mouseleave="() => (hoverOverOption = '')"
+      />
+      <ChoiceCard
+        class="right-choice-card transition-all"
+        :class="[chocieCardSelectedClass(leftOption.name)]"
+        :title="leftOption.name"
+        :imageSrc="leftOption.imageSrc"
+        @click="selectOptionHandler(leftOption.name)"
+        @mouseenter="() => (hoverOverOption = leftOption.name)"
+        @mouseleave="() => (hoverOverOption = '')"
+      />
+    </div>
+  </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRef, PropType, computed } from "vue";
+import { defineComponent, ref, PropType, computed } from "vue";
 import { Views } from "@/router/viewNames";
 import ChoiceCard from "@/components/ChocieCard.vue";
+import PollSteps from "@/components/PollSteps.vue";
 import { IOption } from "@/types";
+import { generatePairList, shuffle } from "@/utils";
 
 export default defineComponent({
   name: Views.VOTING_PANNEL.BINARY,
   components: {
     ChoiceCard,
+    PollSteps,
   },
   props: {
     options: {
-      type: Array as PropType<IOption[][]>,
+      type: Array as PropType<IOption[]>,
       required: true,
     },
     submittingData: {
-      type: Array as PropType<string[]>,
+      type: Object as PropType<Record<string, number>>,
       required: true,
-    },
-    currentStep: {
-      type: Number,
-      default: 1,
     },
   },
   setup(props, { emit }) {
-    const checkedSteps = ref<number[]>([]);
-    const selectedOptions = toRef(props, "submittingData");
+    const selectedOptions = ref<string[]>([]);
+    const currentOptions = ref<[IOption, IOption][]>([]);
+    const currentStep = ref<number>(1);
+    const hoverOverOption = ref<string>("");
 
-    emit(
-      "update:submittingData",
-      props.options.map(() => "")
+    currentOptions.value = generatePairList<IOption>(
+      shuffle<IOption>(props.options)
     );
 
-    const leftOption = computed(() => props.options[props.currentStep - 1][0]);
-    const rightOption = computed(() => props.options[props.currentStep - 1][1]);
+    const leftOption = computed(
+      () => currentOptions.value[currentStep.value - 1][0]
+    );
+    const rightOption = computed(
+      () => currentOptions.value[currentStep.value - 1][1]
+    );
 
-    const clickOptionHandler = (optionName: string) => {
-      if (selectedOptions.value[props.currentStep - 1] === optionName) {
-        selectedOptions.value[props.currentStep - 1] = "";
-        emit("update:submittingData", selectedOptions.value);
+    const checkedSteps = computed(() => {
+      return selectedOptions.value.map(
+        (item) =>
+          currentOptions.value.findIndex(
+            ([opt1, opt2]) => opt1.name === item || opt2.name === item
+          ) + 1
+      );
+    });
+
+    const chocieCardSelectedClass = (optionName: string) => {
+      if (hoverOverOption.value === "") return "";
+      return hoverOverOption.value === optionName
+        ? "selected-choice-card"
+        : "not-selected-choice-card";
+    };
+
+    const selectOptionHandler = (optionName: string) => {
+      let optionPoints = props.submittingData[optionName];
+      if (selectedOptions.value[currentStep.value - 1] === optionName) {
+        selectedOptions.value[currentStep.value - 1] = "";
+        optionPoints -= 1;
       } else {
-        selectedOptions.value[props.currentStep - 1] = optionName;
-        emit("update:submittingData", selectedOptions.value);
-        emit("change:step", props.currentStep + 1);
+        selectedOptions.value[currentStep.value - 1] = optionName;
+        currentStep.value += 1;
+        optionPoints += 1;
+      }
+      const updatedData = {
+        ...props.submittingData,
+        [optionName]: optionPoints,
+      };
+      emit("update:submittingData", updatedData);
+
+      if (currentOptions.value.length === 1) {
+        return emit("confirm");
+      }
+
+      if (currentStep.value > currentOptions.value.length) {
+        // reset current step
+        currentStep.value = 1;
+        // filter selected options
+        const selectedOptionList = props.options.filter(({ name }) =>
+          selectedOptions.value.includes(name)
+        );
+        currentOptions.value = generatePairList<IOption>(
+          shuffle<IOption>(selectedOptionList)
+        );
+        // reset selected options
+        selectedOptions.value = [];
       }
     };
 
     return {
-      checkedSteps,
+      currentStep,
+      currentOptions,
+      selectedOptions,
       leftOption,
       rightOption,
-      clickOptionHandler,
+      checkedSteps,
+      hoverOverOption,
+      selectOptionHandler,
+      chocieCardSelectedClass,
     };
   },
 });
 </script>
 
-<style scoped></style>
+<style lang="scss">
+$translate-x: 3rem;
+$scale-up: 1.02;
+$scale-down: 0.8;
+.selected-choice-card {
+  &.right-choice-card {
+    transform: scale($scale-up) translateX(-$translate-x);
+    z-index: 2;
+  }
+  &.left-choice-card {
+    transform: scale($scale-up) translateX($translate-x);
+    z-index: 2;
+  }
+}
+
+.not-selected-choice-card {
+  opacity: 0.6;
+  &.right-choice-card {
+    transform: scale($scale-down) translateX(-$translate-x);
+    z-index: 0;
+  }
+  &.left-choice-card {
+    transform: scale($scale-down) translateX($translate-x);
+    z-index: 0;
+  }
+}
+</style>
