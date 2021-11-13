@@ -6,6 +6,7 @@
       :checkedSteps="checkedSteps"
       stepNavType="BACK"
     />
+    <MeterOptionCard :imageSrc="currentOption.imageSrc" />
     <h1 class="text-primary font-bold text-xl">
       {{ currentOption.name }}
     </h1>
@@ -32,11 +33,13 @@ import { defineComponent, computed, ref, PropType } from "vue";
 import { IOption } from "@/types";
 import { Views } from "@/router/viewNames";
 import PollSteps from "@/components/PollSteps.vue";
+import MeterOptionCard from "@/components/MeterOptionCard.vue";
 
 export default defineComponent({
   name: Views.VOTING_PANNEL.METER,
   components: {
     PollSteps,
+    MeterOptionCard,
   },
   props: {
     options: {
