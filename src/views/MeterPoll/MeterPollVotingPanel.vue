@@ -7,7 +7,7 @@
       stepNavType="BACK"
     />
     <div class="flex flex-col mt-4">
-      <MeterOptionCard :imageSrc="currentOption.imageSrc" />
+      <MeterOptionCard v-if="show" :imageSrc="currentOption.imageSrc" />
       <div class="my-3">
         <h1 class="text-primary font-bold text-xl text-center">
           {{ currentOption.name }}
@@ -58,6 +58,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const currentStep = ref<number>(1);
     const meterValue = ref<number>(0);
+    const show = ref<boolean>(true);
 
     const checkedSteps = computed(() =>
       Object.values(props.submittingData)
@@ -72,6 +73,10 @@ export default defineComponent({
         ...props.submittingData,
         [currentOption.value.name]: meterValue.value,
       });
+      show.value = false;
+      setTimeout(() => {
+        show.value = true;
+      }, 1000);
       if (currentStep.value >= props.options.length) {
         emit("confirm");
       }
@@ -85,6 +90,7 @@ export default defineComponent({
       currentStep,
       checkedSteps,
       currentOption,
+      show,
       nextStepHandler,
     };
   },
