@@ -1,70 +1,69 @@
 <template>
   <div class="flex flex-col gap-2">
+    <h1 class="text-primary font-bold text-xl">Your Results</h1>
     <div
-      v-for="(option, index) in options"
+      class="meter-poll-card"
+      v-for="({ option, val }, index) in sortedList"
       :key="option.name"
-      class="bg-white shadow-lg rounded-sm overflow-hidden"
     >
-      <div class="flex gap-2 relative">
-        <span
-          class="
-            text-white
-            p-1
-            bg-primary
-            absolute
-            rounded-md
-            ml-1
-            mt-1
-            shadow-md
-            text-xs
-          "
-          >{{ selectedOptions[index] }}%</span
-        >
-        <img
-          class="object-cover"
-          :style="{ width: '6rem' }"
-          :src="option.imageSrc"
-          alt=""
-        />
-        <span class="flex-1 flex-wrap">{{ option.name }}</span>
-      </div>
-      <div class="relative" :style="{ height: '0.25rem' }">
-        <span class="bg-gray-400 w-full h-full absolute left-0" />
-        <span
-          class="bg-primary absolute h-full left-0"
-          :style="{
-            width: `${choicePercentage(selectedOptions[index])}%`,
-          }"
-        />
-      </div>
+      <PollOption
+        :name="option.name"
+        :imageSrc="option.imageSrc"
+        :index="index + 1"
+        :showContentRight="true"
+      >
+        <template #content-right>
+          <div class="flex justify-center items-center w-full text-sm">
+            {{ val }}%
+          </div>
+        </template>
+      </PollOption>
+      <div class="meter-bar"></div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, computed, PropType } from "vue";
 import { IOption } from "@/types";
 import { Views } from "@/router/viewNames";
+import PollOption from "@/components/PollOptions/PollOption.vue";
 
 export default defineComponent({
   name: Views.POLL_SUMMARY.METER,
+  components: {
+    PollOption,
+  },
   props: {
     options: {
       type: Array as PropType<IOption[]>,
       required: true,
     },
-    selectedOptions: {
-      type: Array as PropType<string[]>,
+    submittingData: {
+      type: Object as PropType<Record<string, number>>,
       required: true,
     },
   },
-  setup() {
-    const choicePercentage = (number: number) => {
-      return number;
-    };
+  setup(props) {
+    const sortedList = computed(() => {
+      return props.options
+        .map((option) => ({ option, val: props.submittingData[option.name] }))
+        .sort((a, b) => b.val - a.val);
+    });
+
     return {
-      choicePercentage,
+      sortedList,
     };
   },
 });
 </script>
+<style lang="scss">
+.meter-poll-card {
+  position: relative;
+  .meter-bar {
+    height: 0.25rem;
+    width: 50%;
+    background: red;
+  }
+}
+</style>
