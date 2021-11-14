@@ -1,24 +1,33 @@
 <template>
   <div class="flex flex-col gap-2">
     <h1 class="text-primary font-bold text-xl">Your Results</h1>
-    <div
-      class="meter-poll-card"
-      v-for="({ option, val }, index) in sortedList"
-      :key="option.name"
-    >
-      <PollOption
-        :name="option.name"
-        :imageSrc="option.imageSrc"
-        :index="index + 1"
-        :showContentRight="true"
+    <div class="flex flex-col gap-1">
+      <div
+        class="meter-poll-card"
+        v-for="({ option, val }, index) in sortedList"
+        :key="option.name"
       >
-        <template #content-right>
-          <div class="flex justify-center items-center w-full text-sm">
-            {{ val }}%
-          </div>
-        </template>
-      </PollOption>
-      <div class="meter-bar"></div>
+        <PollOption
+          :name="option.name"
+          :imageSrc="option.imageSrc"
+          :index="index + 1"
+          :showContentRight="true"
+        >
+          <template #content-right>
+            <div
+              :class="[percetageClasses(val)]"
+              class="flex justify-center items-center w-full text-sm font-bold"
+            >
+              {{ val }}%
+            </div>
+          </template>
+        </PollOption>
+        <div
+          class="meter-bar"
+          :class="[percetageClasses(val)]"
+          :style="{ width: `${val}%` }"
+        ></div>
+      </div>
     </div>
   </div>
 </template>
@@ -51,8 +60,15 @@ export default defineComponent({
         .sort((a, b) => b.val - a.val);
     });
 
+    const percetageClasses = (percentage: number) => {
+      if (percentage < 40) return "low-color";
+      if (percentage < 70) return "medium-color";
+      else return "high-color";
+    };
+
     return {
       sortedList,
+      percetageClasses,
     };
   },
 });
@@ -62,8 +78,22 @@ export default defineComponent({
   position: relative;
   .meter-bar {
     height: 0.25rem;
-    width: 50%;
-    background: red;
+    width: 0;
+  }
+
+  .low-color {
+    background: rgb(201, 114, 103);
+    color: rgb(94, 32, 56);
+  }
+
+  .medium-color {
+    background: rgb(255, 202, 87);
+    color: rgb(95, 59, 11);
+  }
+
+  .high-color {
+    background: rgb(95, 182, 102);
+    color: rgb(227, 255, 229);
   }
 }
 </style>
