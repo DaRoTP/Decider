@@ -3,7 +3,7 @@
     <h1 class="text-primary text-xl font-bold">Yuor Results</h1>
     <div class="poll-card-cont">
       <PollOption
-        v-for="(option, index) in sortedList"
+        v-for="(option, index) in results"
         :key="option.name"
         :name="option.name"
         :imageSrc="option.imageSrc"
@@ -17,11 +17,18 @@
         </template>
       </PollOption>
     </div>
+    <button
+      v-if="!showFullList"
+      @click="() => (showFullList = true)"
+      class="text-sm underline text-gray-600 mt-2"
+    >
+      Show full list
+    </button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from "vue";
+import { defineComponent, computed, ref, PropType } from "vue";
 import { IOption } from "@/types";
 import { Views } from "@/router/viewNames";
 import PollOption from "@/components/PollOptions/PollOption.vue";
@@ -42,14 +49,24 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const showFullList = ref<boolean>(false);
+
     const sortedList = computed(() => {
       return props.options
         .map((option) => ({ option, val: props.submittingData[option.name] }))
         .sort((a, b) => b.val - a.val)
         .map(({ option }) => option);
     });
+
+    const results = computed(() => {
+      return showFullList.value
+        ? sortedList.value
+        : sortedList.value.slice(0, 10);
+    });
     return {
       sortedList,
+      showFullList,
+      results,
     };
   },
 });

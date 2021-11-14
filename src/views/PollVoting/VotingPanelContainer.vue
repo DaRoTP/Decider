@@ -30,6 +30,7 @@
     <template v-else-if="participationStatus === 'SUMMARY'">
       <div class="flex gap-4 justify-end items-center">
         <a
+          v-if="type !== 'BINARY'"
           href="#"
           @click="() => (participationStatus = 'ACTIVE')"
           class="underline font-bold text-gray-800"
@@ -179,6 +180,7 @@ export default defineComponent({
     return {
       title,
       meta,
+      type,
       PollVotingComponent,
       PollSummaryComponent,
       endDate,
