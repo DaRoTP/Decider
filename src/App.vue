@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col w-full h-full justify-center">
-    <GridSpinner v-if="false" class="kek" />
+    <GridSpinner v-if="false" />
     <div v-else class="flex h-full relative">
-      <Sidebar>
+      <Sidebar v-model:isMinimized="isMinimized">
         <NavItem
           v-for="link in sidebarLinks"
           :key="link.name"
@@ -33,7 +33,10 @@
           />
         </template>
       </Sidebar>
-      <div class="main-content flex flex-col p-3">
+      <div
+        :class="{ minimized: isMinimized }"
+        class="main-content flex flex-col p-3 transition-all"
+      >
         <router-view />
       </div>
     </div>
@@ -41,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 import Sidebar from "@/components/Sidebar/Sidebar.vue";
 import NavItem from "@/components/Sidebar/NavItem.vue";
@@ -58,6 +61,8 @@ export default defineComponent({
   setup() {
     const store = useStore();
     store.dispatch("IS_AUTH");
+
+    const isMinimized = ref<boolean>(false);
 
     const authorizedSidebardLinks = [
       { name: "Home", icon: "home", to: { name: Views.MAIN.DASHBOARD } },
@@ -99,13 +104,18 @@ export default defineComponent({
     return {
       sidebarLinks,
       Views,
+      isMinimized,
     };
   },
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .main-content {
-  flex-grow: 1;
+  width: 100%;
+  margin-left: 10rem;
+  &.minimized {
+    margin-left: 3.25rem;
+  }
 }
 </style>
