@@ -65,10 +65,11 @@ export default defineComponent({
 
 <style lang="scss">
 $image-width: 6rem;
-$image-height: 2.5rem;
+$card-height: 2.5rem;
 $option-transition: width 0.1s ease-in-out;
 
 .poll-option {
+  height: $card-height;
   border: solid 1px rgb(233, 236, 248);
   &::before {
     content: "";
@@ -82,7 +83,7 @@ $option-transition: width 0.1s ease-in-out;
     height: 1.5rem;
   }
   img {
-    height: $image-height;
+    height: 100%;
     width: $image-width;
   }
   &.selected {
