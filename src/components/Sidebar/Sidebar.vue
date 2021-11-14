@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="sidebar bg-primary shadow-xl text-white transition-all p-2"
+    class="sidebar bg-primary fixed shadow-xl text-white transition-all p-2"
     :class="{ minimized: isMinimized }"
   >
     <header class="flex items-center justify-between px-2">
@@ -11,7 +11,11 @@
         <fa icon="chart-pie" />
         <span class="ml-2">DECIDER</span>
       </router-link>
-      <fa icon="bars" @click="isMinimized = !isMinimized" role="button" />
+      <fa
+        icon="bars"
+        @click="$emit('update:isMinimized', !isMinimized)"
+        role="button"
+      />
     </header>
     <ul class="flex flex-col flex-1 mt-7 gap-3">
       <slot />
@@ -33,14 +37,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { Views } from "@/router/viewNames";
 
 export default defineComponent({
   name: "Sidebar",
+  props: {
+    isMinimized: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
-    const isMinimized = ref<boolean>(false);
-
     const footerLinks = [
       { name: "Author @DaRo", icon: "user", link: "#" },
       { name: "Source code", icon: "code", link: "#" },
@@ -48,7 +56,6 @@ export default defineComponent({
 
     return {
       Views,
-      isMinimized,
       footerLinks,
     };
   },
