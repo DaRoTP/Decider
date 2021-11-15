@@ -51,13 +51,16 @@ export default defineComponent({
       required: true,
     },
     submittingData: {
-      type: Array as PropType<number[]>,
+      type: Object as PropType<Record<string, number>>,
       required: true,
     },
   },
   setup(props, { emit }) {
     const currentStep = ref<number>(1);
-    const meterValue = ref<number>(0);
+    const currentOption = computed(() => props.options[currentStep.value - 1]);
+    const meterValue = ref<number>(
+      props.submittingData[currentOption.value.name]
+    );
     const show = ref<boolean>(true);
 
     const checkedSteps = computed(() =>
@@ -65,8 +68,6 @@ export default defineComponent({
         .map((val, index) => (val <= 0 ? -1 : index + 1))
         .filter((item) => item > -1)
     );
-
-    const currentOption = computed(() => props.options[currentStep.value - 1]);
 
     const nextStepHandler = () => {
       emit("update:submittingData", {
@@ -78,11 +79,11 @@ export default defineComponent({
         show.value = true;
       }, 500);
       if (currentStep.value >= props.options.length) {
-        emit("confirm");
+        return emit("confirm");
       }
 
       currentStep.value += 1;
-      meterValue.value = 0;
+      meterValue.value = props.submittingData[currentOption.value.name];
     };
 
     return {
@@ -96,5 +97,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped></style>
