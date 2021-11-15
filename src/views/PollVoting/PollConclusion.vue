@@ -1,19 +1,34 @@
 <template>
-  <div class="">
-    <h1 class="text-primary font-bold text-lg">
-      Thanks for participating in the poll
-    </h1>
-    <router-link
-      :to="{ name: Views.VOTING_PANNEL.RESULTS, params: { pollId } }"
-      class="btn-primary p-2 rounded-full px-6 my-4 self-center"
-    >
-      See results
-    </router-link>
+  <div class="flex items-center justify-center gap-5">
+    <div class="flex flex-col">
+      <h1 class="text-primary font-bold text-xl">Thank You for voting!</h1>
+      <p class="text-primary">
+        Results are going to be available once voting is finished. We will send
+        you a notification once votinig is finished
+      </p>
+      <Input v-model="email" label="email" class="mt-4" />
+      <button class="btn-primary rounded-md p-2 px-3 self-end">
+        <fa icon="envelope" class="mr-2" />
+        Submit
+      </button>
+      <router-link
+        :to="{ name: Views.VOTING_PANNEL.RESULTS, params: { pollId } }"
+        class="btn-primary p-2 rounded-md px-6 my-4 self-center"
+      >
+        <fa icon="file-alt" class="mr-2" />
+        See results
+      </router-link>
+    </div>
+    <img
+      src="../../assets/images/cerification.svg"
+      class="max-w-sm object-contain"
+      alt="thank you"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { Views } from "@/router/viewNames";
 import { useRoute } from "vue-router";
 
@@ -22,9 +37,12 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const { pollId } = route.params;
+    const email = ref<string>("");
+
     return {
       Views,
       pollId,
+      email,
     };
   },
 });
