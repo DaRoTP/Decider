@@ -6,14 +6,16 @@
         Results are going to be available once voting is finished. We will send
         you a notification once votinig is finished
       </p>
-      <Input v-model="email" label="email" class="mt-4" />
-      <button class="btn-primary rounded-md p-2 px-3 self-end">
-        <fa icon="envelope" class="mr-2" />
-        Submit
-      </button>
+      <template v-if="!$store.state.isAuth">
+        <Input v-model="email" label="email" class="mt-4" />
+        <button class="btn-primary rounded-md p-2 px-3 self-end">
+          <fa icon="envelope" class="mr-2" />
+          Submit
+        </button>
+      </template>
       <router-link
         :to="{ name: Views.VOTING_PANNEL.RESULTS, params: { pollId } }"
-        class="btn-primary p-2 rounded-md px-6 my-4 self-center"
+        class="btn-primary p-2 rounded-md px-6 my-6 self-center"
       >
         <fa icon="file-alt" class="mr-2" />
         See results
@@ -36,6 +38,7 @@ export default defineComponent({
   name: Views.VOTING_PANNEL.CONCLUSION,
   setup() {
     const route = useRoute();
+
     const { pollId } = route.params;
     const email = ref<string>("");
 
